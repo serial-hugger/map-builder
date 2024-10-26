@@ -14,10 +14,10 @@ public class MapController : ControllerBase
     public async Task<string> GetMap(double latitude, double longitude)
     {
         var coord = S2LatLng.FromDegrees(latitude, longitude);
-        var token = S2CellId.FromLatLng(coord).ParentForLevel(10).ToToken();
-        S2Cell bigCell = new S2Cell(S2CellId.FromToken(token));
-        List<S2CellId> cells = await _cellsController.GetCells(15,bigCell.RectBound.LatLo.Degrees,bigCell.RectBound.LngLo.Degrees,bigCell.RectBound.LatHi.Degrees,bigCell.RectBound.LngHi.Degrees);
-        MapBuilder builder = new MapBuilder();
+        var token = S2CellId.FromLatLng(coord).ParentForLevel(12).ToToken();
+        var bigCell = new S2Cell(S2CellId.FromToken(token));
+        var cells = await _cellsController.GetCells(15,bigCell.RectBound.LatLo.Degrees,bigCell.RectBound.LngLo.Degrees,bigCell.RectBound.LatHi.Degrees,bigCell.RectBound.LngHi.Degrees);
+        var builder = new MapBuilder();
         await builder.BuildMap(cells);
         return builder.GetInfo();
     }

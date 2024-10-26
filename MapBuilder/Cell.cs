@@ -17,6 +17,7 @@ public class Cell
 
     public Cell(string cellToken)
     {
+        this.cellToken = cellToken;
         this.myCell = new S2Cell(S2CellId.FromToken(cellToken));
         _cellsController = new CellsController();
         _osmController = new OSMController();
@@ -25,9 +26,12 @@ public class Cell
     public async Task GetNodes()
     {
         nodes.Clear();
-        JsonObject json = await _osmController.GetData(myCell.RectBound.LatHi.Degrees,myCell.RectBound.LngHi.Degrees,myCell.RectBound.LatLo.Degrees,myCell.RectBound.LngLo.Degrees);
+        JsonObject? json = await _osmController.GetData(myCell.RectBound.LatLo.Degrees,myCell.RectBound.LngLo.Degrees,myCell.RectBound.LatHi.Degrees,myCell.RectBound.LngHi.Degrees);
         Root? data = JsonConvert.DeserializeObject<Root>(json.ToString());
         double latLo = myCell.RectBound.LatLo.Degrees;
+        double lngLo = myCell.RectBound.LngLo.Degrees;
+        double latHi = myCell.RectBound.LatHi.Degrees;
+        double lngHi = myCell.RectBound.LngHi.Degrees;
         if (data != null)
             foreach (Element element in data.elements)
             {
@@ -35,25 +39,12 @@ public class Cell
                 bool closed = element.nodes[0] == element.nodes[^1];
                 for (int i = 0; i < element.nodes.Count; i++)
                 {
-                    if (element.geometry[i].lat < myCeell.)
+                    if (element.geometry[i].lat < latHi && element.geometry[i].lat > latLo && element.geometry[i].lon < lngHi && element.geometry[i].lon > lngLo)
                     {
                         if (i < element.nodes.Count - 1 || !closed)
                         {
                             Node node = new Node(element.nodes[i], element.geometry[i].lat, element.geometry[i].lon);
                             node.wayId = wayId;
-                            if (i > 0)
-                            {
-                                node.prevNodeId = (int)element.nodes[i - 1];
-                            }
-                            else if (closed)
-                            {
-                                node.prevNodeId = (int)element.nodes[^2];
-                            }
-
-                            if (i < element.nodes.Count - 1)
-                            {
-                                node.nextNodeId = (int)element.nodes[i + 1];
-                            }
 
                             nodes.Add(node);
                         }
