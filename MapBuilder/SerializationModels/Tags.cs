@@ -74,6 +74,7 @@ namespace MapBuilder{
         [JsonProperty("addr:street")]
         public string addrstreet { get; set; }
         public string building { get; set; }
+        
     }
 
 }

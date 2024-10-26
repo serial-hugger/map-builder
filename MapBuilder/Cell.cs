@@ -14,13 +14,15 @@ public class Cell
     
     private readonly CellsController _cellsController;
     private readonly OSMController _osmController;
+    private readonly MapBuilder _builder;
 
-    public Cell(string cellToken)
+    public Cell(string cellToken, MapBuilder builder)
     {
         this.cellToken = cellToken;
         this.myCell = new S2Cell(S2CellId.FromToken(cellToken));
         _cellsController = new CellsController();
         _osmController = new OSMController();
+        _builder = builder;
     }
 
     public async Task GetNodes()
@@ -36,6 +38,9 @@ public class Cell
             foreach (Element element in data.elements)
             {
                 int wayId = element.id;
+                
+                _builder.AddWay(new Way(wayId,element.nodes,element.tags));
+                
                 bool closed = element.nodes[0] == element.nodes[^1];
                 for (int i = 0; i < element.nodes.Count; i++)
                 {
