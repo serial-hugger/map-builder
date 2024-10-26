@@ -2,17 +2,22 @@ namespace MapBuilder;
 
 public class Node
 {
-    public int nodeId;
+    public Int64 nodeId;
     public double lat;
-    public double lon;
+    public double lng;
     public int? wayId;
     public int? nextNodeId;
     public int? prevNodeId;
 
-    public Node(int nodeId, double lat, double lon)
+    public Node(Int64 nodeId, double lat, double lng)
     {
         this.nodeId = nodeId;
         this.lat = lat;
-        this.lon = lon;
+        this.lng = lng;
+    }
+
+    public string GetInfo()
+    {
+        return $"[NODE] (id:{nodeId}, lat:{lat}, lng:{lng})";
     }
 }

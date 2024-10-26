@@ -9,7 +9,7 @@ namespace MapBuilder.Controllers;
 [Route("{controller}")]
 public class OSMController:ControllerBase
 {
-    ///osm/getdata/37.7749/-122.4194/37.7858/-122.3864
+    ///osm/getdata/40.95876296470057/-74.28306490222923/40.44841428528941/-72.78636592806494
     [HttpGet("{action}/{latitude1}/{longitude1}/{latitude2}/{longitude2}")]
     public async Task<JsonObject> GetData(double latitude1, double longitude1, double latitude2, double longitude2)
     {

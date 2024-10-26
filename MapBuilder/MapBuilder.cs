@@ -1,3 +1,5 @@
+using System.Text.Json.Nodes;
+using Google.Common.Geometry;
 using MapBuilder.Controllers;
 
 namespace MapBuilder;
@@ -9,14 +11,29 @@ public class MapBuilder
     
     public List<Cell> cells { get; private set; } = new List<Cell>();
     
-    public MapBuilder(CellsController cellsController, OSMController osmController)
+    public MapBuilder()
     {
-        _cellsController = cellsController;
-        _osmController = osmController;
+        _cellsController = new CellsController();
+        _osmController = new OSMController();
     }
 
-    public void BuildMap(List<ulong> cellTokens)
+    public async Task BuildMap(List<S2CellId> cellIds)
     {
-        
+        foreach (S2CellId cellId in cellIds)
+        {
+            var cell = new Cell(cellId.ToToken());
+            await cell.GetNodes();
+            cells.Add(cell);
+        }
+    }
+
+    public string GetInfo()
+    {
+        string info = "";
+        foreach (Cell cell in cells)
+        {
+            info += "\n"+cell.GetInfo();
+        }
+        return info;
     }
 }

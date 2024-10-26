@@ -33,3 +33,4 @@
 /home/jeremy/Documents/Projects/map-builder/MapBuilder/obj/Debug/net8.0/MapBuilder.genruntimeconfig.cache
 /home/jeremy/Documents/Projects/map-builder/MapBuilder/obj/Debug/net8.0/ref/MapBuilder.dll
 /home/jeremy/Documents/Projects/map-builder/MapBuilder/bin/Debug/net8.0/S2Geometry.dll
+/home/jeremy/Documents/Projects/map-builder/MapBuilder/bin/Debug/net8.0/Newtonsoft.Json.dll

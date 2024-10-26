@@ -8,7 +8,7 @@ namespace MapBuilder.Controllers;
 public class CellsController : ControllerBase
 {
     [HttpGet("{action}/{level}/{latitude1}/{longitude1}/{latitude2}/{longitude2}")]
-    public async Task<string> GetCells(int level, double latitude1, double longitude1, double latitude2, double longitude2)
+    public async Task<List<S2CellId>> GetCells(int level, double latitude1, double longitude1, double latitude2, double longitude2)
     {
         S2RegionCoverer cov = new S2RegionCoverer();
         cov.MaxLevel = level; // Set the maximum level
@@ -21,13 +21,10 @@ public class CellsController : ControllerBase
 
         List<S2CellId> cells = new List<S2CellId>();
 
-        cov.GetCovering(regionRect, cells);
-        string ids = "";
-        foreach (S2CellId cell in cells)
-        {
-            ids += cell.ToToken() + ", ";
-        }
+        cells.AddRange(cov.GetCovering(regionRect));
 
-        return ids;
+        return cells;
     }
+
+
 }
