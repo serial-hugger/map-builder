@@ -11,10 +11,10 @@ public class OSMController:ControllerBase
 {
     ///osm/getdata/40.95876296470057/-74.28306490222923/40.44841428528941/-72.78636592806494
     [HttpGet("{action}/{latitude1}/{longitude1}/{latitude2}/{longitude2}")]
-    public async Task<JsonObject?> GetData(double latitude1, double longitude1, double latitude2, double longitude2)
+    public async Task<JsonObject?> GetData(double latitudelo, double longitudelo, double latitudehi, double longitudehi)
     {
         string apiUrl = "https://overpass-api.de/api/interpreter";
-        string query = $"[out:json][maxsize:1073741824][timeout:900];way({latitude1},{longitude1},{latitude2},{longitude2});out geom;";
+        string query = $"[out:json][maxsize:1073741824][timeout:900];way({latitudelo},{longitudelo},{latitudehi},{longitudehi});out geom;";
 
         using (var client = new HttpClient())
         {

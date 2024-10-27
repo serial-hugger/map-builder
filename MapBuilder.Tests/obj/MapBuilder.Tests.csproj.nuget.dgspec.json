@@ -1,0 +1,167 @@
+{
+  "format": 1,
+  "restore": {
+    "/home/jeremy/Documents/Projects/map-builder/MapBuilder.Tests/MapBuilder.Tests.csproj": {}
+  },
+  "projects": {
+    "/home/jeremy/Documents/Projects/map-builder/MapBuilder.Tests/MapBuilder.Tests.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/jeremy/Documents/Projects/map-builder/MapBuilder.Tests/MapBuilder.Tests.csproj",
+        "projectName": "MapBuilder.Tests",
+        "projectPath": "/home/jeremy/Documents/Projects/map-builder/MapBuilder.Tests/MapBuilder.Tests.csproj",
+        "packagesPath": "/home/jeremy/.nuget/packages/",
+        "outputPath": "/home/jeremy/Documents/Projects/map-builder/MapBuilder.Tests/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/jeremy/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "/home/jeremy/Documents/Projects/map-builder/MapBuilder/MapBuilder.csproj": {
+                "projectPath": "/home/jeremy/Documents/Projects/map-builder/MapBuilder/MapBuilder.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "MSTest.TestAdapter": {
+              "target": "Package",
+              "version": "[3.1.1, )"
+            },
+            "MSTest.TestFramework": {
+              "target": "Package",
+              "version": "[3.1.1, )"
+            },
+            "Microsoft.NET.Test.Sdk": {
+              "target": "Package",
+              "version": "[17.8.0, )"
+            },
+            "coverlet.collector": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/home/jeremy/.dotnet/sdk/8.0.402/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/jeremy/Documents/Projects/map-builder/MapBuilder/MapBuilder.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/jeremy/Documents/Projects/map-builder/MapBuilder/MapBuilder.csproj",
+        "projectName": "MapBuilder",
+        "projectPath": "/home/jeremy/Documents/Projects/map-builder/MapBuilder/MapBuilder.csproj",
+        "packagesPath": "/home/jeremy/.nuget/packages/",
+        "outputPath": "/home/jeremy/Documents/Projects/map-builder/MapBuilder/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/jeremy/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.OpenApi": {
+              "target": "Package",
+              "version": "[8.0.8, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
+            },
+            "S2Geometry": {
+              "target": "Package",
+              "version": "[1.0.3, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[6.4.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/home/jeremy/.dotnet/sdk/8.0.402/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
