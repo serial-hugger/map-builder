@@ -5,15 +5,16 @@ using Newtonsoft.Json;
 
 namespace MapBuilder;
 
-public class MapBuilder
+public class Map
 {
     private readonly CellsController _cellsController;
     private readonly OSMController _osmController;
     
-    public List<Cell> cells { get; private set; } = new List<Cell>();
-    public List<Way> ways { get; private set; } = new List<Way>();
+    public List<Cell> cells = new List<Cell>();
+    public List<Way> ways = new List<Way>();
+    public List<Node> nodes = new List<Node>();
     
-    public MapBuilder()
+    public Map()
     {
         _cellsController = new CellsController();
         _osmController = new OSMController();
@@ -30,20 +31,23 @@ public class MapBuilder
         }
     }
 
-    public void AddWay(Way newWay)
+    public void AddWayAndNode(Way newWay, Node newNode)
     {
-        bool found = false;
+        Way foundWay = null;
         foreach (Way way in ways)
         {
             if (way.id == newWay.id)
             {
-                found = true;
+                foundWay = way;
             }
         }
-        if (!found)
+        if (foundWay == null)
         {
-            ways.Add(newWay);
+            foundWay = newWay;
+            ways.Add(foundWay);
         }
+        foundWay.nodes.Add(newNode);
+        foundWay.OrderNodes();
     }
 
     public string GetInfo()

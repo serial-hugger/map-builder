@@ -7,7 +7,7 @@ namespace MapBuilder.Tests;
 public class CellsControllerTests
 {
     private readonly CellsController _cellsController = new CellsController();
-    private readonly MapBuilder _mapBuilder = new MapBuilder();
+    private readonly Map _map = new Map();
     [TestMethod]
     public void GetCellsTest()
     {

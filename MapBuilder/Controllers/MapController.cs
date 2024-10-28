@@ -1,5 +1,6 @@
 using Google.Common.Geometry;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace MapBuilder.Controllers;
 
@@ -17,9 +18,9 @@ public class MapController : ControllerBase
         var token = S2CellId.FromLatLng(coord).ParentForLevel(12).ToToken();
         var bigCell = new S2Cell(S2CellId.FromToken(token));
         var cells = await _cellsController.GetCells(15,bigCell.RectBound.LatLo.Degrees,bigCell.RectBound.LngLo.Degrees,bigCell.RectBound.LatHi.Degrees,bigCell.RectBound.LngHi.Degrees);
-        var builder = new MapBuilder();
+        var builder = new Map();
         await builder.BuildMap(cells);
-        return builder.GetInfo();
+        return JsonConvert.SerializeObject(builder.ways);
     }
     public MapController()
     {

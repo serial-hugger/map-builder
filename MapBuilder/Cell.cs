@@ -14,9 +14,9 @@ public class Cell
     
     private readonly CellsController _cellsController;
     private readonly OSMController _osmController;
-    private readonly MapBuilder _builder;
+    private readonly Map _builder;
 
-    public Cell(string cellToken, MapBuilder builder)
+    public Cell(string cellToken, Map builder)
     {
         this.cellToken = cellToken;
         this.myCell = new S2Cell(S2CellId.FromToken(cellToken));
@@ -39,8 +39,6 @@ public class Cell
             {
                 int wayId = element.id;
                 
-                _builder.AddWay(new Way(wayId,element.nodes,element.tags));
-                
                 bool closed = element.nodes[0] == element.nodes[^1];
                 for (int i = 0; i < element.nodes.Count; i++)
                 {
@@ -50,7 +48,7 @@ public class Cell
                         {
                             Node node = new Node(element.nodes[i], element.geometry[i].lat, element.geometry[i].lon);
                             node.wayId = wayId;
-
+                            _builder.AddWayAndNode(new Way(wayId,element.nodes,element.tags),node);
                             nodes.Add(node);
                         }
                     }

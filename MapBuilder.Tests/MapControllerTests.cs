@@ -6,7 +6,7 @@ namespace MapBuilder.Tests;
 public class MapControllerTests
 {
     private readonly MapController _mapController = new MapController();
-    private readonly MapBuilder _mapBuilder = new MapBuilder();
+    private readonly Map _map = new Map();
     [TestMethod]
     public void GetMapTest()
     {

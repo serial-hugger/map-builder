@@ -1,5 +1,6 @@
 namespace MapBuilder;
 
+[Serializable]
 public class Node
 {
     public Int64 id;

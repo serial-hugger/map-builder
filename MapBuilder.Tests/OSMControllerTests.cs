@@ -6,7 +6,7 @@ namespace MapBuilder.Tests;
 public class OSMControllerTests
 {
     private readonly OSMController _osmController = new OSMController();
-    private readonly MapBuilder _mapBuilder = new MapBuilder();
+    private readonly Map _map = new Map();
     [TestMethod]
     public void GetDataTest()
     {
