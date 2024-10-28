@@ -3,9 +3,11 @@ namespace MapBuilder;
 [Serializable]
 public class Node
 {
+    [NonSerialized]
     public Int64 id;
     public double lat;
     public double lng;
+    [NonSerialized]
     public Int64? wayId;
 
     public Node(Int64 nodeId, double lat, double lng)

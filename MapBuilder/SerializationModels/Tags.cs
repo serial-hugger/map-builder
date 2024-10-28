@@ -5,17 +5,19 @@ namespace MapBuilder{
     {
         public string highway { get; set; }
         public string name { get; set; }
-        public string oneway { get; set; }
         public string service { get; set; }
         public string bridge { get; set; }
         public string layer { get; set; }
-        public string width { get; set; }
         public string tracktype { get; set; }
         public string leisure { get; set; }
         public string sport { get; set; }
         public string wikidata { get; set; }
         public string mapillary { get; set; }
         public string surface { get; set; }
+        public string waterway { get; set; }
+        public string water { get; set; }
+        public string natural { get; set; }
+        public string amenity { get; set; }
 
         [JsonProperty("survey:date")]
         public string surveydate { get; set; }
