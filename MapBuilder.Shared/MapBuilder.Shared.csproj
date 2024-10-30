@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Reference Include="S2Geometry">
+        <HintPath>..\..\..\..\.nuget\packages\s2geometry\1.0.3\lib\netstandard1.0\S2Geometry.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+</Project>

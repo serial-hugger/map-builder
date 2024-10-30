@@ -15,7 +15,13 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\MapBuilder\MapBuilder.csproj" />
+      <Reference Include="S2Geometry">
+        <HintPath>..\..\..\..\.nuget\packages\s2geometry\1.0.3\lib\netstandard1.0\S2Geometry.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\MapBuilder.Shared\MapBuilder.Shared.csproj" />
     </ItemGroup>
 
 </Project>

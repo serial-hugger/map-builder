@@ -21,7 +21,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\MapBuilder\MapBuilder.csproj" />
+      <ProjectReference Include="..\MapBuilder.Api\MapBuilder.Api.csproj" />
     </ItemGroup>
 
 </Project>
