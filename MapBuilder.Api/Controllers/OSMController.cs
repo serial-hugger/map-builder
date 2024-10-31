@@ -28,8 +28,10 @@ public class OSMController:ControllerBase, IOSMController
 
         using (var client = new HttpClient())
         {
+            client.Timeout = TimeSpan.FromMinutes(5);
             client.DefaultRequestHeaders.Add("Accept", "application/json");
-            var response = client.PostAsync(apiUrl, new StringContent(query, Encoding.UTF8, "text/plain")).Result;
+            HttpResponseMessage response= client.PostAsync(apiUrl, new StringContent(query, Encoding.UTF8, "text/plain")).Result;
+
             var jsonString = await response.Content.ReadAsStringAsync();
             return JsonSerializer.Deserialize<JsonObject>(jsonString);
         }

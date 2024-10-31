@@ -7,6 +7,9 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <Reference Include="Microsoft.EntityFrameworkCore.Abstractions">
+        <HintPath>..\..\..\..\.nuget\packages\microsoft.entityframeworkcore.abstractions\8.0.10\lib\net8.0\Microsoft.EntityFrameworkCore.Abstractions.dll</HintPath>
+      </Reference>
       <Reference Include="S2Geometry">
         <HintPath>..\..\..\..\.nuget\packages\s2geometry\1.0.3\lib\netstandard1.0\S2Geometry.dll</HintPath>
       </Reference>

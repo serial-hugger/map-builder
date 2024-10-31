@@ -27,10 +27,23 @@ public class Map
         Ways.Clear();
         foreach (S2CellId cellId in cellIds)
         {
-            var cell = new Cell(cellId.ToToken(),this,_osmController,_cellRepository);
-            cell.CellToken = cellId.ToToken();
-            await cell.GetNodes();
-            Cells.Add(cell);
+            Cell? repoCell = await _cellRepository.GetCellByTokenAsync(cellId.ToToken());
+            if (repoCell == null)
+            {
+                var cell = new Cell(cellId.ToToken(), this, _osmController, _cellRepository);
+                cell.CellToken = cellId.ToToken();
+                await cell.GetNodes();
+                Cells.Add(cell);
+                await _cellRepository.AddCell(cell);
+            }
+            else
+            {
+                Cells.Add(repoCell);
+                foreach (var way in repoCell.Ways)
+                {
+                    Ways.Add(way);
+                }
+            }
         }
     }
     public void AddWayAndNode(Way newWay, Node newNode)
@@ -38,7 +51,7 @@ public class Map
         Way foundWay = null;
         foreach (Way way in Ways)
         {
-            if (way.id == newWay.id)
+            if (way.WayId == newWay.WayId)
             {
                 foundWay = way;
             }
@@ -58,7 +71,7 @@ public class Map
         options.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
         foreach (Way way in Ways)
         {
-            info += $"[WAY] (id: {way.id}, type: {way.type}, closed: {way.closed})\n";
+            info += $"[WAY] (id: {way.WayId}, type: {way.Type}, closed: {way.Closed})\n";
         }
         foreach (Cell cell in Cells)
         {

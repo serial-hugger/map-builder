@@ -1,21 +1,29 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using Google.Common.Geometry;
 using MapBuilder.Shared.SerializationModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace MapBuilder.Shared;
 
 public class Cell
 {
-    public int Id;
-    public string CellToken;
+    [Key]
+    public int Id { get; set; }
+    public string CellToken { get; set; }
     [NonSerialized]
     public S2Cell MyCell;
-    public List<Node> Nodes = new List<Node>();
+    public ICollection<Node> Nodes { get; } = new List<Node>();
+    public ICollection<Way> Ways { get; } = new List<Way>();
 
-    public IOSMController OsmController { get; private set; }
-    public Map Map { get; private set; }
-    public ICellRepository CellRepository { get; private set; }
+    [NonSerialized] 
+    public IOSMController? OsmController = null;
+    [NonSerialized]
+    public Map Map;
+    [NonSerialized]
+    public ICellRepository? CellRepository = null;
 
     public Cell(string cellToken, Map map, IOSMController osmController, ICellRepository cellRepository)
     {
@@ -26,19 +34,23 @@ public class Cell
         CellRepository = cellRepository;
     }
 
+    private Cell(int id, string cellToken)
+    {
+        Id = id;
+        CellToken = cellToken;
+    }
+
     public async Task GetNodes()
     {
-        Nodes.Clear();
-        JsonObject? json = await OsmController.GetDataFromBox(MyCell.RectBound.LatLo.Degrees,MyCell.RectBound.LngLo.Degrees,MyCell.RectBound.LatHi.Degrees,MyCell.RectBound.LngHi.Degrees);
-        Root? data = JsonSerializer.Deserialize<Root>(json.ToString());
-        double latLo = MyCell.RectBound.LatLo.Degrees;
-        double lngLo = MyCell.RectBound.LngLo.Degrees;
-        double latHi = MyCell.RectBound.LatHi.Degrees;
-        double lngHi = MyCell.RectBound.LngHi.Degrees;
         
-        Cell cellModel = await CellRepository.GetCellByTokenAsync(CellToken);
-        if (cellModel==null)
+        if (OsmController != null)
         {
+            JsonObject? json = await OsmController.GetDataFromBox(MyCell.RectBound.LatLo.Degrees,MyCell.RectBound.LngLo.Degrees,MyCell.RectBound.LatHi.Degrees,MyCell.RectBound.LngHi.Degrees);
+            Root? data = JsonSerializer.Deserialize<Root>(json.ToString());
+            double latLo = MyCell.RectBound.LatLo.Degrees;
+            double lngLo = MyCell.RectBound.LngLo.Degrees;
+            double latHi = MyCell.RectBound.LatHi.Degrees;
+            double lngHi = MyCell.RectBound.LngHi.Degrees;
             if (data != null)
             {
                 foreach (Element element in data.elements)
@@ -59,17 +71,17 @@ public class Cell
                                 node.SetProperties(element.nodes);
                                 Way newWay = new Way(wayId);
                                 newWay.SetProperties(element.nodes,element.tags);
-                                Map.AddWayAndNode(newWay, node);
-                                Nodes.Add(node);
+                                if (newWay.Type!="")
+                                {
+                                    Map.AddWayAndNode(newWay, node);
+                                    Nodes.Add(node);
+                                    Ways.Add(newWay);
+                                }
                             }
                         }
                     }
                 }
             }
-        }
-        else
-        {
-            //TODO get cell from database
         }
     }
     public string GetInfo()

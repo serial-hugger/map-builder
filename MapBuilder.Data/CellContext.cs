@@ -9,6 +9,26 @@ public class CellContext : DbContext
     
     public string DbPath { get; }
 
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Cell>()
+            .HasKey(c => c.Id);
+        modelBuilder.Entity<Cell>()
+            .HasMany(c => c.Nodes)
+            .WithOne()
+            .HasForeignKey(n => n.CellId);
+        modelBuilder.Entity<Cell>()
+            .HasMany(c => c.Ways)
+            .WithOne()
+            .HasForeignKey(w => w.CellId);
+        
+        modelBuilder.Entity<Node>()
+            .HasKey(n => n.Id);
+
+        modelBuilder.Entity<Way>()
+            .HasKey(w => w.Id);
+    }
+
     public CellContext()
     {
         var folder = Environment.SpecialFolder.LocalApplicationData;

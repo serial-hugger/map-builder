@@ -19,19 +19,23 @@ public class MapController : ControllerBase, IMapController
     public async Task<string> GetMap(double latitude, double longitude)
     {
         var coord = S2LatLng.FromDegrees(latitude, longitude);
-        var token = S2CellId.FromLatLng(coord).ParentForLevel(10).ToToken();
+        var token = S2CellId.FromLatLng(coord).ParentForLevel(14).ToToken();
         var bigCell = new S2Cell(S2CellId.FromToken(token));
         var cells = await _cellsController.GetCells(15,bigCell.RectBound.LatLo.Degrees,bigCell.RectBound.LngLo.Degrees,bigCell.RectBound.LatHi.Degrees,bigCell.RectBound.LngHi.Degrees);
         var map = new Map(_cellsController,_osmController,_cellRepository);
         await map.BuildMap(cells);
         List<Way> newWays = new List<Way>();
-        foreach(var way in map.Ways)
+        foreach (var cell in map.Cells)
         {
-            if (way.type != null)
+            foreach (var way in cell.Ways)
             {
-                newWays.Add(way);
+                if (newWays.All(w => w.WayId != way.WayId))
+                {
+                    newWays.Add(way);
+                }
             }
         }
+
         var options = new JsonSerializerOptions();
         options.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
         return JsonSerializer.Serialize(newWays,options);
