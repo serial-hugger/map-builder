@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -16,6 +17,8 @@ namespace MapBuilder.Data.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    GenerationVersion = table.Column<int>(type: "INTEGER", nullable: false),
+                    GenerationTime = table.Column<DateTime>(type: "TEXT", nullable: false),
                     CellToken = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>

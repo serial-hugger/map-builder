@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.CompilerServices;
+using System.Text.Json.Serialization;
 using MapBuilder.Shared.SerializationModels;
 
 namespace MapBuilder.Shared;
@@ -15,6 +16,7 @@ public class Way
     public bool Closed { get; set; }
     public bool Filled { get; set; }
     public string Color { get; set; }
+    [JsonIgnore]
     public int CellId { get; set; }
     public Way(Int64 wayId)
     {

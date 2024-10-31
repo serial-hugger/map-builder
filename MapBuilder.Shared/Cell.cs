@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
 using Google.Common.Geometry;
 using MapBuilder.Shared.SerializationModels;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,10 @@ public class Cell
 {
     [Key]
     public int Id { get; set; }
+    [JsonIgnore]
+    public int GenerationVersion { get; set; }
+    [JsonIgnore]
+    public DateTime GenerationTime { get; set; }
     public string CellToken { get; set; }
     [NonSerialized]
     public S2Cell MyCell;

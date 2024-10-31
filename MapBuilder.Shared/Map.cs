@@ -1,4 +1,5 @@
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using Google.Common.Geometry;
 using MapBuilder.Shared;
@@ -24,13 +25,18 @@ public class Map
 
     public async Task BuildMap(List<S2CellId> cellIds)
     {
-        Ways.Clear();
+        string jsonFilepath = "Settings/settings.json";
+        string jsonContent = File.ReadAllText(jsonFilepath);
+        JsonObject jsonObject = JsonSerializer.Deserialize<JsonObject>(jsonContent);
+        int generationVersion = (int)jsonObject["GenerationVersion"];
         foreach (S2CellId cellId in cellIds)
         {
             Cell? repoCell = await _cellRepository.GetCellByTokenAsync(cellId.ToToken());
             if (repoCell == null)
             {
                 var cell = new Cell(cellId.ToToken(), this, _osmController, _cellRepository);
+                cell.GenerationVersion = generationVersion;
+                cell.GenerationTime = DateTime.Now.ToUniversalTime();
                 cell.CellToken = cellId.ToToken();
                 await cell.GetNodes();
                 Cells.Add(cell);

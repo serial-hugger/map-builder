@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace MapBuilder.Shared;
 
@@ -8,11 +9,13 @@ public class Node
 {
     [Key]
     public int Id { get; set; }
+    [JsonIgnore]
     public Int64 NodeId { get; set; }
     public Int64? WayId;
     public int NodeOrder { get; set; }
     public double Lat { get; set; }
     public double Lng { get; set; }
+    [JsonIgnore]
     public int CellId { get; set; }
     public Node(Int64 nodeId, double lat, double lng)
     {

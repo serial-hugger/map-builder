@@ -72,3 +72,4 @@
 /home/jeremy/Documents/Projects/map-builder/MapBuilder.Api/obj/Debug/net8.0/MapBuilder.Api.pdb
 /home/jeremy/Documents/Projects/map-builder/MapBuilder.Api/obj/Debug/net8.0/MapBuilder.Api.genruntimeconfig.cache
 /home/jeremy/Documents/Projects/map-builder/MapBuilder.Api/obj/Debug/net8.0/ref/MapBuilder.Api.dll
+/home/jeremy/Documents/Projects/map-builder/MapBuilder.Api/bin/Debug/net8.0/Settings/settings.json
