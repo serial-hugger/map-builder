@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
-using System.Runtime.CompilerServices;
-using System.Text.Json.Serialization;
-using MapBuilder.Shared.SerializationModels;
+using System.Text.Json.Nodes;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace MapBuilder.Shared;
 
@@ -15,8 +15,7 @@ public class Way
     public string Type { get; set; }
     public bool Closed { get; set; }
     public bool Filled { get; set; }
-    public string Color { get; set; }
-    [JsonIgnore]
+    [System.Text.Json.Serialization.JsonIgnore]
     public int CellId { get; set; }
     public Way(Int64 wayId)
     {
@@ -28,72 +27,79 @@ public class Way
         this.CellId = cellId;
         this.WayId = wayId;
     }
-    public void SetProperties(List<long> nodeIds,Tags tags)
+
+    public void SetProperties(JToken nodeIds, JToken? tags)
     {
-        Type = "";
-        Color = "";
-        if (nodeIds[0]==nodeIds[^1])
+        string jsonFilepath = "Settings/settings.json";
+        string jsonContent = File.ReadAllText(jsonFilepath);
+        JToken jsonToken = JsonConvert.DeserializeObject<JToken>(jsonContent);
+        int generationVersion = (int)jsonToken["generation_version"];
+        if (nodeIds[0].ToString() == nodeIds[nodeIds.Count() - 1].ToString())
         {
-            TotalNodes = nodeIds.Count-1;
+            TotalNodes = nodeIds.Count() - 1;
             Closed = true;
         }
         else
         {
-            TotalNodes = nodeIds.Count;
+            TotalNodes = nodeIds.Count();
+            Closed = false;
         }
-        if (tags != null)
+
+        if (tags != null && tags.Any())
         {
-            if (tags.waterway != null)
+            Console.WriteLine($"way:{WayId} tags: {tags.Count()}");
+            for (int tag = 0; tag < tags.Count(); tag++)
             {
-                if (tags.waterway == "river")
+                Console.WriteLine($"tag:{tag}");
+                for (int typeSearch = 0; typeSearch < jsonToken["types"].Count(); typeSearch++)
                 {
-                    Filled = true;
-                    Color = "#0009FF";
-                    Type = "water";
+                    Console.WriteLine($"typeSearch:{typeSearch}");
+
+                    string name = jsonToken["types"][typeSearch]["name"].ToString();
+                    bool fillIfClosed = (bool)jsonToken["types"][typeSearch]["fill_if_closed"];
+
+                    for (int tagSearch = 0; tagSearch < jsonToken["types"][typeSearch]["tags"].Count(); tagSearch++)
+                    {
+                        Console.WriteLine($"tagSearch:{tagSearch}");
+                        try
+                        {
+                            bool keySatisfied = false;
+                            bool valueSatisfied = false;
+                            if (jsonToken["types"]?[typeSearch]?["tags"]?[tagSearch]?["key"] == null
+                                || tags.ElementAt(tagSearch).ToString().Split(':')[0].Contains(
+                                    jsonToken["types"]?[typeSearch]?["tags"]?[tagSearch]?["key"]?.ToString() ??
+                                    string.Empty))
+                            {
+                                keySatisfied = true;
+                            }
+
+                            if (jsonToken["types"]?[typeSearch]?["tags"]?[tagSearch]?["value"] == null
+                                || tags.ElementAt(tagSearch).ToString().Split(':')[1].Contains(
+                                    jsonToken["types"]?[typeSearch]?["tags"]?[tagSearch]?["value"]?.ToString() ??
+                                    string.Empty))
+                            {
+                                valueSatisfied = true;
+                            }
+
+                            if (keySatisfied && valueSatisfied)
+                            {
+                                Type = name;
+                                if (Closed && fillIfClosed)
+                                {
+                                    Filled = true;
+                                }
+                                else
+                                {
+                                    Filled = false;
+                                }
+                            }
+                        }
+                        catch
+                        {
+
+                        }
+                    }
                 }
-            }
-
-            if (tags.water != null)
-            {
-                if (tags.water == "pond" || tags.water == "lake" || tags.water == "river")
-                {
-                    Filled = true;
-                    Color = "#0009FF";
-                    Type = "water";
-                }
-            }
-
-            if (tags.natural != null)
-            {
-                if (tags.natural == "water")
-                {
-                    Filled = true;
-                    Color = "#0009FF";
-                    Type = "water";
-                }
-            }
-
-            if (tags.building != null)
-            {
-                Filled = true;
-                Color = "#6D2600";
-                Type = "building";
-            }
-
-            if (tags.natural != null)
-            {
-                if (tags.natural == "wood")
-                {
-                    Filled = true;
-                    Color = "#0c7d00";
-                    Type = "trees";
-                }
-            }
-
-            if (tags.highway != null)
-            {
-                Color = "#4E4E4E";
-                Type = "route";
             }
         }
     }

@@ -28,7 +28,7 @@ public class Map
         string jsonFilepath = "Settings/settings.json";
         string jsonContent = File.ReadAllText(jsonFilepath);
         JsonObject jsonObject = JsonSerializer.Deserialize<JsonObject>(jsonContent);
-        int generationVersion = (int)jsonObject["GenerationVersion"];
+        int generationVersion = (int)jsonObject["generation_version"];
         foreach (S2CellId cellId in cellIds)
         {
             Cell? repoCell = await _cellRepository.GetCellByTokenAsync(cellId.ToToken());

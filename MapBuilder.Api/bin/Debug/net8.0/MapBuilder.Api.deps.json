@@ -11,7 +11,8 @@
           "MapBuilder.Data": "1.0.0",
           "Microsoft.AspNetCore.OpenApi": "8.0.8",
           "S2Geometry": "1.0.3",
-          "Swashbuckle.AspNetCore": "6.4.0"
+          "Swashbuckle.AspNetCore": "6.4.0",
+          "Newtonsoft.Json": "13.0.0.0"
         },
         "runtime": {
           "MapBuilder.Api.dll": {}
@@ -1043,6 +1044,14 @@
             "fileVersion": "1.0.0.0"
           }
         }
+      },
+      "Newtonsoft.Json/13.0.0.0": {
+        "runtime": {
+          "Newtonsoft.Json.dll": {
+            "assemblyVersion": "13.0.0.0",
+            "fileVersion": "13.0.1.25517"
+          }
+        }
       }
     }
   },
@@ -1696,6 +1705,11 @@
     },
     "MapBuilder.Shared/1.0.0": {
       "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Newtonsoft.Json/13.0.0.0": {
+      "type": "reference",
       "serviceable": false,
       "sha512": ""
     }

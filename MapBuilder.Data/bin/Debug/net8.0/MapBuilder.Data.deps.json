@@ -700,6 +700,14 @@
             "fileVersion": "1.0.0.0"
           }
         }
+      },
+      "Newtonsoft.Json/13.0.0.0": {
+        "runtime": {
+          "Newtonsoft.Json.dll": {
+            "assemblyVersion": "13.0.0.0",
+            "fileVersion": "13.0.1.25517"
+          }
+        }
       }
     }
   },
@@ -1023,6 +1031,11 @@
       "sha512": ""
     },
     "S2Geometry/1.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Newtonsoft.Json/13.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""

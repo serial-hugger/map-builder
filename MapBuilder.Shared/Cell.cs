@@ -6,6 +6,7 @@ using System.Text.Json.Serialization;
 using Google.Common.Geometry;
 using MapBuilder.Shared.SerializationModels;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
 
 namespace MapBuilder.Shared;
 
@@ -50,7 +51,7 @@ public class Cell
         
         if (OsmController != null)
         {
-            JsonObject? json = await OsmController.GetDataFromBox(MyCell.RectBound.LatLo.Degrees,MyCell.RectBound.LngLo.Degrees,MyCell.RectBound.LatHi.Degrees,MyCell.RectBound.LngHi.Degrees);
+            JToken json = await OsmController.GetDataFromBox(MyCell.RectBound.LatLo.Degrees,MyCell.RectBound.LngLo.Degrees,MyCell.RectBound.LatHi.Degrees,MyCell.RectBound.LngHi.Degrees);
             Root? data = JsonSerializer.Deserialize<Root>(json.ToString());
             double latLo = MyCell.RectBound.LatLo.Degrees;
             double lngLo = MyCell.RectBound.LngLo.Degrees;
@@ -58,25 +59,30 @@ public class Cell
             double lngHi = MyCell.RectBound.LngHi.Degrees;
             if (data != null)
             {
-                foreach (Element element in data.elements)
+                for(int e = 0; e < json["elements"].Count();e++)
                 {
-                    int wayId = element.id;
 
-                    bool closed = element.nodes[0] == element.nodes[^1];
-                    for (int i = 0; i < element.nodes.Count; i++)
+                    int wayId = (int)json["elements"][e]["id"];
+                    int nodeAmount = json["elements"][e]["nodes"].Count() - 1;
+
+                    bool closed = json["elements"][e]["nodes"][0] == json["elements"][e]["nodes"][nodeAmount];
+                    for (int n = 0; n < json["elements"][e]["nodes"].Count(); n++)
                     {
-                        if (element.geometry[i].lat < latHi && element.geometry[i].lat > latLo &&
-                            element.geometry[i].lon < lngHi && element.geometry[i].lon > lngLo)
+                        if ((double)json["elements"][e]["geometry"][n]["lat"] < latHi && (double)json["elements"][e]["geometry"][n]["lat"] > latLo &&
+                            (double)json["elements"][e]["geometry"][n]["lon"] < lngHi && (double)json["elements"][e]["geometry"][n]["lon"] > lngLo)
                         {
-                            if (i < element.nodes.Count - 1 || !closed)
+                            if (n < json["elements"][e]["nodes"].Count() - 1 || !closed)
                             {
-                                Node node = new Node(element.nodes[i], element.geometry[i].lat,
-                                    element.geometry[i].lon);
+                                Node node = new Node((long)json["elements"][e]["nodes"][n], (double)json["elements"][e]["geometry"][n]["lat"],
+                                    (double)json["elements"][e]["geometry"][n]["lon"]);
                                 node.WayId = wayId;
-                                node.SetProperties(element.nodes);
+                                node.SetProperties(json["elements"][e]["nodes"]);
                                 Way newWay = new Way(wayId);
-                                newWay.SetProperties(element.nodes,element.tags);
-                                if (newWay.Type!="")
+                                
+                                JToken? tags = json["elements"][e]["tags"];
+                                
+                                newWay.SetProperties(json["elements"][e]["nodes"],tags);
+                                if (newWay.Type!="" && newWay.Type != null)
                                 {
                                     Map.AddWayAndNode(newWay, node);
                                     Nodes.Add(node);

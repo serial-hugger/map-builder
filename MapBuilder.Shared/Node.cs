@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
+using Newtonsoft.Json.Linq;
 
 namespace MapBuilder.Shared;
 
@@ -11,7 +12,8 @@ public class Node
     public int Id { get; set; }
     [JsonIgnore]
     public Int64 NodeId { get; set; }
-    public Int64? WayId;
+
+    public Int64? WayId { get; set; }
     public int NodeOrder { get; set; }
     public double Lat { get; set; }
     public double Lng { get; set; }
@@ -32,11 +34,11 @@ public class Node
         this.NodeOrder = nodeOrder;
     }
 
-    public void SetProperties(List<long> nodeIds)
+    public void SetProperties(JToken nodeIds)
     {
-        for(int i = 0; i < nodeIds.Count; i++)
+        for(int i = 0; i < nodeIds.Count(); i++)
         {
-            if (nodeIds[i]==NodeId)
+            if ((long)nodeIds[i]==NodeId)
             {
                 NodeOrder = i;
                 return;

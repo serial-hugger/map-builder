@@ -18,3 +18,5 @@
 /home/jeremy/Documents/Projects/map-builder/MapBuilder.Data/bin/Debug/net8.0/S2Geometry.dll
 /home/jeremy/Documents/Projects/map-builder/MapBuilder.Data/bin/Debug/net8.0/MapBuilder.Shared.pdb
 /home/jeremy/Documents/Projects/map-builder/MapBuilder.Data/bin/Debug/net8.0/S2Geometry.xml
+/home/jeremy/Documents/Projects/map-builder/MapBuilder.Data/bin/Debug/net8.0/Newtonsoft.Json.dll
+/home/jeremy/Documents/Projects/map-builder/MapBuilder.Data/bin/Debug/net8.0/Newtonsoft.Json.xml

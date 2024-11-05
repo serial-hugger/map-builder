@@ -4,6 +4,8 @@ using Google.Common.Geometry;
 using Microsoft.AspNetCore.Mvc;
 using MapBuilder.Data;
 using MapBuilder.Shared;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace MapBuilder.Api.Controllers;
@@ -21,7 +23,7 @@ public class OSMController:ControllerBase, IOSMController
     }
     ///osm/getdata/40.95876296470057/-74.28306490222923/40.44841428528941/-72.78636592806494
     [HttpGet("{action}/{latitude1}/{longitude1}/{latitude2}/{longitude2}")]
-    public async Task<JsonObject?> GetDataFromBox(double latitudeLo, double longitudeLo, double latitudeHi, double longitudeHi)
+    public async Task<JToken?> GetDataFromBox(double latitudeLo, double longitudeLo, double latitudeHi, double longitudeHi)
     {
         string apiUrl = "https://overpass-api.de/api/interpreter";
         string query = $"[out:json][maxsize:1073741824][timeout:900];way({latitudeLo},{longitudeLo},{latitudeHi},{longitudeHi});out geom;";
@@ -33,7 +35,7 @@ public class OSMController:ControllerBase, IOSMController
             HttpResponseMessage response= client.PostAsync(apiUrl, new StringContent(query, Encoding.UTF8, "text/plain")).Result;
 
             var jsonString = await response.Content.ReadAsStringAsync();
-            return JsonSerializer.Deserialize<JsonObject>(jsonString);
+            return JsonConvert.DeserializeObject<JToken>(jsonString);
         }
     }
     [HttpGet("{action}/{cellToken}")]

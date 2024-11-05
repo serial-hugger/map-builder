@@ -18,6 +18,6 @@ public class OSMControllerTests
     public void GetDataTest()
     {
         var result = _osmController.GetDataFromBox(37.5667,-83.7243,37.5821,-83.6925).Result;
-        Assert.IsTrue(result.ContainsKey("osm3s")&&result.ContainsKey("elements"));
+        Assert.IsTrue(result["osm3s"]!=null&&result["elements"]!=null);
     }
 }

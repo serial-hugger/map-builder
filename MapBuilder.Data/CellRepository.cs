@@ -10,7 +10,7 @@ public class CellRepository : ICellRepository
     public async Task AddCell(Cell cell)
     {
         await _context.Cells.AddAsync(cell);
-        await _context.SaveChangesAsync();
+        //await _context.SaveChangesAsync();
     }
 
     public async Task<List<Cell>> GetAllCells()
