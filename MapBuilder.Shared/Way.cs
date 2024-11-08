@@ -1,5 +1,8 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text;
+using System.Text.Json;
 using System.Text.Json.Nodes;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -17,6 +20,8 @@ public class Way
     public bool Filled { get; set; }
     [System.Text.Json.Serialization.JsonIgnore]
     public int CellId { get; set; }
+
+    public string? RetrievedData { get; set; }
     public Way(Int64 wayId)
     {
         this.WayId  = wayId;
@@ -28,12 +33,57 @@ public class Way
         this.WayId = wayId;
     }
 
+    public void SetDataRetrieve(JToken? tags, JToken jsonToken)
+    {
+        string data = "";
+        if (tags != null && tags.Any())
+        {
+            for (int tag = 0; tag < tags.Count(); tag++)
+            {
+                for (int retrieveSearch = 0; retrieveSearch < jsonToken["retrieve"].Count(); retrieveSearch++)
+                {
+                    try
+                    {
+                        string[] tagSplit = Regex.Unescape(tags.ElementAt(tag).ToString().Replace("\"", string.Empty)).Split(':');
+                        if (tagSplit[0].Trim() == jsonToken["retrieve"]?[retrieveSearch]?["key"].ToString().Trim())
+                        {
+                            StringBuilder dataString = new StringBuilder();
+                            if (RetrievedData==null)
+                            {
+                                RetrievedData = "";
+                            }
+
+                            if (dataString.ToString()!="")
+                            {
+                                dataString.Append(';');
+                            }
+                            dataString.Append(jsonToken["retrieve"]?[retrieveSearch]?["label"].ToString().Trim());
+                            dataString.Append(':');
+                            dataString.Append(tagSplit[1].Trim());
+                            data += dataString.ToString();
+                        }
+                    }
+                    catch
+                    {
+
+                    }
+                }
+            }
+        }
+
+        if (data != null && data != "")
+        {
+            RetrievedData = data.ToString();
+            Console.WriteLine(data.ToString());
+        }
+    }
     public void SetProperties(JToken nodeIds, JToken? tags)
     {
         string jsonFilepath = "Settings/settings.json";
         string jsonContent = File.ReadAllText(jsonFilepath);
         JToken jsonToken = JsonConvert.DeserializeObject<JToken>(jsonContent);
         int generationVersion = (int)jsonToken["generation_version"];
+        SetDataRetrieve(tags,jsonToken);
         if (nodeIds[0].ToString() == nodeIds[nodeIds.Count() - 1].ToString())
         {
             TotalNodes = nodeIds.Count() - 1;
@@ -47,22 +97,18 @@ public class Way
 
         if (tags != null && tags.Any())
         {
-            Console.WriteLine($"way:{WayId} tags: {tags.Count()}");
             for (int tag = 0; tag < tags.Count(); tag++)
             {
-                Console.WriteLine($"tag:{tag}");
                 for (int typeSearch = 0; typeSearch < jsonToken["types"].Count(); typeSearch++)
                 {
-                    Console.WriteLine($"typeSearch:{typeSearch}");
-
                     string name = jsonToken["types"][typeSearch]["name"].ToString();
                     bool fillIfClosed = (bool)jsonToken["types"][typeSearch]["fill_if_closed"];
 
                     for (int tagSearch = 0; tagSearch < jsonToken["types"][typeSearch]["tags"].Count(); tagSearch++)
                     {
-                        Console.WriteLine($"tagSearch:{tagSearch}");
                         try
                         {
+
                             bool keySatisfied = false;
                             bool valueSatisfied = false;
                             if (jsonToken["types"]?[typeSearch]?["tags"]?[tagSearch]?["key"] == null
@@ -96,7 +142,7 @@ public class Way
                         }
                         catch
                         {
-
+                            Console.WriteLine($"Failed tag search... way:{WayId} tag:{tag} typeSearch:{typeSearch} tagSearch:{tagSearch}");
                         }
                     }
                 }

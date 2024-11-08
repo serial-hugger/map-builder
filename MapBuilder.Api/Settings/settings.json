@@ -3,7 +3,8 @@
   "types":[
     {"name": "water","fill_if_closed": true, "tags": [{"key": "natural","value": "water"},{"key": "water","value": null},{"key": "waterway","value": null}]},
     {"name": "building","fill_if_closed": true, "tags": [{"key": "building","value": null}]},
-    {"name": "route","fill_if_closed": false, "tags": [{"key": "highway","value": null}]}
+    {"name": "road","fill_if_closed": false, "tags": [{"key": "highway","value": null}]},
+    {"name": "path","fill_if_closed": false, "tags": [{"key": "highway","value": null}]}
   ],
   "retrieve": [
     {"label": "name", "key": "name"}
