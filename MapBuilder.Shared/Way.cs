@@ -70,7 +70,6 @@ public class Way
                 }
             }
         }
-
         if (data != null && data != "")
         {
             RetrievedData = data.ToString();

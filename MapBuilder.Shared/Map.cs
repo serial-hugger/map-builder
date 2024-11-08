@@ -42,6 +42,19 @@ public class Map
                 Cells.Add(cell);
                 await _cellRepository.AddCell(cell);
             }
+            else if (repoCell.GenerationVersion < generationVersion || repoCell.GenerationTime < DateTime.Now.ToUniversalTime()-TimeSpan.FromDays(30))
+            {
+                repoCell.OsmController = _osmController;
+                repoCell.CellRepository = _cellRepository;
+                repoCell.Map = this;
+                repoCell.CellToken = cellId.ToToken();
+                repoCell.MyCell = new S2Cell(S2CellId.FromToken(cellId.ToToken()));
+                repoCell.GenerationVersion = generationVersion;
+                repoCell.GenerationTime = DateTime.Now.ToUniversalTime();
+                await repoCell.GetNodes();
+                Cells.Add(repoCell);
+                await _cellRepository.UpdateCell(repoCell);
+            }
             else
             {
                 Cells.Add(repoCell);
