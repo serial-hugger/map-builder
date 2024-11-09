@@ -1,0 +1,12 @@
+<h3>MapCanvas</h3>
+<Canvas></Canvas>
+@inject IJSRuntime JSRuntime
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JSRuntime.InvokeVoidAsync("");
+        }
+    }
+}
