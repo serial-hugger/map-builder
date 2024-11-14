@@ -35,6 +35,7 @@ public class OSMController:ControllerBase, IOSMController
             HttpResponseMessage response= client.PostAsync(apiUrl, new StringContent(query, Encoding.UTF8, "text/plain")).Result;
 
             var jsonString = await response.Content.ReadAsStringAsync();
+            Console.WriteLine(jsonString);
             return JsonConvert.DeserializeObject<JToken>(jsonString);
         }
     }

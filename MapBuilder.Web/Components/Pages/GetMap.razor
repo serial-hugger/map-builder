@@ -1,0 +1,20 @@
+@page "/getmap"
+@rendermode InteractiveServer
+@using Blazor.Extensions
+@using Blazor.Extensions.Canvas
+@using Blazor.Extensions.Canvas.Canvas2D
+
+<h3>MapOverview</h3>
+<p>@Info</p>
+
+<BECanvas @ref="MapCanvas" Width="500" Height="500"/>
+<br/>
+<label for="lat">Latitude :&nbsp;&nbsp;&nbsp;</label>
+<input type="text" @bind="@Lat" id="lat" name="lat"><br><br>
+<label for="lng">Longitude :</label>
+<input type="text" @bind="@Lng" id="lng" name="lng"><br><br>
+<input type="submit" @onclick="DrawMap" value="Generate">
+
+@code {
+    
+}

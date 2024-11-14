@@ -4,11 +4,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapBuilder.Api", "MapBuilde
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapBuilder.Tests", "MapBuilder.Tests\MapBuilder.Tests.csproj", "{9823B127-F60C-4B5D-82BB-D62922A569AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapBuilder.Web", "MapBuilder.Web\MapBuilder.Web.csproj", "{AA3FB2FA-2F4C-41AC-B241-51E6F689D7C4}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapBuilder.Data", "MapBuilder.Data\MapBuilder.Data.csproj", "{8722FE60-0248-48B5-BCA8-F800875F1119}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapBuilder.Shared", "MapBuilder.Shared\MapBuilder.Shared.csproj", "{5DB999D7-4858-4F97-920E-77CFFCBE1036}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapBuilder.Web", "MapBuilder.Web\MapBuilder.Web.csproj", "{8BB54F50-AF42-4FB5-8ECA-E7348B8B8A83}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,10 +24,6 @@ Global
 		{9823B127-F60C-4B5D-82BB-D62922A569AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9823B127-F60C-4B5D-82BB-D62922A569AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9823B127-F60C-4B5D-82BB-D62922A569AA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AA3FB2FA-2F4C-41AC-B241-51E6F689D7C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AA3FB2FA-2F4C-41AC-B241-51E6F689D7C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AA3FB2FA-2F4C-41AC-B241-51E6F689D7C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AA3FB2FA-2F4C-41AC-B241-51E6F689D7C4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8722FE60-0248-48B5-BCA8-F800875F1119}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8722FE60-0248-48B5-BCA8-F800875F1119}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8722FE60-0248-48B5-BCA8-F800875F1119}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -36,5 +32,9 @@ Global
 		{5DB999D7-4858-4F97-920E-77CFFCBE1036}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5DB999D7-4858-4F97-920E-77CFFCBE1036}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5DB999D7-4858-4F97-920E-77CFFCBE1036}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BB54F50-AF42-4FB5-8ECA-E7348B8B8A83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BB54F50-AF42-4FB5-8ECA-E7348B8B8A83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BB54F50-AF42-4FB5-8ECA-E7348B8B8A83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BB54F50-AF42-4FB5-8ECA-E7348B8B8A83}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

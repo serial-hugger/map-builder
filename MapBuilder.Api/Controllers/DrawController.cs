@@ -1,3 +1,4 @@
+using System.Drawing;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Google.Common.Geometry;
@@ -49,14 +50,20 @@ public class DrawController : ControllerBase, IDrawController
 
         double centerLat = bigCell.RectBound.Center.LatDegrees;
         double centerLng = bigCell.RectBound.Center.LngDegrees;
-        instructions += $"center:{centerLat}:{centerLng}";
+        double lngHi = bigCell.RectBound.LngHi.Degrees;
+        double latHi = bigCell.RectBound.LatHi.Degrees;
+        double lngLo = bigCell.RectBound.LngLo.Degrees;
+        double latLo = bigCell.RectBound.LatLo.Degrees;
+        float latRange = (float)(latHi - latLo);
+        float lngRange = (float)(lngHi - lngLo);
+        instructions = AddInstructions(instructions,"center",$"{centerLat},{centerLng}");
+        instructions = AddInstructions(instructions,"highs",$"{latHi},{lngHi}");
+        instructions = AddInstructions(instructions,"lows",$"{latLo},{lngLo}");
         foreach (Way way in newWays)
         {
-            if (instructions!="")
-            {
-                instructions += ";";
-            }
-            instructions += $"waydraw:{way.Type}";
+            instructions = AddInstructions(instructions,"type",way.Type);
+            instructions = AddInstructions(instructions,"filled",way.Filled.ToString());
+            instructions = AddInstructions(instructions,"closed",way.Closed.ToString());
             List<Node> nodes = new List<Node>();
             foreach (Node node in newNodes)
             {
@@ -66,16 +73,31 @@ public class DrawController : ControllerBase, IDrawController
                 }
             }
             nodes.OrderBy(n => n.NodeOrder);
-            if (nodes.Any())
-            {
-                instructions += ";nodes";
-            }
+
+            string nodeLocations = "";
             foreach (Node node in nodes)
             {
-                instructions += $":{(node.Lat-centerLat).ToString("N10")}:{(node.Lng-centerLng).ToString("N10")}";
+                if (nodeLocations!="")
+                {
+                    nodeLocations += ",";
+                }
+                nodeLocations += $"{(((node.Lat-latLo)/latRange)-0.5f).ToString("N10")},{(((node.Lng-lngLo)/lngRange)-0.5f).ToString("N10")}";
+            }
+            if (nodes.Any())
+            {
+                instructions = AddInstructions(instructions,"points",nodeLocations);
             }
         }
         return instructions;
+    }
+    public string AddInstructions(string currentInstructions,string key, string value)
+    {
+        if (currentInstructions!="")
+        {
+            currentInstructions += ";";
+        }
+        currentInstructions += key+":"+value;
+        return currentInstructions;
     }
     public DrawController()
     {

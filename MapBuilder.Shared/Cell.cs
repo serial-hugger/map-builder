@@ -71,7 +71,7 @@ public class Cell
                         if ((double)json["elements"][e]["geometry"][n]["lat"] < latHi && (double)json["elements"][e]["geometry"][n]["lat"] > latLo &&
                             (double)json["elements"][e]["geometry"][n]["lon"] < lngHi && (double)json["elements"][e]["geometry"][n]["lon"] > lngLo)
                         {
-                            if (n < json["elements"][e]["nodes"].Count() - 1 || !closed)
+                            if (true)
                             {
                                 Node node = new Node((long)json["elements"][e]["nodes"][n], (double)json["elements"][e]["geometry"][n]["lat"],
                                     (double)json["elements"][e]["geometry"][n]["lon"]);

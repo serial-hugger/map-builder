@@ -1,11 +1,23 @@
 {
   "Version": 1,
-  "Hash": "95hcF+EsXFdBO6AzCmczkVpLXT0udiItrlJlCynIL7A=",
+  "Hash": "b43k5dBzIUW89AdMMnD0Ogui79TEgNgQjFa2FD1Ue1E=",
   "Source": "MapBuilder.Web",
   "BasePath": "_content/MapBuilder.Web",
   "Mode": "Default",
   "ManifestType": "Build",
-  "ReferencedProjectsConfiguration": [],
+  "ReferencedProjectsConfiguration": [
+    {
+      "Identity": "/home/jeremy/Documents/Projects/map-builder/MapBuilder.Api/MapBuilder.Api.csproj",
+      "Version": 2,
+      "Source": "MapBuilder.Api",
+      "GetPublishAssetsTargets": "ComputeReferencedStaticWebAssetsPublishManifest;GetCurrentProjectPublishStaticWebAssetItems",
+      "AdditionalPublishProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalPublishPropertiesToRemove": "WebPublishProfileFile;TargetFramework",
+      "GetBuildAssetsTargets": "GetCurrentProjectBuildStaticWebAssetItems",
+      "AdditionalBuildProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalBuildPropertiesToRemove": "WebPublishProfileFile;TargetFramework"
+    }
+  ],
   "DiscoveryPatterns": [
     {
       "Name": "MapBuilder.Web/wwwroot",
@@ -16,6 +28,25 @@
     }
   ],
   "Assets": [
+    {
+      "Identity": "/home/jeremy/.nuget/packages/blazor.extensions.canvas/1.1.1/staticwebassets/blazor.extensions.canvas.js",
+      "SourceId": "Blazor.Extensions.Canvas",
+      "SourceType": "Package",
+      "ContentRoot": "/home/jeremy/.nuget/packages/blazor.extensions.canvas/1.1.1/staticwebassets/",
+      "BasePath": "_content/Blazor.Extensions.Canvas",
+      "RelativePath": "blazor.extensions.canvas.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "/home/jeremy/.nuget/packages/blazor.extensions.canvas/1.1.1/staticwebassets/blazor.extensions.canvas.js"
+    },
     {
       "Identity": "/home/jeremy/Documents/Projects/map-builder/MapBuilder.Web/obj/Debug/net8.0/scopedcss/bundle/MapBuilder.Web.styles.css",
       "SourceId": "MapBuilder.Web",

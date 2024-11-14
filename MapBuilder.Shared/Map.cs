@@ -51,6 +51,8 @@ public class Map
                 repoCell.MyCell = new S2Cell(S2CellId.FromToken(cellId.ToToken()));
                 repoCell.GenerationVersion = generationVersion;
                 repoCell.GenerationTime = DateTime.Now.ToUniversalTime();
+                repoCell.Ways.Clear();
+                repoCell.Nodes.Clear();
                 await repoCell.GetNodes();
                 Cells.Add(repoCell);
                 await _cellRepository.UpdateCell(repoCell);

@@ -1,0 +1,12 @@
+{
+  "generation_version": 3,
+  "types":[
+    {"name": "water","fill_if_closed": true, "tags": [{"key": "natural","value": "water"},{"key": "water","value": null},{"key": "waterway","value": null}]},
+    {"name": "building","fill_if_closed": true, "tags": [{"key": "building","value": null}]},
+    {"name": "road","fill_if_closed": false, "tags": [{"key": "highway","value": "primary"},{"key": "highway","value": "secondary"},{"key": "highway","value": "tertiary"},{"key": "highway","value": "residential"}]},
+    {"name": "path","fill_if_closed": false, "tags": [{"key": "highway","value": "path"}]}
+  ],
+  "retrieve": [
+    {"label": "name", "key": "name"}
+  ]
+}
