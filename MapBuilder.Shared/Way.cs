@@ -83,16 +83,15 @@ public class Way
         JToken jsonToken = JsonConvert.DeserializeObject<JToken>(jsonContent);
         int generationVersion = (int)jsonToken["generation_version"];
         SetDataRetrieve(tags,jsonToken);
-        if (nodeIds[0].ToString() == nodeIds[nodeIds.Count() - 1].ToString())
+        if (nodeIds[0].ToString() == nodeIds[nodeIds.Count()-1].ToString())
         {
-            TotalNodes = nodeIds.Count() - 1;
             Closed = true;
         }
         else
         {
-            TotalNodes = nodeIds.Count();
             Closed = false;
         }
+        TotalNodes = nodeIds.Count();
 
         if (tags != null && tags.Any())
         {
@@ -111,7 +110,7 @@ public class Way
                             bool keySatisfied = false;
                             bool valueSatisfied = false;
                             if (jsonToken["types"]?[typeSearch]?["tags"]?[tagSearch]?["key"] == null
-                                || tags.ElementAt(tagSearch).ToString().Split(':')[0].Contains(
+                                || tags.ElementAt(tag).ToString().Split(':')[0].Contains(
                                     jsonToken["types"]?[typeSearch]?["tags"]?[tagSearch]?["key"]?.ToString() ??
                                     string.Empty))
                             {
@@ -119,7 +118,7 @@ public class Way
                             }
 
                             if (jsonToken["types"]?[typeSearch]?["tags"]?[tagSearch]?["value"] == null
-                                || tags.ElementAt(tagSearch).ToString().Split(':')[1].Contains(
+                                || tags.ElementAt(tag).ToString().Split(':')[1].Contains(
                                     jsonToken["types"]?[typeSearch]?["tags"]?[tagSearch]?["value"]?.ToString() ??
                                     string.Empty))
                             {
@@ -137,11 +136,13 @@ public class Way
                                 {
                                     Filled = false;
                                 }
+                                
                             }
                         }
-                        catch
+                        catch(Exception ex)
                         {
                             Console.WriteLine($"Failed tag search... way:{WayId} tag:{tag} typeSearch:{typeSearch} tagSearch:{tagSearch}");
+                            Console.WriteLine(ex.Message);
                         }
                     }
                 }

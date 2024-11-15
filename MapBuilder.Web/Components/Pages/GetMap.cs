@@ -59,19 +59,20 @@ public partial class GetMap
             await _context.SetLineWidthAsync(_thickness);
             await _context.SetStrokeStyleAsync(_color);
             await _context.SetFillStyleAsync(_color);
-            float[] points = value.Split(',').Select(float.Parse).ToArray();
+            string[] points = value.Split(',');
             float x = 0;
             float y = 0;
             
             for (int i = 0; i < points.Length; i++)
             {
+                float point = float.Parse(points[i])*2f;
                 if (i%2==0)
                 {
-                    y = 500-((points[i]*250)+250);
+                    y = 500-((point*250)+250);
                 }
                 if (i%2==1)
                 {
-                    x = ((points[i]*250)+250);
+                    x = ((point*250)+250);
                     if (i==1)
                     {
                         await _context.BeginPathAsync();
@@ -103,20 +104,20 @@ public partial class GetMap
         Console.WriteLine(type);
         if (type.Contains("water"))
         {
-            _thickness = 0.5f;
+            _thickness = 5f;
             _color = "blue";
         }else if (type.Contains("building"))
         {
-            _thickness = 0.25f;
+            _thickness = 1f;
             _color = "orange";
         }else if (type.Contains("road"))
         {
-            _thickness = 1f;
+            _thickness = 2.5f;
             _color = "black";
         }
         else if (type.Contains("path"))
         {
-            _thickness = 0.75f;
+            _thickness = 2f;
             _color = "gray";
         }
         else

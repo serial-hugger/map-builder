@@ -20,7 +20,7 @@ public class DrawController : ControllerBase, IDrawController
     public async Task<string> Instructions(double latitude, double longitude)
     {
         var coord = S2LatLng.FromDegrees(latitude, longitude);
-        var token = S2CellId.FromLatLng(coord).ParentForLevel(14).ToToken();
+        var token = S2CellId.FromLatLng(coord).ParentForLevel(13).ToToken();
         var bigCell = new S2Cell(S2CellId.FromToken(token));
         var cells = await _cellsController.GetCells(15,bigCell.RectBound.LatLo.Degrees,bigCell.RectBound.LngLo.Degrees,bigCell.RectBound.LatHi.Degrees,bigCell.RectBound.LngHi.Degrees);
         var map = new Map(_cellsController,_osmController,_cellRepository);
@@ -40,7 +40,7 @@ public class DrawController : ControllerBase, IDrawController
             }
             foreach (var node in cell.Nodes)
             {
-                if (newNodes.All(n => n.NodeId != node.NodeId))
+                if (newNodes.All(n => n.NodeId != node.NodeId)||newNodes.All(n => n.WayId!= node.WayId))
                 {
                     newNodes.Add(node);
                 }
