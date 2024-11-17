@@ -56,23 +56,22 @@ public partial class GetMap
         }
         if (key=="points")
         {
+            await _context.MoveToAsync(0, 0);
             await _context.SetLineWidthAsync(_thickness);
             await _context.SetStrokeStyleAsync(_color);
             await _context.SetFillStyleAsync(_color);
             string[] points = value.Split(',');
-            float x = 0;
-            float y = 0;
+            float x;
+            float y;
             
             for (int i = 0; i < points.Length; i++)
             {
-                float point = float.Parse(points[i])*2f;
-                if (i%2==0)
-                {
-                    y = 500-((point*250)+250);
-                }
                 if (i%2==1)
                 {
-                    x = ((point*250)+250);
+                    float pointY = float.Parse(points[i-1])*2f;
+                    float pointX = float.Parse(points[i])*2f;
+                    y = 500-((pointY*250)+250);
+                    x = ((pointX*250)+250);
                     if (i==1)
                     {
                         await _context.BeginPathAsync();

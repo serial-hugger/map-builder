@@ -1,7 +1,11 @@
 /home/jeremy/Documents/Projects/map-builder/MapBuilder.Shared/bin/Debug/net8.0/MapBuilder.Shared.deps.json
 /home/jeremy/Documents/Projects/map-builder/MapBuilder.Shared/bin/Debug/net8.0/MapBuilder.Shared.dll
 /home/jeremy/Documents/Projects/map-builder/MapBuilder.Shared/bin/Debug/net8.0/MapBuilder.Shared.pdb
+/home/jeremy/Documents/Projects/map-builder/MapBuilder.Shared/bin/Debug/net8.0/Microsoft.EntityFrameworkCore.Abstractions.dll
+/home/jeremy/Documents/Projects/map-builder/MapBuilder.Shared/bin/Debug/net8.0/Newtonsoft.Json.dll
 /home/jeremy/Documents/Projects/map-builder/MapBuilder.Shared/bin/Debug/net8.0/S2Geometry.dll
+/home/jeremy/Documents/Projects/map-builder/MapBuilder.Shared/bin/Debug/net8.0/Microsoft.EntityFrameworkCore.Abstractions.xml
+/home/jeremy/Documents/Projects/map-builder/MapBuilder.Shared/bin/Debug/net8.0/Newtonsoft.Json.xml
 /home/jeremy/Documents/Projects/map-builder/MapBuilder.Shared/bin/Debug/net8.0/S2Geometry.xml
 /home/jeremy/Documents/Projects/map-builder/MapBuilder.Shared/obj/Debug/net8.0/MapBuilder.Shared.csproj.AssemblyReference.cache
 /home/jeremy/Documents/Projects/map-builder/MapBuilder.Shared/obj/Debug/net8.0/MapBuilder.Shared.GeneratedMSBuildEditorConfig.editorconfig
@@ -14,7 +18,3 @@
 /home/jeremy/Documents/Projects/map-builder/MapBuilder.Shared/obj/Debug/net8.0/refint/MapBuilder.Shared.dll
 /home/jeremy/Documents/Projects/map-builder/MapBuilder.Shared/obj/Debug/net8.0/MapBuilder.Shared.pdb
 /home/jeremy/Documents/Projects/map-builder/MapBuilder.Shared/obj/Debug/net8.0/ref/MapBuilder.Shared.dll
-/home/jeremy/Documents/Projects/map-builder/MapBuilder.Shared/bin/Debug/net8.0/Microsoft.EntityFrameworkCore.Abstractions.dll
-/home/jeremy/Documents/Projects/map-builder/MapBuilder.Shared/bin/Debug/net8.0/Microsoft.EntityFrameworkCore.Abstractions.xml
-/home/jeremy/Documents/Projects/map-builder/MapBuilder.Shared/bin/Debug/net8.0/Newtonsoft.Json.dll
-/home/jeremy/Documents/Projects/map-builder/MapBuilder.Shared/bin/Debug/net8.0/Newtonsoft.Json.xml

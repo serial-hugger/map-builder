@@ -4,6 +4,7 @@ using Google.Common.Geometry;
 using Microsoft.AspNetCore.Mvc;
 using MapBuilder.Data;
 using MapBuilder.Shared;
+using MapBuilder.Shared.SerializationModels;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using JsonSerializer = System.Text.Json.JsonSerializer;
@@ -22,8 +23,8 @@ public class OSMController:ControllerBase, IOSMController
         _cellRepository = new CellRepository();
     }
     ///osm/getdata/40.95876296470057/-74.28306490222923/40.44841428528941/-72.78636592806494
-    [HttpGet("{action}/{latitude1}/{longitude1}/{latitude2}/{longitude2}")]
-    public async Task<JToken?> GetDataFromBox(double latitudeLo, double longitudeLo, double latitudeHi, double longitudeHi)
+    [HttpGet("{action}/{latitudeLo}/{longitudeLo}/{latitudeHi}/{longitudeHi}")]
+    public async Task<OSM?> GetDataFromBox(double latitudeLo, double longitudeLo, double latitudeHi, double longitudeHi)
     {
         string apiUrl = "https://overpass-api.de/api/interpreter";
         string query = $"[out:json][maxsize:1073741824][timeout:900];way({latitudeLo},{longitudeLo},{latitudeHi},{longitudeHi});out geom;";
@@ -35,12 +36,12 @@ public class OSMController:ControllerBase, IOSMController
             HttpResponseMessage response= client.PostAsync(apiUrl, new StringContent(query, Encoding.UTF8, "text/plain")).Result;
 
             var jsonString = await response.Content.ReadAsStringAsync();
-            Console.WriteLine(jsonString);
-            return JsonConvert.DeserializeObject<JToken>(jsonString);
+            Console.WriteLine($"{latitudeLo}/{longitudeLo}/{latitudeHi}/{longitudeHi}");
+            return JsonConvert.DeserializeObject<OSM>(jsonString);
         }
     }
     [HttpGet("{action}/{cellToken}")]
-    public async Task<JsonObject?> GetData(string cellToken)
+    public async Task<OSM?> GetData(string cellToken)
     {
         S2Cell cell = new S2Cell(S2CellId.FromToken(cellToken));
         
@@ -57,13 +58,13 @@ public class OSMController:ControllerBase, IOSMController
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
                 var response = client.PostAsync(apiUrl, new StringContent(query, Encoding.UTF8, "text/plain")).Result;
                 var jsonString = await response.Content.ReadAsStringAsync();
-                return JsonSerializer.Deserialize<JsonObject>(jsonString);
+                return JsonSerializer.Deserialize<OSM>(jsonString);
             }
         }
         else
         {
             var jsonString = JsonSerializer.Serialize(cellModel);
-            return JsonSerializer.Deserialize<JsonObject>(jsonString);
+            return JsonSerializer.Deserialize<OSM>(jsonString);
         }
     }
 }

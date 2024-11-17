@@ -1,5 +1,5 @@
 {
-  "generation_version": 2,
+  "generation_version": 3,
   "types":[
     {"name": "water","fill_if_closed": true, "tags": [{"key": "natural","value": "water"},{"key": "water","value": null},{"key": "waterway","value": null}]},
     {"name": "building","fill_if_closed": true, "tags": [{"key": "building","value": null}]},

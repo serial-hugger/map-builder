@@ -3,6 +3,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
+using MapBuilder.Shared.SerializationModels;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -33,19 +34,19 @@ public class Way
         this.WayId = wayId;
     }
 
-    public void SetDataRetrieve(JToken? tags, JToken jsonToken)
+    public void SetDataRetrieve(Dictionary<string,string>? tags, Settings settingsJson)
     {
         string data = "";
         if (tags != null && tags.Any())
         {
             for (int tag = 0; tag < tags.Count(); tag++)
             {
-                for (int retrieveSearch = 0; retrieveSearch < jsonToken["retrieve"].Count(); retrieveSearch++)
+                for (int retrieveSearch = 0; retrieveSearch < settingsJson.Retrieve.Count; retrieveSearch++)
                 {
                     try
                     {
                         string[] tagSplit = Regex.Unescape(tags.ElementAt(tag).ToString().Replace("\"", string.Empty)).Split(':');
-                        if (tagSplit[0].Trim() == jsonToken["retrieve"]?[retrieveSearch]?["key"].ToString().Trim())
+                        if (tagSplit[0].Trim() == settingsJson.Retrieve?[retrieveSearch]?.Key.Trim())
                         {
                             StringBuilder dataString = new StringBuilder();
                             if (RetrievedData==null)
@@ -57,7 +58,7 @@ public class Way
                             {
                                 dataString.Append(';');
                             }
-                            dataString.Append(jsonToken["retrieve"]?[retrieveSearch]?["label"].ToString().Trim());
+                            dataString.Append(settingsJson.Retrieve?[retrieveSearch]?.Label.ToString().Trim());
                             dataString.Append(':');
                             dataString.Append(tagSplit[1].Trim());
                             data += dataString.ToString();
@@ -72,18 +73,17 @@ public class Way
         }
         if (data != null && data != "")
         {
-            RetrievedData = data.ToString();
-            Console.WriteLine(data.ToString());
+            RetrievedData = data;
         }
     }
-    public void SetProperties(JToken nodeIds, JToken? tags)
+    public void SetProperties(List<long> nodeIds, Dictionary<string,string>? tags)
     {
         string jsonFilepath = "Settings/settings.json";
         string jsonContent = File.ReadAllText(jsonFilepath);
-        JToken jsonToken = JsonConvert.DeserializeObject<JToken>(jsonContent);
-        int generationVersion = (int)jsonToken["generation_version"];
-        SetDataRetrieve(tags,jsonToken);
-        if (nodeIds[0].ToString() == nodeIds[nodeIds.Count()-1].ToString())
+        Settings settingsJson = JsonConvert.DeserializeObject<Settings>(jsonContent);
+        int generationVersion = (int)settingsJson.GenerationVersion;
+        SetDataRetrieve(tags,settingsJson);
+        if (nodeIds[0].ToString() == nodeIds[^1].ToString())
         {
             Closed = true;
         }
@@ -97,52 +97,41 @@ public class Way
         {
             for (int tag = 0; tag < tags.Count(); tag++)
             {
-                for (int typeSearch = 0; typeSearch < jsonToken["types"].Count(); typeSearch++)
+                for (int typeSearch = 0; typeSearch < settingsJson.Types.Count(); typeSearch++)
                 {
-                    string name = jsonToken["types"][typeSearch]["name"].ToString();
-                    bool fillIfClosed = (bool)jsonToken["types"][typeSearch]["fill_if_closed"];
+                    string name = settingsJson.Types[typeSearch].Name.ToString();
+                    bool fillIfClosed = (bool)settingsJson.Types[typeSearch].FillIfClosed;
 
-                    for (int tagSearch = 0; tagSearch < jsonToken["types"][typeSearch]["tags"].Count(); tagSearch++)
+                    for (int tagSearch = 0; tagSearch < settingsJson.Types[typeSearch].Tags.Count(); tagSearch++)
                     {
-                        try
+                        bool keySatisfied = false;
+                        bool valueSatisfied = false;
+                        if (settingsJson.Types?[typeSearch]?.Tags?[tagSearch]?.Key == null
+                            || tags.ElementAt(tag).Key.Contains(
+                                settingsJson.Types?[typeSearch]?.Tags?[tagSearch]?.Key?.ToString() ??
+                                string.Empty))
                         {
-
-                            bool keySatisfied = false;
-                            bool valueSatisfied = false;
-                            if (jsonToken["types"]?[typeSearch]?["tags"]?[tagSearch]?["key"] == null
-                                || tags.ElementAt(tag).ToString().Split(':')[0].Contains(
-                                    jsonToken["types"]?[typeSearch]?["tags"]?[tagSearch]?["key"]?.ToString() ??
-                                    string.Empty))
-                            {
-                                keySatisfied = true;
-                            }
-
-                            if (jsonToken["types"]?[typeSearch]?["tags"]?[tagSearch]?["value"] == null
-                                || tags.ElementAt(tag).ToString().Split(':')[1].Contains(
-                                    jsonToken["types"]?[typeSearch]?["tags"]?[tagSearch]?["value"]?.ToString() ??
-                                    string.Empty))
-                            {
-                                valueSatisfied = true;
-                            }
-
-                            if (keySatisfied && valueSatisfied)
-                            {
-                                Type = name;
-                                if (Closed && fillIfClosed)
-                                {
-                                    Filled = true;
-                                }
-                                else
-                                {
-                                    Filled = false;
-                                }
-                                
-                            }
+                            keySatisfied = true;
                         }
-                        catch(Exception ex)
+
+                        if (settingsJson.Types?[typeSearch]?.Tags?[tagSearch]?.Value == null
+                            || tags.ElementAt(tag).Value.Contains(
+                                settingsJson.Types?[typeSearch]?.Tags?[tagSearch]?.Value ??
+                                string.Empty))
                         {
-                            Console.WriteLine($"Failed tag search... way:{WayId} tag:{tag} typeSearch:{typeSearch} tagSearch:{tagSearch}");
-                            Console.WriteLine(ex.Message);
+                            valueSatisfied = true;
+                        }
+                        if (keySatisfied && valueSatisfied)
+                        {
+                            Type = name;
+                            if (Closed && fillIfClosed)
+                            {
+                                Filled = true;
+                            }
+                            else
+                            {
+                                Filled = false;
+                            }
                         }
                     }
                 }

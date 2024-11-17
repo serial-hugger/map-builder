@@ -1,5 +1,6 @@
 /home/jeremy/Documents/Projects/map-builder/MapBuilder.Api/bin/Debug/net8.0/appsettings.Development.json
 /home/jeremy/Documents/Projects/map-builder/MapBuilder.Api/bin/Debug/net8.0/appsettings.json
+/home/jeremy/Documents/Projects/map-builder/MapBuilder.Api/bin/Debug/net8.0/Settings/settings.json
 /home/jeremy/Documents/Projects/map-builder/MapBuilder.Api/bin/Debug/net8.0/MapBuilder.Api
 /home/jeremy/Documents/Projects/map-builder/MapBuilder.Api/bin/Debug/net8.0/MapBuilder.Api.deps.json
 /home/jeremy/Documents/Projects/map-builder/MapBuilder.Api/bin/Debug/net8.0/MapBuilder.Api.runtimeconfig.json
@@ -48,8 +49,10 @@
 /home/jeremy/Documents/Projects/map-builder/MapBuilder.Api/bin/Debug/net8.0/runtimes/win-x86/native/e_sqlite3.dll
 /home/jeremy/Documents/Projects/map-builder/MapBuilder.Api/bin/Debug/net8.0/MapBuilder.Data.dll
 /home/jeremy/Documents/Projects/map-builder/MapBuilder.Api/bin/Debug/net8.0/MapBuilder.Shared.dll
+/home/jeremy/Documents/Projects/map-builder/MapBuilder.Api/bin/Debug/net8.0/Newtonsoft.Json.dll
 /home/jeremy/Documents/Projects/map-builder/MapBuilder.Api/bin/Debug/net8.0/MapBuilder.Data.pdb
 /home/jeremy/Documents/Projects/map-builder/MapBuilder.Api/bin/Debug/net8.0/MapBuilder.Shared.pdb
+/home/jeremy/Documents/Projects/map-builder/MapBuilder.Api/bin/Debug/net8.0/Newtonsoft.Json.xml
 /home/jeremy/Documents/Projects/map-builder/MapBuilder.Api/obj/Debug/net8.0/MapBuilder.Api.csproj.AssemblyReference.cache
 /home/jeremy/Documents/Projects/map-builder/MapBuilder.Api/obj/Debug/net8.0/MapBuilder.Api.GeneratedMSBuildEditorConfig.editorconfig
 /home/jeremy/Documents/Projects/map-builder/MapBuilder.Api/obj/Debug/net8.0/MapBuilder.Api.AssemblyInfoInputs.cache
@@ -72,6 +75,3 @@
 /home/jeremy/Documents/Projects/map-builder/MapBuilder.Api/obj/Debug/net8.0/MapBuilder.Api.pdb
 /home/jeremy/Documents/Projects/map-builder/MapBuilder.Api/obj/Debug/net8.0/MapBuilder.Api.genruntimeconfig.cache
 /home/jeremy/Documents/Projects/map-builder/MapBuilder.Api/obj/Debug/net8.0/ref/MapBuilder.Api.dll
-/home/jeremy/Documents/Projects/map-builder/MapBuilder.Api/bin/Debug/net8.0/Settings/settings.json
-/home/jeremy/Documents/Projects/map-builder/MapBuilder.Api/bin/Debug/net8.0/Newtonsoft.Json.dll
-/home/jeremy/Documents/Projects/map-builder/MapBuilder.Api/bin/Debug/net8.0/Newtonsoft.Json.xml

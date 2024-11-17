@@ -1,8 +1,7 @@
-using System.Text.Json;
-using System.Text.Json.Nodes;
-using System.Text.Json.Serialization;
 using Google.Common.Geometry;
 using MapBuilder.Shared;
+using MapBuilder.Shared.SerializationModels;
+using Newtonsoft.Json;
 
 namespace MapBuilder.Shared;
 
@@ -27,8 +26,8 @@ public class Map
     {
         string jsonFilepath = "Settings/settings.json";
         string jsonContent = File.ReadAllText(jsonFilepath);
-        JsonObject jsonObject = JsonSerializer.Deserialize<JsonObject>(jsonContent);
-        int generationVersion = (int)jsonObject["generation_version"];
+        Settings settingsJson = JsonConvert.DeserializeObject<Settings>(jsonContent);
+        int generationVersion = (int)settingsJson.GenerationVersion;
         foreach (S2CellId cellId in cellIds)
         {
             Cell? repoCell = await _cellRepository.GetCellByTokenAsync(cellId.ToToken());
@@ -51,8 +50,6 @@ public class Map
                 repoCell.MyCell = new S2Cell(S2CellId.FromToken(cellId.ToToken()));
                 repoCell.GenerationVersion = generationVersion;
                 repoCell.GenerationTime = DateTime.Now.ToUniversalTime();
-                repoCell.Ways.Clear();
-                repoCell.Nodes.Clear();
                 await repoCell.GetNodes();
                 Cells.Add(repoCell);
                 await _cellRepository.UpdateCell(repoCell);
@@ -88,8 +85,8 @@ public class Map
     public string GetInfo()
     {
         string info = "";
-        var options = new JsonSerializerOptions();
-        options.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+        var options = new JsonSerializerSettings();
+        options.NullValueHandling = NullValueHandling.Ignore;
         foreach (Way way in Ways)
         {
             info += $"[WAY] (id: {way.WayId}, type: {way.Type}, closed: {way.Closed})\n";

@@ -40,10 +40,7 @@ public class DrawController : ControllerBase, IDrawController
             }
             foreach (var node in cell.Nodes)
             {
-                if (newNodes.All(n => n.NodeId != node.NodeId)||newNodes.All(n => n.WayId!= node.WayId))
-                {
-                    newNodes.Add(node);
-                }
+                newNodes.Add(node);
             }
         }
         string instructions = "";
@@ -72,10 +69,11 @@ public class DrawController : ControllerBase, IDrawController
                     nodes.Add(node);
                 }
             }
-            nodes.OrderBy(n => n.NodeOrder);
+
+            var orderedNodes = nodes.OrderBy(n => n.NodeOrder);
 
             string nodeLocations = "";
-            foreach (Node node in nodes)
+            foreach (Node node in orderedNodes)
             {
                 if (nodeLocations!="")
                 {
