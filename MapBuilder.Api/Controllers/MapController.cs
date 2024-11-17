@@ -25,8 +25,8 @@ public class MapController : ControllerBase, IMapController
         var map = new Map(_cellsController,_osmController,_cellRepository);
         await map.BuildMap(cells);
         List<Cell> newCells = new List<Cell>();
-        List<Way> newWays = new List<Way>();
-        List<Node> newNodes = new List<Node>();
+        List<Feature> newWays = new List<Feature>();
+        List<FeaturePoint> newNodes = new List<FeaturePoint>();
         foreach (var cell in map.Cells)
         {
             newCells.Add(cell);
@@ -39,7 +39,7 @@ public class MapController : ControllerBase, IMapController
             }
             foreach (var node in cell.Nodes)
             {
-                if (newNodes.All(n => n.NodeId != node.NodeId))
+                if (newNodes.All(n => n.PointId != node.PointId))
                 {
                     newNodes.Add(node);
                 }

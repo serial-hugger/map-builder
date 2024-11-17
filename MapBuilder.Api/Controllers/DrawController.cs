@@ -20,14 +20,14 @@ public class DrawController : ControllerBase, IDrawController
     public async Task<string> Instructions(double latitude, double longitude)
     {
         var coord = S2LatLng.FromDegrees(latitude, longitude);
-        var token = S2CellId.FromLatLng(coord).ParentForLevel(13).ToToken();
+        var token = S2CellId.FromLatLng(coord).ParentForLevel(10).ToToken();
         var bigCell = new S2Cell(S2CellId.FromToken(token));
         var cells = await _cellsController.GetCells(15,bigCell.RectBound.LatLo.Degrees,bigCell.RectBound.LngLo.Degrees,bigCell.RectBound.LatHi.Degrees,bigCell.RectBound.LngHi.Degrees);
         var map = new Map(_cellsController,_osmController,_cellRepository);
         await map.BuildMap(cells);
         List<Cell> newCells = new List<Cell>();
-        List<Way> newWays = new List<Way>();
-        List<Node> newNodes = new List<Node>();
+        List<Feature> newWays = new List<Feature>();
+        List<FeaturePoint> newNodes = new List<FeaturePoint>();
         foreach (var cell in map.Cells)
         {
             newCells.Add(cell);
@@ -56,13 +56,13 @@ public class DrawController : ControllerBase, IDrawController
         instructions = AddInstructions(instructions,"center",$"{centerLat},{centerLng}");
         instructions = AddInstructions(instructions,"highs",$"{latHi},{lngHi}");
         instructions = AddInstructions(instructions,"lows",$"{latLo},{lngLo}");
-        foreach (Way way in newWays)
+        foreach (Feature way in newWays)
         {
             instructions = AddInstructions(instructions,"type",way.Type);
             instructions = AddInstructions(instructions,"filled",way.Filled.ToString());
             instructions = AddInstructions(instructions,"closed",way.Closed.ToString());
-            List<Node> nodes = new List<Node>();
-            foreach (Node node in newNodes)
+            List<FeaturePoint> nodes = new List<FeaturePoint>();
+            foreach (FeaturePoint node in newNodes)
             {
                 if (node.WayId==way.WayId)
                 {
@@ -70,10 +70,10 @@ public class DrawController : ControllerBase, IDrawController
                 }
             }
 
-            var orderedNodes = nodes.OrderBy(n => n.NodeOrder);
+            var orderedNodes = nodes.OrderBy(n => n.PointOrder);
 
             string nodeLocations = "";
-            foreach (Node node in orderedNodes)
+            foreach (FeaturePoint node in orderedNodes)
             {
                 if (nodeLocations!="")
                 {

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MapBuilder.Data")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+95e76e046fd168109fb93a1177e05fa8b5f57ffa")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ebeda4b5a5c9502ebb528ce463592ececd4dc823")]
 [assembly: System.Reflection.AssemblyProductAttribute("MapBuilder.Data")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MapBuilder.Data")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

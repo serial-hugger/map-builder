@@ -10,12 +10,12 @@ using Newtonsoft.Json.Linq;
 namespace MapBuilder.Shared;
 
 [Serializable]
-public class Way
+public class Feature
 {
     [Key]
     public int Id { get; set; }
-    public Int64 WayId { get; set; }
-    public int TotalNodes { get; set; }
+    public long WayId { get; set; }
+    public int TotalPoints { get; set; }
     public string Type { get; set; }
     public bool Closed { get; set; }
     public bool Filled { get; set; }
@@ -23,12 +23,12 @@ public class Way
     public int CellId { get; set; }
 
     public string? RetrievedData { get; set; }
-    public Way(Int64 wayId)
+    public Feature(Int64 wayId)
     {
         this.WayId  = wayId;
     }
 
-    private Way(int cellId, Int64 wayId)
+    private Feature(int cellId, Int64 wayId)
     {
         this.CellId = cellId;
         this.WayId = wayId;
@@ -76,14 +76,14 @@ public class Way
             RetrievedData = data;
         }
     }
-    public void SetProperties(List<long> nodeIds, Dictionary<string,string>? tags)
+    public void SetProperties(List<Geometry> geometries, Dictionary<string,string>? tags)
     {
         string jsonFilepath = "Settings/settings.json";
         string jsonContent = File.ReadAllText(jsonFilepath);
         Settings settingsJson = JsonConvert.DeserializeObject<Settings>(jsonContent);
         int generationVersion = (int)settingsJson.GenerationVersion;
         SetDataRetrieve(tags,settingsJson);
-        if (nodeIds[0].ToString() == nodeIds[^1].ToString())
+        if (geometries[0].Lat == geometries[^1].Lat && geometries[0].Lon == geometries[^1].Lon)
         {
             Closed = true;
         }
@@ -91,7 +91,7 @@ public class Way
         {
             Closed = false;
         }
-        TotalNodes = nodeIds.Count();
+        TotalPoints = geometries.Count;
 
         if (tags != null && tags.Any())
         {

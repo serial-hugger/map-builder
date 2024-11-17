@@ -22,10 +22,10 @@ public class CellContext : DbContext
             .WithOne()
             .HasForeignKey(w => w.CellId);
         
-        modelBuilder.Entity<Node>()
+        modelBuilder.Entity<FeaturePoint>()
             .HasKey(n => n.Id);
 
-        modelBuilder.Entity<Way>()
+        modelBuilder.Entity<Feature>()
             .HasKey(w => w.Id);
     }
 

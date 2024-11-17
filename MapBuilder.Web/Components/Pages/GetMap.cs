@@ -103,7 +103,7 @@ public partial class GetMap
         Console.WriteLine(type);
         if (type.Contains("water"))
         {
-            _thickness = 5f;
+            _thickness = 1f;
             _color = "blue";
         }else if (type.Contains("building"))
         {
@@ -111,12 +111,12 @@ public partial class GetMap
             _color = "orange";
         }else if (type.Contains("road"))
         {
-            _thickness = 2.5f;
+            _thickness = 1f;
             _color = "black";
         }
         else if (type.Contains("path"))
         {
-            _thickness = 2f;
+            _thickness = 1f;
             _color = "gray";
         }
         else

@@ -12,8 +12,8 @@ public class Map
     private readonly ICellRepository _cellRepository;
     
     public List<Cell> Cells = new List<Cell>();
-    public List<Way> Ways = new List<Way>();
-    public List<Node> Nodes = new List<Node>();
+    public List<Feature> Ways = new List<Feature>();
+    public List<FeaturePoint> Nodes = new List<FeaturePoint>();
     
     public Map(ICellsController cellsController, IOSMController osmController, ICellRepository cellRepository)
     {
@@ -37,7 +37,7 @@ public class Map
                 cell.GenerationVersion = generationVersion;
                 cell.GenerationTime = DateTime.Now.ToUniversalTime();
                 cell.CellToken = cellId.ToToken();
-                await cell.GetNodes();
+                await cell.GetPoints();
                 Cells.Add(cell);
                 await _cellRepository.AddCell(cell);
             }
@@ -50,7 +50,7 @@ public class Map
                 repoCell.MyCell = new S2Cell(S2CellId.FromToken(cellId.ToToken()));
                 repoCell.GenerationVersion = generationVersion;
                 repoCell.GenerationTime = DateTime.Now.ToUniversalTime();
-                await repoCell.GetNodes();
+                await repoCell.GetPoints();
                 Cells.Add(repoCell);
                 await _cellRepository.UpdateCell(repoCell);
             }
@@ -64,22 +64,22 @@ public class Map
             }
         }
     }
-    public void AddWayAndNode(Way newWay, Node newNode)
+    public void AddWayAndNode(Feature newFeature, FeaturePoint newFeaturePoint)
     {
-        Way foundWay = null;
-        foreach (Way way in Ways)
+        Feature foundFeature = null;
+        foreach (Feature way in Ways)
         {
-            if (way.WayId == newWay.WayId)
+            if (way.WayId == newFeature.WayId)
             {
-                foundWay = way;
+                foundFeature = way;
             }
         }
-        if (foundWay == null)
+        if (foundFeature == null)
         {
-            foundWay = newWay;
-            Ways.Add(foundWay);
+            foundFeature = newFeature;
+            Ways.Add(foundFeature);
         }
-        Nodes.Add(newNode);
+        Nodes.Add(newFeaturePoint);
     }
 
     public string GetInfo()
@@ -87,7 +87,7 @@ public class Map
         string info = "";
         var options = new JsonSerializerSettings();
         options.NullValueHandling = NullValueHandling.Ignore;
-        foreach (Way way in Ways)
+        foreach (Feature way in Ways)
         {
             info += $"[WAY] (id: {way.WayId}, type: {way.Type}, closed: {way.Closed})\n";
         }

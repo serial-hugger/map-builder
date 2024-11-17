@@ -21,8 +21,8 @@ public class Cell
     public string CellToken { get; set; }
     [NonSerialized]
     public S2Cell MyCell;
-    public ICollection<Node> Nodes { get; } = new List<Node>();
-    public ICollection<Way> Ways { get; } = new List<Way>();
+    public ICollection<FeaturePoint> Nodes { get; } = new List<FeaturePoint>();
+    public ICollection<Feature> Ways { get; } = new List<Feature>();
 
     [NonSerialized] 
     public IOSMController? OsmController = null;
@@ -46,7 +46,7 @@ public class Cell
         CellToken = cellToken;
     }
 
-    public async Task GetNodes()
+    public async Task GetPoints()
     {
         
         if (OsmController != null)
@@ -60,11 +60,57 @@ public class Cell
             {
                 for (int e = 0; e < data.Elements.Count; e++)
                 {
-                    if (data.Elements[e].Type=="way")
+                    long id = 0;
+                    if (data.Elements[e].Type == "way")
                     {
-                        int wayId = (int)data.Elements[e].Id;
-                        int nodeAmount = data.Elements[e].Nodes.Count - 1;
+                        id = (int)data.Elements[e].Id;
+                    }
+                    if (data.Elements[e].Ref!= null && data.Elements[e].Type == "relation")
+                    {
+                        id = (int)data.Elements[e].Ref;
+                    }
 
+                    int pointAmount = 0;
+
+                    if (data.Elements[e].Members!=null)
+                    {
+                        foreach (var member in data.Elements[e].Members)
+                        {
+                            id = (long)member.Ref;
+                            if (member.Geometry!=null)
+                            {
+                                pointAmount = member.Geometry.Count;
+                                for (int n = 0; n < member.Geometry.Count; n++)
+                                {
+                                    if ((double)member.Geometry[n].Lat < latHi &&
+                                        (double)member.Geometry[n].Lat > latLo &&
+                                        (double)member.Geometry[n].Lon < lngHi &&
+                                        (double)member.Geometry[n].Lon > lngLo)
+                                    {
+                                        if (true)
+                                        {
+                                            FeaturePoint featurePoint = new FeaturePoint((double)member.Geometry[n].Lat,
+                                                (double)member.Geometry[n].Lon);
+                                            featurePoint.WayId = id;
+                                            featurePoint.SetProperties(member.Geometry);
+                                            Feature newFeature = new Feature(id);
+
+                                            newFeature.SetProperties(member.Geometry, data.Elements[e].Tags);
+                                            if (!string.IsNullOrEmpty(newFeature.Type))
+                                            {
+                                                Map.AddWayAndNode(newFeature, featurePoint);
+                                                Nodes.Add(featurePoint);
+                                                Ways.Add(newFeature);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else if (data.Elements[e].Nodes!=null)
+                    {
+                        pointAmount = data.Elements[e].Nodes.Count - 1;
                         for (int n = 0; n < data.Elements[e].Nodes.Count; n++)
                         {
                             if ((double)data.Elements[e].Geometry[n].Lat < latHi &&
@@ -74,24 +120,28 @@ public class Cell
                             {
                                 if (true)
                                 {
-                                    Node node = new Node((long)data.Elements[e].Nodes[n],
+                                    FeaturePoint featurePoint = new FeaturePoint((long)data.Elements[e].Nodes[n],
                                         (double)data.Elements[e].Geometry[n].Lat,
                                         (double)data.Elements[e].Geometry[n].Lon);
-                                    node.WayId = wayId;
-                                    node.SetProperties(data.Elements[e].Nodes);
-                                    Way newWay = new Way(wayId);
+                                    featurePoint.WayId = id;
+                                    featurePoint.SetProperties(data.Elements[e].Nodes);
+                                    Feature newFeature = new Feature(id);
 
-                                    newWay.SetProperties(data.Elements[e].Nodes, data.Elements[e].Tags);
-                                    if (!string.IsNullOrEmpty(newWay.Type))
+                                    newFeature.SetProperties(data.Elements[e].Geometry, data.Elements[e].Tags);
+                                    if (!string.IsNullOrEmpty(newFeature.Type))
                                     {
-                                        Map.AddWayAndNode(newWay, node);
-                                        Nodes.Add(node);
-                                        Ways.Add(newWay);
+                                        Map.AddWayAndNode(newFeature, featurePoint);
+                                        Nodes.Add(featurePoint);
+                                        Ways.Add(newFeature);
                                     }
                                 }
                             }
                         }
                     }
+
+                    
+
+
                 }
             }
         }
@@ -99,7 +149,7 @@ public class Cell
     public string GetInfo()
     {
         string info = $"[CELL] (token:{CellToken}, nodes:{Nodes.Count})";
-        foreach (Node node in Nodes)
+        foreach (FeaturePoint node in Nodes)
         {
             info += "\n"+node.GetInfo();
         }
