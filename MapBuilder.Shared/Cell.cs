@@ -60,31 +60,34 @@ public class Cell
             {
                 for (int e = 0; e < data.Elements.Count; e++)
                 {
-                    int wayId = (int)data.Elements[e].Id;
-                    int nodeAmount = data.Elements[e].Nodes.Count - 1;
-                    
-                    for (int n = 0; n < data.Elements[e].Nodes.Count; n++)
+                    if (data.Elements[e].Type=="way")
                     {
-                        if ((double)data.Elements[e].Geometry[n].Lat < latHi &&
-                            (double)data.Elements[e].Geometry[n].Lat > latLo &&
-                            (double)data.Elements[e].Geometry[n].Lon < lngHi &&
-                            (double)data.Elements[e].Geometry[n].Lon > lngLo)
-                        {
-                            if (true)
-                            {
-                                Node node = new Node((long)data.Elements[e].Nodes[n],
-                                    (double)data.Elements[e].Geometry[n].Lat,
-                                    (double)data.Elements[e].Geometry[n].Lon);
-                                node.WayId = wayId;
-                                node.SetProperties(data.Elements[e].Nodes);
-                                Way newWay = new Way(wayId);
+                        int wayId = (int)data.Elements[e].Id;
+                        int nodeAmount = data.Elements[e].Nodes.Count - 1;
 
-                                newWay.SetProperties(data.Elements[e].Nodes, data.Elements[e].Tags);
-                                if (!string.IsNullOrEmpty(newWay.Type))
+                        for (int n = 0; n < data.Elements[e].Nodes.Count; n++)
+                        {
+                            if ((double)data.Elements[e].Geometry[n].Lat < latHi &&
+                                (double)data.Elements[e].Geometry[n].Lat > latLo &&
+                                (double)data.Elements[e].Geometry[n].Lon < lngHi &&
+                                (double)data.Elements[e].Geometry[n].Lon > lngLo)
+                            {
+                                if (true)
                                 {
-                                    Map.AddWayAndNode(newWay, node);
-                                    Nodes.Add(node);
-                                    Ways.Add(newWay);
+                                    Node node = new Node((long)data.Elements[e].Nodes[n],
+                                        (double)data.Elements[e].Geometry[n].Lat,
+                                        (double)data.Elements[e].Geometry[n].Lon);
+                                    node.WayId = wayId;
+                                    node.SetProperties(data.Elements[e].Nodes);
+                                    Way newWay = new Way(wayId);
+
+                                    newWay.SetProperties(data.Elements[e].Nodes, data.Elements[e].Tags);
+                                    if (!string.IsNullOrEmpty(newWay.Type))
+                                    {
+                                        Map.AddWayAndNode(newWay, node);
+                                        Nodes.Add(node);
+                                        Ways.Add(newWay);
+                                    }
                                 }
                             }
                         }

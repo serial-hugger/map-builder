@@ -27,7 +27,7 @@ public class OSMController:ControllerBase, IOSMController
     public async Task<OSM?> GetDataFromBox(double latitudeLo, double longitudeLo, double latitudeHi, double longitudeHi)
     {
         string apiUrl = "https://overpass-api.de/api/interpreter";
-        string query = $"[out:json][maxsize:1073741824][timeout:900];way({latitudeLo},{longitudeLo},{latitudeHi},{longitudeHi});out geom;";
+        string query = $"[out:json][maxsize:1073741824][timeout:900];node({latitudeLo},{longitudeLo},{latitudeHi},{longitudeHi});<<;out geom;";
 
         using (var client = new HttpClient())
         {

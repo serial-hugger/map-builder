@@ -11,7 +11,7 @@ namespace MapBuilder.Shared.SerializationModels{
         [JsonProperty("osm3s")]
         public Osm3s Osm3s { get; set; }
         [JsonProperty("elements")]
-        public List<Elements> Elements { get; set; }
+        public List<Element> Elements { get; set; }
     }
 
 }
