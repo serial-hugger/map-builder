@@ -33,11 +33,12 @@ public partial class GetMap
     public async Task DrawMap()
     {
         TimeInfo = "";
-        Info = "Getting instructions...";
+        Info = "Getting data... (Takes the longest)";
         TimeStarted = DateTime.Now;
         _context = await MapCanvas.CreateCanvas2DAsync();
         string instructions = await _drawController.Instructions(Level,Lat,Lng);
-        Info = "Executing instructions...";
+        Info = "Drawing map...";
+        StateHasChanged();
         string[] commands = instructions.Split(';');
         await _context.SetFillStyleAsync("green");
         await _context.FillRectAsync(0, 0, 500, 500);
@@ -48,7 +49,7 @@ public partial class GetMap
             await DoCommand(splitted[0],splitted[1]);
         }
         TimeFinished = DateTime.Now;
-        TimeInfo = " Time: ("+(TimeFinished - TimeStarted).ToString()+")";
+        TimeInfo = " (Time: "+(TimeFinished - TimeStarted).ToString()+")";
         Info = "Finished!";
     }
     async Task DoCommand(string key, string value)
