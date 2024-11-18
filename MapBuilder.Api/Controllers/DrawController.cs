@@ -1,10 +1,9 @@
-using System.Drawing;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using Google.Common.Geometry;
 using MapBuilder.Data;
 using MapBuilder.Shared;
+using MapBuilder.Shared.SerializationModels;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace MapBuilder.Api.Controllers;
 
@@ -56,37 +55,74 @@ public class DrawController : ControllerBase, IDrawController
         instructions = AddInstructions(instructions,"center",$"{centerLat},{centerLng}");
         instructions = AddInstructions(instructions,"highs",$"{latHi},{lngHi}");
         instructions = AddInstructions(instructions,"lows",$"{latLo},{lngLo}");
-        foreach (Feature way in newWays)
+        string jsonFilepath = "Settings/settings.json";
+        string jsonContent = System.IO.File.ReadAllText(jsonFilepath);
+        Settings settingsJson = JsonConvert.DeserializeObject<Settings>(jsonContent);
+        int orders = 0;
+        foreach (var type in settingsJson.Types)
         {
-            instructions = AddInstructions(instructions,"type",way.Type);
-            instructions = AddInstructions(instructions,"filled",way.Filled.ToString());
-            instructions = AddInstructions(instructions,"closed",way.Closed.ToString());
-            List<FeaturePoint> nodes = new List<FeaturePoint>();
-            foreach (FeaturePoint node in newNodes)
+            if (type.Order>orders)
             {
-                if (node.WayId==way.WayId)
-                {
-                    nodes.Add(node);
-                }
-            }
-
-            var orderedNodes = nodes.OrderBy(n => n.PointOrder);
-
-            string nodeLocations = "";
-            foreach (FeaturePoint node in orderedNodes)
-            {
-                if (nodeLocations!="")
-                {
-                    nodeLocations += ",";
-                }
-                nodeLocations += $"{(((node.Lat-latLo)/latRange)-0.5f).ToString("N10")},{(((node.Lng-lngLo)/lngRange)-0.5f).ToString("N10")}";
-            }
-            if (nodes.Any())
-            {
-                instructions = AddInstructions(instructions,"points",nodeLocations);
+                orders = type.Order;
             }
         }
+
+        for (int order = 0; order <= orders; order++) {
+            foreach (Feature way in newWays)
+            {
+                if (GetOrderFromType(way.Type)==order)
+                {
+                    instructions = AddInstructions(instructions, "type", way.Type);
+                    instructions = AddInstructions(instructions, "filled", way.Filled.ToString());
+                    instructions = AddInstructions(instructions, "closed", way.Closed.ToString());
+                    List<FeaturePoint> nodes = new List<FeaturePoint>();
+                    foreach (FeaturePoint node in newNodes)
+                    {
+                        if (node.WayId == way.WayId)
+                        {
+                            nodes.Add(node);
+                        }
+                    }
+
+                    var orderedNodes = nodes.OrderBy(n => n.PointOrder);
+
+                    string nodeLocations = "";
+                    foreach (FeaturePoint node in orderedNodes)
+                    {
+                        if (nodeLocations != "")
+                        {
+                            nodeLocations += ",";
+                        }
+
+                        nodeLocations +=
+                            $"{(((node.Lat - latLo) / latRange) - 0.5f).ToString("N10")},{(((node.Lng - lngLo) / lngRange) - 0.5f).ToString("N10")}";
+                    }
+
+                    if (nodes.Any())
+                    {
+                        instructions = AddInstructions(instructions, "points", nodeLocations);
+                    }
+                }
+            }
+        }
+
         return instructions;
+    }
+
+    public int GetOrderFromType(string type)
+    {
+        string jsonFilepath = "Settings/settings.json";
+        string jsonContent = System.IO.File.ReadAllText(jsonFilepath);
+        Settings settingsJson = JsonConvert.DeserializeObject<Settings>(jsonContent);
+        foreach (var settingsType in settingsJson.Types)
+        {
+            if (settingsType.Name == type)
+            {
+                return settingsType.Order;
+            }
+        }
+
+        return -1;
     }
     public string AddInstructions(string currentInstructions,string key, string value)
     {

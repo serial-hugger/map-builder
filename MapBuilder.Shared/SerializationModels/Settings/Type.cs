@@ -4,6 +4,8 @@ namespace MapBuilder.Shared.SerializationModels{
 
     public class Type
     {
+        [JsonProperty("order")]
+        public int Order { get; set; }
         [JsonProperty("name")]
         public string Name { get; set; }
 
