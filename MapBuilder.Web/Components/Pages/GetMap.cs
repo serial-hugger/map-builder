@@ -136,6 +136,12 @@ public partial class GetMap
             _color = "red";
         }
     }
+
+    public void SetLatLon(double lat, double lng)
+    {
+        Lat = lat;
+        Lng = lng;
+    }
     
     private readonly DrawController _drawController;
     
