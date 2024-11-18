@@ -1,4 +1,5 @@
 using System.Drawing;
+using System.Timers;
 using Blazor.Extensions;
 using MapBuilder.Api.Controllers;
 using MapBuilder.Data;
@@ -6,6 +7,7 @@ using Microsoft.JSInterop;
 using Blazor.Extensions.Canvas;
 using Blazor.Extensions.Canvas.Canvas2D;
 using Microsoft.AspNetCore.Components;
+using Timer = System.Threading.Timer;
 
 
 namespace MapBuilder.Web.Components.Pages;
@@ -16,18 +18,25 @@ public partial class GetMap
     private Canvas2DContext _context;
     public double Lat = 37.570199;
     public double Lng = -83.710665;
+    public int Level = 13;
     private string _color = "green";
     private float _thickness = 0f;
     private bool _closed;
     private bool _filled;
 
+    public DateTime TimeStarted;
+    public DateTime TimeFinished;
+    public string TimeInfo;
+
     public string Info = "";
     
     public async Task DrawMap()
     {
+        TimeInfo = "";
         Info = "Getting instructions...";
+        TimeStarted = DateTime.Now;
         _context = await MapCanvas.CreateCanvas2DAsync();
-        string instructions = await _drawController.Instructions(Lat,Lng);
+        string instructions = await _drawController.Instructions(Level,Lat,Lng);
         Info = "Executing instructions...";
         string[] commands = instructions.Split(';');
         await _context.SetFillStyleAsync("green");
@@ -38,6 +47,8 @@ public partial class GetMap
 
             await DoCommand(splitted[0],splitted[1]);
         }
+        TimeFinished = DateTime.Now;
+        TimeInfo = " Time: ("+(TimeFinished - TimeStarted).ToString()+")";
         Info = "Finished!";
     }
     async Task DoCommand(string key, string value)
@@ -103,25 +114,25 @@ public partial class GetMap
         Console.WriteLine(type);
         if (type.Contains("water"))
         {
-            _thickness = 1f;
+            _thickness = 1f+(((float)Level-8f)/2f);
             _color = "blue";
         }else if (type.Contains("building"))
         {
-            _thickness = 1f;
+            _thickness = 1f+(((float)Level-8f)/2f);
             _color = "orange";
         }else if (type.Contains("road"))
         {
-            _thickness = 1f;
+            _thickness = 1f+(((float)Level-8f)/2f);
             _color = "black";
         }
         else if (type.Contains("path"))
         {
-            _thickness = 1f;
+            _thickness = 1f+(((float)Level-8f)/2f);
             _color = "gray";
         }
         else
         {
-            _thickness = 0.1f;
+            _thickness = 1f+(((float)Level-8f)/3f);
             _color = "red";
         }
     }

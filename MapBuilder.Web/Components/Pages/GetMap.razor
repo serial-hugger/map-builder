@@ -5,16 +5,20 @@
 @using Blazor.Extensions.Canvas.Canvas2D
 
 <h3>MapOverview</h3>
-<p>@Info</p>
 
-<BECanvas @ref="MapCanvas" Width="500" Height="500"/>
-<br/>
+<div class="slidecontainer">
+    <label for="level">Level :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(@Level)</label>
+    <input type="range" @bind="@Level" min="10" max="15" class="slider" id="level">
+    <p>Lower cell levels take longer to generate.</p>
+</div>
 <label for="lat">Latitude :&nbsp;&nbsp;&nbsp;</label>
 <input type="text" @bind="@Lat" id="lat" name="lat"><br><br>
 <label for="lng">Longitude :</label>
 <input type="text" @bind="@Lng" id="lng" name="lng"><br><br>
-<input type="submit" @onclick="DrawMap" value="Generate">
+<input type="submit" @onclick="@DrawMap" value="Generate">
+<br/>
+<p>@Info @TimeInfo</p>
+<BECanvas @ref="MapCanvas" Width="500" Height="500"/>
 
 @code {
-    
 }
