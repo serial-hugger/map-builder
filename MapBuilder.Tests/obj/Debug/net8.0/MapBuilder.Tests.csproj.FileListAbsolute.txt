@@ -162,3 +162,4 @@
 /home/jeremy/Documents/Projects/map-builder/MapBuilder.Tests/bin/Debug/net8.0/MapBuilder.Api.pdb
 /home/jeremy/Documents/Projects/map-builder/MapBuilder.Tests/bin/Debug/net8.0/MapBuilder.Data.pdb
 /home/jeremy/Documents/Projects/map-builder/MapBuilder.Tests/bin/Debug/net8.0/MapBuilder.Shared.pdb
+/home/jeremy/Documents/Projects/map-builder/MapBuilder.Tests/bin/Debug/net8.0/Settings/settings.json

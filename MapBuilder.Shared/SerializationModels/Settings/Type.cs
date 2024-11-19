@@ -1,5 +1,4 @@
 using Newtonsoft.Json; 
-using System.Collections.Generic; 
 namespace MapBuilder.Shared.SerializationModels{ 
 
     public class Type

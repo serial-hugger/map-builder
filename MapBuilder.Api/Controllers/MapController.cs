@@ -15,11 +15,11 @@ public class MapController : ControllerBase, IMapController
     private readonly OSMController _osmController;
     private readonly CellRepository _cellRepository;
     
-    [HttpGet("{action}/{latitude}/{longitude}")]
-    public async Task<string> GetMap(double latitude, double longitude)
+    [HttpGet("{action}/{level}/{latitude}/{longitude}")]
+    public async Task<string> GetMap(int level, double latitude, double longitude)
     {
         var coord = S2LatLng.FromDegrees(latitude, longitude);
-        var token = S2CellId.FromLatLng(coord).ParentForLevel(12).ToToken();
+        var token = S2CellId.FromLatLng(coord).ParentForLevel(level).ToToken();
         var bigCell = new S2Cell(S2CellId.FromToken(token));
         var cells = await _cellsController.GetCells(15,bigCell.RectBound.LatLo.Degrees,bigCell.RectBound.LngLo.Degrees,bigCell.RectBound.LatHi.Degrees,bigCell.RectBound.LngHi.Degrees);
         var map = new Map(_cellsController,_osmController,_cellRepository);

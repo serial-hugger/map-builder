@@ -1,13 +1,7 @@
-using System.Drawing;
-using System.Timers;
 using Blazor.Extensions;
 using MapBuilder.Api.Controllers;
-using MapBuilder.Data;
-using Microsoft.JSInterop;
 using Blazor.Extensions.Canvas;
 using Blazor.Extensions.Canvas.Canvas2D;
-using Microsoft.AspNetCore.Components;
-using Timer = System.Threading.Timer;
 
 
 namespace MapBuilder.Web.Components.Pages;
