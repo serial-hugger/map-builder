@@ -1,8 +1,17 @@
 @page "/getmap"
 @rendermode InteractiveServer
-@using Blazor.Extensions
 @using Blazor.Extensions.Canvas
-@using Blazor.Extensions.Canvas.Canvas2D
+
+<style>
+    #mapdata
+    {
+        width:500px;
+        height:100px;
+        overflow-x:hidden;
+        overflow-y:scroll;
+        word-wrap: break-word;
+    }
+</style>
 
 <h3>Get Map</h3>
 
@@ -30,6 +39,8 @@
 <p>@Info @ProgressInfo @TimeInfo</p>
 <div id = "map" hidden="@HidingMap">
     <BECanvas @ref="MapCanvas" Width="500" Height="500"/>
+    <p>Instructions used to draw the map:</p>
+    <div id="mapdata">@Instructions</div>
 </div>
 
 @code {

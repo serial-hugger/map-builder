@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "b43k5dBzIUW89AdMMnD0Ogui79TEgNgQjFa2FD1Ue1E=",
+  "Hash": "VzPrI+KSW/PAesJLoTMtz/ktzOsFGo66Lb9ROKOtpsA=",
   "Source": "MapBuilder.Web",
   "BasePath": "_content/MapBuilder.Web",
   "Mode": "Default",
@@ -141,6 +141,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/bootstrap/bootstrap.min.css.map"
+    },
+    {
+      "Identity": "/home/jeremy/Documents/Projects/map-builder/MapBuilder.Web/wwwroot/css/Style.css",
+      "SourceId": "MapBuilder.Web",
+      "SourceType": "Discovered",
+      "ContentRoot": "/home/jeremy/Documents/Projects/map-builder/MapBuilder.Web/wwwroot/",
+      "BasePath": "_content/MapBuilder.Web",
+      "RelativePath": "css/Style.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/css/Style.css"
     },
     {
       "Identity": "/home/jeremy/Documents/Projects/map-builder/MapBuilder.Web/wwwroot/favicon.png",

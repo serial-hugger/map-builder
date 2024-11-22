@@ -18,4 +18,8 @@
       <_ContentIncludedByDefault Remove="wwwroot\Javascript\MapDraw.js" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Include="wwwroot\css\Style.css" />
+    </ItemGroup>
+
 </Project>

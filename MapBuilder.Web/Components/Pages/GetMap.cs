@@ -30,6 +30,8 @@ public partial class GetMap
     public bool HidingMap = true;
     
     public int completed = 0;
+
+    public string Instructions = "";
     
     public async Task DrawMap()
     {
@@ -43,11 +45,11 @@ public partial class GetMap
         StateHasChanged();
         TimeStarted = DateTime.Now;
         _context = await MapCanvas.CreateCanvas2DAsync();
-        string instructions = await _drawController.Instructions(Level,Lat,Lng, Completion);
+        Instructions = await _drawController.Instructions(Level,Lat,Lng, Completion);
         Info = "Drawing map...";
         HidingMap = false;
         StateHasChanged();
-        string[] commands = instructions.Split(';');
+        string[] commands = Instructions.Split(';');
         await _context.SetFillStyleAsync("green");
         await _context.FillRectAsync(0, 0, 500, 500);
         foreach (string command in commands)
@@ -130,6 +132,7 @@ public partial class GetMap
         ProgressInfo = "";
         Info = "";
         TimeInfo = "";
+        Instructions = "";
         StateHasChanged();
     }
     public void SetColorAndThicknessFromType(string type)
