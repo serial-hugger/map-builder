@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MapBuilder.Data.Migrations
 {
     [DbContext(typeof(CellContext))]
-    [Migration("20241121224614_InitialCreate")]
+    [Migration("20241122160240_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

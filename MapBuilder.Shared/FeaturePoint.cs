@@ -40,25 +40,31 @@ public class FeaturePoint
         this.PointOrder = pointOrder;
     }
 
-    public void SetProperties(List<long> nodeIds)
+    public void SetProperties(List<long> nodeIds, bool isFirst)
     {
         for(int i = 0; i < nodeIds.Count(); i++)
         {
             if ((long)nodeIds[i]==PointId)
             {
-                PointOrder = i;
-                return;
+                if (i>0||isFirst)
+                {
+                    PointOrder = i;
+                    return;
+                }
             }
         }
     }
-    public void SetProperties(List<Geometry> geometries)
+    public void SetProperties(List<Geometry> geometries, bool isFirst)
     {
         for(int i = 0; i < geometries.Count; i++)
         {
             if (geometries[i].Lat.ToString()==Lat.ToString() && geometries[i].Lon.ToString()==Lng.ToString())
             {
-                PointOrder = i;
-                return;
+                if (i > 0 || isFirst)
+                {
+                    PointOrder = i;
+                    return;
+                }
             }
         }
     }

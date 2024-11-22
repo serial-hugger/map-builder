@@ -22,13 +22,13 @@ public class Map
         _cellRepository = cellRepository;
     }
 
-    public async Task BuildMap(List<S2CellId> cellIds, Func<int,int,string>? completion)
+    public async Task BuildMap(List<S2CellId> cellIds, Func<int,string>? completion)
     {
         string jsonFilepath = "Settings/settings.json";
         string jsonContent = File.ReadAllText(jsonFilepath);
         Settings settingsJson = JsonConvert.DeserializeObject<Settings>(jsonContent);
         int generationVersion = (int)settingsJson.GenerationVersion;
-        int completed = 0;
+        
         foreach (S2CellId cellId in cellIds)
         {
             Cell? repoCell = await _cellRepository.GetCellByTokenAsync(cellId.ToToken());
@@ -38,7 +38,7 @@ public class Map
                 cell.GenerationVersion = generationVersion;
                 cell.GenerationTime = DateTime.Now.ToUniversalTime();
                 cell.CellToken = cellId.ToToken();
-                await cell.GetPoints();
+                await cell.GetPoints(completion,cellIds.Count);
                 Cells.Add(cell);
                 await _cellRepository.AddCell(cell);
             }
@@ -51,7 +51,7 @@ public class Map
                 repoCell.MyCell = new S2Cell(S2CellId.FromToken(cellId.ToToken()));
                 repoCell.GenerationVersion = generationVersion;
                 repoCell.GenerationTime = DateTime.Now.ToUniversalTime();
-                await repoCell.GetPoints();
+                await repoCell.GetPoints(completion,cellIds.Count);
                 Cells.Add(repoCell);
                 await _cellRepository.UpdateCell(repoCell);
             }
@@ -62,15 +62,14 @@ public class Map
                 {
                     Ways.Add(way);
                 }
-            }
 
-            completed++;
-            completion(completed, cellIds.Count);
+                completion(cellIds.Count);
+            }
         }
     }
     public void AddWayAndNode(Feature newFeature, FeaturePoint newFeaturePoint)
     {
-        Feature foundFeature = null;
+        Feature? foundFeature = null;
         foreach (Feature way in Ways)
         {
             if (way.WayId == newFeature.WayId)

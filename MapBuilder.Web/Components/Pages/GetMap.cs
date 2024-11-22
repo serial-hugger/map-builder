@@ -2,6 +2,7 @@ using Blazor.Extensions;
 using Blazor.Extensions.Canvas;
 using Blazor.Extensions.Canvas.Canvas2D;
 using MapBuilder.Api.Controllers;
+using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 
 namespace MapBuilder.Web.Components.Pages;
 
@@ -24,19 +25,27 @@ public partial class GetMap
     public string Info = "";
     public string ProgressInfo = "";
 
-    public bool ShowingGenerationSettings = false;
-    public bool ShowingRegenerateButton = false;
+    public bool HidingGenerationSettings = false;
+    public bool HidingRegenerateButton = true;
+    public bool HidingMap = true;
+    
+    public int completed = 0;
     
     public async Task DrawMap()
     {
-        
+        completed = 0;
+        HidingGenerationSettings = true;
+        HidingRegenerateButton = true;
+        HidingMap = true;
         TimeInfo = ""; 
         ProgressInfo = "";
         Info = "Getting data... (Takes the longest)";
+        StateHasChanged();
         TimeStarted = DateTime.Now;
         _context = await MapCanvas.CreateCanvas2DAsync();
         string instructions = await _drawController.Instructions(Level,Lat,Lng, Completion);
         Info = "Drawing map...";
+        HidingMap = false;
         StateHasChanged();
         string[] commands = instructions.Split(';');
         await _context.SetFillStyleAsync("green");
@@ -50,6 +59,9 @@ public partial class GetMap
         TimeFinished = DateTime.Now;
         TimeInfo = " (Time: "+(TimeFinished - TimeStarted)+")";
         Info = "Finished!";
+        HidingGenerationSettings = true;
+        HidingRegenerateButton = false;
+        StateHasChanged();
     }
     async Task DoCommand(string key, string value)
     {
@@ -109,6 +121,17 @@ public partial class GetMap
             }
         }
     }
+
+    public void Regenerate()
+    {
+        HidingGenerationSettings = false;
+        HidingRegenerateButton = true;
+        HidingMap = true;
+        ProgressInfo = "";
+        Info = "";
+        TimeInfo = "";
+        StateHasChanged();
+    }
     public void SetColorAndThicknessFromType(string type)
     {
         Console.WriteLine(type);
@@ -143,8 +166,9 @@ public partial class GetMap
         Lng = lng;
     }
 
-    public string Completion(int completed, int total)
+    public string Completion(int total)
     {
+        completed++;
         ProgressInfo = $"Progress: {completed}/{total}";
         StateHasChanged();
         return ProgressInfo;

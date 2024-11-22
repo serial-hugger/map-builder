@@ -16,7 +16,7 @@ public class DrawController : ControllerBase, IDrawController
     private readonly CellRepository _cellRepository;
     
     [HttpGet("{action}/{level}/{latitude}/{longitude}")]
-    public async Task<string> Instructions(int level, double latitude, double longitude, Func<int,int,string>? completion)
+    public async Task<string> Instructions(int level, double latitude, double longitude, Func<int,string>? completion)
     {
         var coord = S2LatLng.FromDegrees(latitude, longitude);
         var token = S2CellId.FromLatLng(coord).ParentForLevel(level).ToToken();

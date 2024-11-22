@@ -4,9 +4,9 @@
 @using Blazor.Extensions.Canvas
 @using Blazor.Extensions.Canvas.Canvas2D
 
-<h3>MapOverview</h3>
+<h3>Get Map</h3>
 
-<div id="generationsettings">
+<div id="generationsettings" hidden="@HidingGenerationSettings">
     <div class="slidecontainer">
         <label for="level">Level :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(@Level)</label>
         <input type="range" @bind-value:event="oninput" @bind-value="Level" min="10" max="15" class="slider" id="level">
@@ -24,10 +24,13 @@
     <input type="text" @bind="@Lng" id="lng" name="lng"><br><br>
     <input type="submit" @onclick="@DrawMap" value="Generate"><br><br>
 </div>
-<div id="regeneratebutton">
+<div id="regeneratebutton" hidden="@HidingRegenerateButton">
+    <input type="submit" @onclick="@Regenerate" value="Regenerate" hidden="@HidingRegenerateButton"><br><br>
 </div>
 <p>@Info @ProgressInfo @TimeInfo</p>
-<BECanvas @ref="MapCanvas" Width="500" Height="500"/>
+<div id = "map" hidden="@HidingMap">
+    <BECanvas @ref="MapCanvas" Width="500" Height="500"/>
+</div>
 
 @code {
 }
