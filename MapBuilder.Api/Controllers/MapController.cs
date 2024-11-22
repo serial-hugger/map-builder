@@ -23,7 +23,7 @@ public class MapController : ControllerBase, IMapController
         var bigCell = new S2Cell(S2CellId.FromToken(token));
         var cells = await _cellsController.GetCells(15,bigCell.RectBound.LatLo.Degrees,bigCell.RectBound.LngLo.Degrees,bigCell.RectBound.LatHi.Degrees,bigCell.RectBound.LngHi.Degrees);
         var map = new Map(_cellsController,_osmController,_cellRepository);
-        await map.BuildMap(cells);
+        await map.BuildMap(cells,null);
         List<Cell> newCells = new List<Cell>();
         List<Feature> newWays = new List<Feature>();
         List<FeaturePoint> newNodes = new List<FeaturePoint>();

@@ -22,12 +22,13 @@ public class Map
         _cellRepository = cellRepository;
     }
 
-    public async Task BuildMap(List<S2CellId> cellIds)
+    public async Task BuildMap(List<S2CellId> cellIds, Func<int,int,string>? completion)
     {
         string jsonFilepath = "Settings/settings.json";
         string jsonContent = File.ReadAllText(jsonFilepath);
         Settings settingsJson = JsonConvert.DeserializeObject<Settings>(jsonContent);
         int generationVersion = (int)settingsJson.GenerationVersion;
+        int completed = 0;
         foreach (S2CellId cellId in cellIds)
         {
             Cell? repoCell = await _cellRepository.GetCellByTokenAsync(cellId.ToToken());
@@ -62,6 +63,9 @@ public class Map
                     Ways.Add(way);
                 }
             }
+
+            completed++;
+            completion(completed, cellIds.Count);
         }
     }
     public void AddWayAndNode(Feature newFeature, FeaturePoint newFeaturePoint)

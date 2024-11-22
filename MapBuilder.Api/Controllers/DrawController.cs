@@ -16,14 +16,14 @@ public class DrawController : ControllerBase, IDrawController
     private readonly CellRepository _cellRepository;
     
     [HttpGet("{action}/{level}/{latitude}/{longitude}")]
-    public async Task<string> Instructions(int level, double latitude, double longitude)
+    public async Task<string> Instructions(int level, double latitude, double longitude, Func<int,int,string>? completion)
     {
         var coord = S2LatLng.FromDegrees(latitude, longitude);
         var token = S2CellId.FromLatLng(coord).ParentForLevel(level).ToToken();
         var bigCell = new S2Cell(S2CellId.FromToken(token));
         var cells = await _cellsController.GetCells(15,bigCell.RectBound.LatLo.Degrees,bigCell.RectBound.LngLo.Degrees,bigCell.RectBound.LatHi.Degrees,bigCell.RectBound.LngHi.Degrees);
         var map = new Map(_cellsController,_osmController,_cellRepository);
-        await map.BuildMap(cells);
+        await map.BuildMap(cells, completion);
         List<Cell> newCells = new List<Cell>();
         List<Feature> newWays = new List<Feature>();
         List<FeaturePoint> newNodes = new List<FeaturePoint>();

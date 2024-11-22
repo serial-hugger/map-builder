@@ -6,23 +6,27 @@
 
 <h3>MapOverview</h3>
 
-<div class="slidecontainer">
-    <label for="level">Level :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(@Level)</label>
-    <input type="range" @bind="@Level" min="10" max="15" class="slider" id="level">
-    <p>Lower cell levels take longer to generate.</p>
+<div id="generationsettings">
+    <div class="slidecontainer">
+        <label for="level">Level :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(@Level)</label>
+        <input type="range" @bind-value:event="oninput" @bind-value="Level" min="10" max="15" class="slider" id="level">
+        <p>Lower cell levels take longer to generate.</p>
+    </div>
+    <div>
+        <button @onclick="() => SetLatLon(37.570199, -83.710665)">Beattyville</button>
+        <button @onclick="() => SetLatLon(38.244730097328315, -85.76343147899094)">Louisville</button>
+        <button @onclick="() => SetLatLon(39.10176167904405, -94.58163683394731)">Kansas City</button>
+        <button @onclick="() => SetLatLon(36.16382469155207, -86.78154699261148)">Nashville</button>
+    </div><br>
+    <label for="lat">Latitude :&nbsp;&nbsp;&nbsp;</label>
+    <input type="text" @bind="@Lat" id="lat" name="lat"><br><br>
+    <label for="lng">Longitude :</label>
+    <input type="text" @bind="@Lng" id="lng" name="lng"><br><br>
+    <input type="submit" @onclick="@DrawMap" value="Generate"><br><br>
 </div>
-<div>
-    <button @onclick="() => SetLatLon(37.570199, -83.710665)">Beattyville</button>
-    <button @onclick="() => SetLatLon(38.244730097328315, -85.76343147899094)">Louisville</button>
-    <button @onclick="() => SetLatLon(39.10176167904405, -94.58163683394731)">Kansas City</button>
-    <button @onclick="() => SetLatLon(36.16382469155207, -86.78154699261148)">Nashville</button>
-</div><br>
-<label for="lat">Latitude :&nbsp;&nbsp;&nbsp;</label>
-<input type="text" @bind="@Lat" id="lat" name="lat"><br><br>
-<label for="lng">Longitude :</label>
-<input type="text" @bind="@Lng" id="lng" name="lng"><br><br>
-<input type="submit" @onclick="@DrawMap" value="Generate"><br><br>
-<p>@Info @TimeInfo</p>
+<div id="regeneratebutton">
+</div>
+<p>@Info @ProgressInfo @TimeInfo</p>
 <BECanvas @ref="MapCanvas" Width="500" Height="500"/>
 
 @code {
