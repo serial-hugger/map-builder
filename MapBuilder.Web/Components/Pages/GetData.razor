@@ -1,9 +1,9 @@
-@page "/getmap"
+@page "/getdata"
 @rendermode InteractiveServer
 @using Blazor.Extensions.Canvas
 
 <style>
-    #mapdata
+    #jsondata
     {
         width:800px;
         height:250px;
@@ -13,7 +13,7 @@
     }
 </style>
 
-<h3>Get Map</h3>
+<h3>Get JSON</h3>
 
 <div id="generationsettings" hidden="@_hidingGenerationSettings">
     <div class="slidecontainer">
@@ -31,17 +31,17 @@
     <input type="text" @bind="@_lat" id="lat" name="lat"><br><br>
     <label for="lng">Longitude :</label>
     <input type="text" @bind="@_lng" id="lng" name="lng"><br><br>
-    <input type="submit" @onclick="@DrawMap" value="Generate"><br><br>
+    <input type="submit" @onclick="@RetrieveData" value="Generate"><br><br>
 </div>
 <div id="regeneratebutton" hidden="@_hidingRegenerateButton">
     <input type="submit" @onclick="@Regenerate" value="Regenerate" hidden="@_hidingRegenerateButton"><br><br>
 </div>
 <p>@_info @_progressInfo @_timeInfo</p>
-<div id = "map" hidden="@_hidingMap">
-    <BECanvas @ref="_mapCanvas" Width="500" Height="500"/>
-    <h5>Instructions used to draw the map:</h5>
-    <div id="mapdata">@_instructions</div>
+<div id = "json" hidden="@_hidingMap">
+    <p>JSON data:</p>
+    <div id="jsondata">@_data</div>
+    <BECanvas @ref="_mapCanvas" Width="0" Height="0"/>
 </div>
-
 @code {
+    
 }

@@ -62,8 +62,8 @@ public class Map
                 {
                     Ways.Add(way);
                 }
-
-                completion(cellIds.Count);
+                
+                completion?.Invoke(cellIds.Count);
             }
         }
     }

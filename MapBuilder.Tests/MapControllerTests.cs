@@ -17,7 +17,7 @@ public class MapControllerTests
     [TestMethod]
     public void GetMapTest()
     {
-        var result = _mapController.GetMap(15,37.57240563371417,-83.71679868454393).Result;
+        var result = _mapController.GetMap(15,37.57240563371417,-83.71679868454393,null).Result;
         Assert.IsTrue(result.Contains("\"WayId\":477552687,\"TotalPoints\":9,\"Type\":\"building\""));
     }
 }

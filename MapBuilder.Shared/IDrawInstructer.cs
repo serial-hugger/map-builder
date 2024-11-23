@@ -1,6 +1,6 @@
 namespace MapBuilder.Shared;
 
-public interface IDrawController
+public interface IDrawInstructer
 {
     
 }

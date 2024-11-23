@@ -2,20 +2,14 @@ using Google.Common.Geometry;
 using MapBuilder.Data;
 using MapBuilder.Shared;
 using MapBuilder.Shared.SerializationModels;
-using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace MapBuilder.Api.Controllers;
-
-[ApiController]
-[Route("{controller}")]
-public class DrawController : ControllerBase, IDrawController
+public class DrawInstructer : IDrawInstructer
 {
     private readonly CellsController _cellsController;
     private readonly OSMController _osmController;
     private readonly CellRepository _cellRepository;
-    
-    [HttpGet("{action}/{level}/{latitude}/{longitude}")]
     public async Task<string> Instructions(int level, double latitude, double longitude, Func<int,string>? completion)
     {
         var coord = S2LatLng.FromDegrees(latitude, longitude);
@@ -133,7 +127,7 @@ public class DrawController : ControllerBase, IDrawController
         currentInstructions += key+":"+value;
         return currentInstructions;
     }
-    public DrawController()
+    public DrawInstructer()
     {
         _cellsController = new CellsController();
         _osmController = new OSMController();

@@ -8,48 +8,49 @@ namespace MapBuilder.Web.Components.Pages;
 
 public partial class GetMap
 {
-    public BECanvas MapCanvas;
+    private BECanvas _mapCanvas;
     private Canvas2DContext _context;
-    public double Lat = 37.570199;
-    public double Lng = -83.710665;
-    public int Level = 13;
+    private double _lat = 37.570199;
+    private double _lng = -83.710665;
+    private int _level = 13;
     private string _color = "green";
     private float _thickness;
     private bool _closed;
     private bool _filled;
-    
-    public DateTime TimeStarted;
-    public DateTime TimeFinished;
-    public string TimeInfo;
 
-    public string Info = "";
-    public string ProgressInfo = "";
+    private DateTime _timeStarted;
+    private DateTime _timeFinished;
+    private string _timeInfo;
 
-    public bool HidingGenerationSettings = false;
-    public bool HidingRegenerateButton = true;
-    public bool HidingMap = true;
-    
-    public int completed = 0;
+    private string _info = "";
+    private string _progressInfo = "";
 
-    public string Instructions = "";
+    private bool _hidingGenerationSettings = false;
+    private bool _hidingRegenerateButton = true;
+    private bool _hidingMap = true;
+
+    private int _completed = 0;
+
+    private string _instructions = "";
     
     public async Task DrawMap()
     {
-        completed = 0;
-        HidingGenerationSettings = true;
-        HidingRegenerateButton = true;
-        HidingMap = true;
-        TimeInfo = ""; 
-        ProgressInfo = "";
-        Info = "Getting data... (Takes the longest)";
+        DrawInstructer drawInstructer = new DrawInstructer();
+        _completed = 0;
+        _hidingGenerationSettings = true;
+        _hidingRegenerateButton = true;
+        _hidingMap = true;
+        _timeInfo = ""; 
+        _progressInfo = "";
+        _info = "Getting data... (Takes the longest)";
         StateHasChanged();
-        TimeStarted = DateTime.Now;
-        _context = await MapCanvas.CreateCanvas2DAsync();
-        Instructions = await _drawController.Instructions(Level,Lat,Lng, Completion);
-        Info = "Drawing map...";
-        HidingMap = false;
+        _timeStarted = DateTime.Now;
+        _context = await _mapCanvas.CreateCanvas2DAsync();
+        _instructions = await drawInstructer.Instructions(_level,_lat,_lng, Completion);
+        _info = "Drawing map...";
+        _hidingMap = false;
         StateHasChanged();
-        string[] commands = Instructions.Split(';');
+        string[] commands = _instructions.Split(';');
         await _context.SetFillStyleAsync("green");
         await _context.FillRectAsync(0, 0, 500, 500);
         foreach (string command in commands)
@@ -58,11 +59,11 @@ public partial class GetMap
 
             await DoCommand(splitted[0],splitted[1]);
         }
-        TimeFinished = DateTime.Now;
-        TimeInfo = " (Time: "+(TimeFinished - TimeStarted)+")";
-        Info = "Finished!";
-        HidingGenerationSettings = true;
-        HidingRegenerateButton = false;
+        _timeFinished = DateTime.Now;
+        _timeInfo = " (Time: "+(_timeFinished - _timeStarted)+")";
+        _info = "Finished!";
+        _hidingGenerationSettings = true;
+        _hidingRegenerateButton = false;
         StateHasChanged();
     }
     async Task DoCommand(string key, string value)
@@ -126,13 +127,13 @@ public partial class GetMap
 
     public void Regenerate()
     {
-        HidingGenerationSettings = false;
-        HidingRegenerateButton = true;
-        HidingMap = true;
-        ProgressInfo = "";
-        Info = "";
-        TimeInfo = "";
-        Instructions = "";
+        _hidingGenerationSettings = false;
+        _hidingRegenerateButton = true;
+        _hidingMap = true;
+        _progressInfo = "";
+        _info = "";
+        _timeInfo = "";
+        _instructions = "";
         StateHasChanged();
     }
     public void SetColorAndThicknessFromType(string type)
@@ -140,47 +141,40 @@ public partial class GetMap
         Console.WriteLine(type);
         if (type.Contains("water"))
         {
-            _thickness = 1f+((Level-8f)/2f);
+            _thickness = 1f+((_level-8f)/2f);
             _color = "blue";
         }else if (type.Contains("building"))
         {
-            _thickness = 1f+((Level-8f)/2f);
+            _thickness = 1f+((_level-8f)/2f);
             _color = "orange";
         }else if (type.Contains("road"))
         {
-            _thickness = 1f+((Level-8f)/2f);
+            _thickness = 1f+((_level-8f)/2f);
             _color = "black";
         }
         else if (type.Contains("path"))
         {
-            _thickness = 1f+((Level-8f)/2f);
+            _thickness = 1f+((_level-8f)/2f);
             _color = "gray";
         }
         else
         {
-            _thickness = 1f+((Level-8f)/3f);
+            _thickness = 1f+((_level-8f)/3f);
             _color = "red";
         }
     }
 
     public void SetLatLon(double lat, double lng)
     {
-        Lat = lat;
-        Lng = lng;
+        _lat = lat;
+        _lng = lng;
     }
 
     public string Completion(int total)
     {
-        completed++;
-        ProgressInfo = $"Progress: {completed}/{total}";
+        _completed++;
+        _progressInfo = $"Progress: {_completed}/{total}";
         StateHasChanged();
-        return ProgressInfo;
-    }
-    
-    private readonly DrawController _drawController;
-    
-    public GetMap()
-    {
-        _drawController = new DrawController();
+        return _progressInfo;
     }
 }

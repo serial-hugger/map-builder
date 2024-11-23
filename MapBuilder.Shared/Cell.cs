@@ -154,15 +154,11 @@ public class Cell
                             }
                         }
                     }
-
-                    
-
-
                 }
             }
         }
 
-        completion(totalCells);
+        completion?.Invoke(totalCells);
     }
     public string GetInfo()
     {
