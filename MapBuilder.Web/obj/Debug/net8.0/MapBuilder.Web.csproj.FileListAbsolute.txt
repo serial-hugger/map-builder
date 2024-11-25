@@ -87,3 +87,4 @@
 /home/jeremy/Documents/Projects/map-builder/MapBuilder.Web/bin/Debug/net8.0/Blazor.Extensions.Canvas.dll
 /home/jeremy/Documents/Projects/map-builder/MapBuilder.Web/bin/Debug/net8.0/Settings/featuresettings.json
 /home/jeremy/Documents/Projects/map-builder/MapBuilder.Web/bin/Debug/net8.0/Settings/drawsettings.json
+/home/jeremy/Documents/Projects/map-builder/MapBuilder.Web/obj/Debug/net8.0/scopedcss/Components/Layout/NavMenu.razor.rz.scp.css

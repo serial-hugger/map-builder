@@ -2,7 +2,9 @@ using Blazor.Extensions;
 using Blazor.Extensions.Canvas;
 using Blazor.Extensions.Canvas.Canvas2D;
 using MapBuilder.Api.Controllers;
+using MapBuilder.Web.Components.Layout;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 
 namespace MapBuilder.Web.Components;
 
@@ -43,8 +45,13 @@ public partial class Generation
 
     public CancellationTokenSource cts;
     
+    [CascadingParameter]
+    protected EventCallback<bool> ChangeHidingNavMenuEvent { get; set; }
+    
     public async Task DoAction()
     {
+        await JSRuntime.InvokeVoidAsync("setNavMenuHidden",true);
+        await ChangeHidingNavMenuEvent.InvokeAsync(true);
         cts = new CancellationTokenSource();
         _hidingCancelButton = false;
         _completed = 0;
@@ -80,6 +87,8 @@ public partial class Generation
             }
         }
         _hidingCancelButton = true;
+        await JSRuntime.InvokeVoidAsync("setNavMenuHidden", false);
+        StateHasChanged();
     }
     
     public async Task RetrieveData(CancellationToken ct)
@@ -244,5 +253,4 @@ public partial class Generation
         StateHasChanged();
         return _progressInfo;
     }
-    
 }

@@ -1,11 +1,10 @@
 ﻿@inherits LayoutComponentBase
 
-
 <div class="page">
-    <div class="sidenav">
+    <div class="sidenav" id = "navmenu" hidden = "@false">
         <a type="button" href="/" class="button"><i class="bi bi-house px-3" aria-hidden="true"></i>Home</a>
         <br>
-        <a type="button" href="/getmap" class="button"><i class="bi bi-map-fill px-3" aria-hidden="true"></i>Get Map</a>
+        <a type="button" href="/getmap" class="button"><i class="bi bi-map px-3" aria-hidden="true"></i>Get Map</a>
         <br>
         <a type="button" href="/getdata" class="button"><i class="bi bi-filetype-json px-3" aria-hidden="true"></i>Get JSON</a>
         <br>
@@ -25,8 +24,6 @@
     <a href="" class="reload">Reload</a>
     <a class="dismiss">🗙</a>
 </div>
-@code{
 
-    [Parameter] public bool HidingNavMenu { get; set; }
-    
+@code{
 }

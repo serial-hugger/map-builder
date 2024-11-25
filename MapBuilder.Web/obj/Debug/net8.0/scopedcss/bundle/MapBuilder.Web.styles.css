@@ -57,3 +57,15 @@ main[b-jg09364ed8] {
     right: 0.75rem;
     top: 0.5rem;
 }
+/* _content/MapBuilder.Web/Components/Layout/NavMenu.razor.rz.scp.css */
+.page[b-mw2mbn4abp] {
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+main[b-mw2mbn4abp] {
+    flex: 1;
+}
