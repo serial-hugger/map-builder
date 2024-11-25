@@ -1,6 +1,6 @@
 ﻿<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">MapBuilder.Web</a>
+        <a class="navbar-brand" href="">Map Builder</a>
     </div>
 </div>
 
@@ -9,21 +9,23 @@
 <div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
     <nav class="flex-column">
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+            <NavLink class="nav-link" href="/" Match="NavLinkMatch.All">
                 <h5 class="bi bi-house-door-fill px-3" aria-hidden="true"></h5> Home
             </NavLink>
         </div>
 
         <div class="nav-item px-3">
-        <NavLink class="nav-link" href="getmap">
-            <h5 class="bi bi-map-fill px-3" aria-hidden="true"></h5> Get Map
-        </NavLink>
+            <NavLink class="nav-link" href="/getmap">
+                <h5 class="bi bi-map-fill px-3" aria-hidden="true"></h5> Get Map
+            </NavLink>
         </div>
 
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="getdata">
+            <NavLink class="nav-link" href="/getdata">
                 <h5 class="bi bi-filetype-json px-3" aria-hidden="true"></h5> Get JSON
             </NavLink>
         </div>
     </nav>
 </div>
+@code{
+}

@@ -78,7 +78,7 @@ public class Feature
     }
     public void SetProperties(List<Geometry> geometries, Dictionary<string,string>? tags)
     {
-        string jsonFilepath = "Settings/settings.json";
+        string jsonFilepath = "Settings/featuresettings.json";
         string jsonContent = File.ReadAllText(jsonFilepath);
         Settings settingsJson = JsonConvert.DeserializeObject<Settings>(jsonContent);
         int generationVersion = (int)settingsJson.GenerationVersion;

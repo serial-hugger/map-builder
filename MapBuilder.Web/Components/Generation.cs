@@ -2,12 +2,16 @@ using Blazor.Extensions;
 using Blazor.Extensions.Canvas;
 using Blazor.Extensions.Canvas.Canvas2D;
 using MapBuilder.Api.Controllers;
-using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
+using MapBuilder.Web.Components.Layout;
+using Microsoft.AspNetCore.Components;
 
-namespace MapBuilder.Web.Components.Pages;
+namespace MapBuilder.Web.Components;
 
-public partial class GetMap
+public partial class Generation
 {
+    [Parameter] 
+    public string Type { get; set; }
+
     private BECanvas _mapCanvas;
     private Canvas2DContext _context;
     private double _lat = 37.570199;
@@ -27,30 +31,91 @@ public partial class GetMap
 
     private bool _hidingGenerationSettings = false;
     private bool _hidingRegenerateButton = true;
-    private bool _hidingMap = true;
+    private bool _hidingData = true;
+    private bool _hidingCanvas = true;
+    private bool _hidingCancelButton = true;
+    private string _cancelText = "Cancel";
+    private bool _disablingCancelButton;
 
     private int _completed = 0;
 
-    private string _instructions = "";
+    private string _dataDescription = "";
+    private string _data = "";
+
+    public CancellationTokenSource cts;
     
-    public async Task DrawMap()
+    public async Task DoAction()
     {
-        DrawInstructer drawInstructer = new DrawInstructer();
+        cts = new CancellationTokenSource();
+        _hidingCancelButton = false;
         _completed = 0;
         _hidingGenerationSettings = true;
         _hidingRegenerateButton = true;
-        _hidingMap = true;
+        _hidingData = true;
         _timeInfo = ""; 
         _progressInfo = "";
         _info = "Getting data... (Takes the longest)";
         StateHasChanged();
         _timeStarted = DateTime.Now;
         _context = await _mapCanvas.CreateCanvas2DAsync();
-        _instructions = await drawInstructer.Instructions(_level,_lat,_lng, Completion);
-        _info = "Drawing map...";
-        _hidingMap = false;
+        if (Type == "map")
+        {
+            try
+            {
+                await DrawMap(cts.Token);
+            }
+            catch
+            {
+                Console.WriteLine("Cancelled");
+            }
+        }
+        if (Type == "json")
+        {
+            try
+            {
+                await RetrieveData(cts.Token);
+            }
+            catch
+            {
+                Console.WriteLine("Cancelled");
+            }
+        }
+        _hidingCancelButton = true;
+    }
+    
+    public async Task RetrieveData(CancellationToken ct)
+    {
+        _hidingCanvas = true;
+        MapController _mapController = new MapController();
+        _data = await _mapController.GetMap(_level,_lat,_lng, Completion,cts.Token);
+        _dataDescription = "JSON data:";
+        _hidingData = false;
+        _timeFinished = DateTime.Now;
+        _timeInfo = " (Time: "+(_timeFinished - _timeStarted)+")";
+        _info = "Finished!";
+        _hidingGenerationSettings = true;
+        _hidingRegenerateButton = false;
         StateHasChanged();
-        string[] commands = _instructions.Split(';');
+    }
+
+    public async Task CancelAction()
+    {
+        _cancelText = "Canceling...";
+        _disablingCancelButton = true;
+        StateHasChanged();
+        await cts.CancelAsync();
+        Regenerate();
+    }
+    public async Task DrawMap(CancellationToken ct)
+    {
+        _hidingCanvas = false;
+        DrawInstructer drawInstructer = new DrawInstructer();
+        _data = await drawInstructer.Instructions(_level,_lat,_lng, Completion, cts.Token);
+        _dataDescription = "Instructions used to draw the map:";
+        _info = "Drawing map...";
+        _hidingData = false;
+        StateHasChanged();
+        string[] commands = _data.Split(';');
         await _context.SetFillStyleAsync("green");
         await _context.FillRectAsync(0, 0, 500, 500);
         foreach (string command in commands)
@@ -129,11 +194,14 @@ public partial class GetMap
     {
         _hidingGenerationSettings = false;
         _hidingRegenerateButton = true;
-        _hidingMap = true;
+        _hidingData = true;
         _progressInfo = "";
         _info = "";
         _timeInfo = "";
-        _instructions = "";
+        _data = "";
+        _dataDescription = "";
+        _cancelText = "Cancel";
+        _disablingCancelButton = false;
         StateHasChanged();
     }
     public void SetColorAndThicknessFromType(string type)
@@ -177,4 +245,5 @@ public partial class GetMap
         StateHasChanged();
         return _progressInfo;
     }
+    
 }

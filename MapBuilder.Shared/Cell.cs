@@ -41,13 +41,14 @@ public class Cell
         CellToken = cellToken;
     }
 
-    public async Task GetPoints(Func<int,string>? completion,int totalCells)
+    public async Task GetPoints(Func<int,string>? completion,int totalCells, CancellationToken ct)
     {
         Ways.Clear();
         Nodes.Clear();
         if (OsmController != null)
         {
-            OSM data = await OsmController.GetDataFromBox(MyCell.RectBound.LatLo.Degrees,MyCell.RectBound.LngLo.Degrees,MyCell.RectBound.LatHi.Degrees,MyCell.RectBound.LngHi.Degrees);
+            OSM? data = await OsmController.GetDataFromBox(MyCell.RectBound.LatLo.Degrees,
+                    MyCell.RectBound.LngLo.Degrees, MyCell.RectBound.LatHi.Degrees, MyCell.RectBound.LngHi.Degrees, ct);
             double latLo = MyCell.RectBound.LatLo.Degrees;
             double lngLo = MyCell.RectBound.LngLo.Degrees;
             double latHi = MyCell.RectBound.LatHi.Degrees;
@@ -56,6 +57,7 @@ public class Cell
             {
                 for (int e = 0; e < data.Elements.Count; e++)
                 {
+                    ct.ThrowIfCancellationRequested();
                     long id = 0;
                     if (data.Elements[e].Type == "way")
                     {
@@ -78,6 +80,7 @@ public class Cell
                                 pointAmount = member.Geometry.Count;
                                 for (int n = 0; n < member.Geometry.Count; n++)
                                 {
+                                    ct.ThrowIfCancellationRequested();
                                     if ((double)member.Geometry[n].Lat < latHi &&
                                         (double)member.Geometry[n].Lat > latLo &&
                                         (double)member.Geometry[n].Lon < lngHi &&
@@ -119,6 +122,7 @@ public class Cell
                         pointAmount = data.Elements[e].Nodes.Count - 1;
                         for (int n = 0; n < data.Elements[e].Nodes.Count; n++)
                         {
+                            ct.ThrowIfCancellationRequested();
                             if ((double)data.Elements[e].Geometry[n].Lat < latHi &&
                                 (double)data.Elements[e].Geometry[n].Lat > latLo &&
                                 (double)data.Elements[e].Geometry[n].Lon < lngHi &&

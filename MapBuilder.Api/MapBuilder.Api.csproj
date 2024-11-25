@@ -26,7 +26,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Include="Settings\settings.json" />
+      <None Include="Settings\featuresettings.json" />
     </ItemGroup>
 
 </Project>

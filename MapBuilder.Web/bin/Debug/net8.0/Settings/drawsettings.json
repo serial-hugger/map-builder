@@ -1,0 +1,6 @@
+[
+    {"type": "water","name": "water","fill_if_closed": true},
+    {"order": 1,"name": "road","fill_if_closed": false, "tags": [{"key": "highway","value": "primary"},{"key": "highway","value": "secondary"},{"key": "highway","value": "tertiary"},{"key": "highway","value": "residential"}]},
+    {"order": 1,"name": "path","fill_if_closed": false, "tags": [{"key": "highway","value": "path"}]},
+    {"order": 2,"name": "building","fill_if_closed": true, "tags": [{"key": "building","value": null}]}
+]

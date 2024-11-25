@@ -16,22 +16,24 @@ public class MapController : ControllerBase, IMapController
     private readonly CellRepository _cellRepository;
     
     [HttpGet("{action}/{level}/{latitude}/{longitude}")]
-    public async Task<string> GetMap(int level, double latitude, double longitude,Func<int,string>? completion)
+    public async Task<string> GetMap(int level, double latitude, double longitude,Func<int,string>? completion, CancellationToken ct)
     {
         var coord = S2LatLng.FromDegrees(latitude, longitude);
         var token = S2CellId.FromLatLng(coord).ParentForLevel(level).ToToken();
         var bigCell = new S2Cell(S2CellId.FromToken(token));
         var cells = await _cellsController.GetCells(15,bigCell.RectBound.LatLo.Degrees,bigCell.RectBound.LngLo.Degrees,bigCell.RectBound.LatHi.Degrees,bigCell.RectBound.LngHi.Degrees);
         var map = new Map(_cellsController,_osmController,_cellRepository);
-        await map.BuildMap(cells,completion);
+        await map.BuildMap(cells, completion, ct);
         List<Cell> newCells = new List<Cell>();
         List<Feature> newWays = new List<Feature>();
         List<FeaturePoint> newNodes = new List<FeaturePoint>();
         foreach (var cell in map.Cells)
         {
+            ct.ThrowIfCancellationRequested();
             newCells.Add(cell);
             foreach (var way in cell.Ways)
             {
+                ct.ThrowIfCancellationRequested();
                 if (newWays.All(w => w.WayId != way.WayId))
                 {
                     newWays.Add(way);
@@ -39,6 +41,7 @@ public class MapController : ControllerBase, IMapController
             }
             foreach (var node in cell.Nodes)
             {
+                ct.ThrowIfCancellationRequested();
                 if (newNodes.All(n => n.PointId != node.PointId))
                 {
                     newNodes.Add(node);

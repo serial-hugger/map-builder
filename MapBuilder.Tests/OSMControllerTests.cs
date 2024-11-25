@@ -17,7 +17,7 @@ public class OSMControllerTests
     [TestMethod]
     public void GetDataTest()
     {
-        var result = _osmController.GetDataFromBox(37.5667,-83.7243,37.5821,-83.6925).Result;
+        var result = _osmController.GetDataFromBox(37.5667,-83.7243,37.5821,-83.6925, new CancellationToken()).Result;
         Assert.IsTrue(result.Osm3s!=null&&result.Elements!=null);
     }
 }

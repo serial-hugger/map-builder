@@ -10,14 +10,14 @@ public class DrawInstructer : IDrawInstructer
     private readonly CellsController _cellsController;
     private readonly OSMController _osmController;
     private readonly CellRepository _cellRepository;
-    public async Task<string> Instructions(int level, double latitude, double longitude, Func<int,string>? completion)
+    public async Task<string> Instructions(int level, double latitude, double longitude, Func<int,string>? completion, CancellationToken ct)
     {
         var coord = S2LatLng.FromDegrees(latitude, longitude);
         var token = S2CellId.FromLatLng(coord).ParentForLevel(level).ToToken();
         var bigCell = new S2Cell(S2CellId.FromToken(token));
         var cells = await _cellsController.GetCells(15,bigCell.RectBound.LatLo.Degrees,bigCell.RectBound.LngLo.Degrees,bigCell.RectBound.LatHi.Degrees,bigCell.RectBound.LngHi.Degrees);
         var map = new Map(_cellsController,_osmController,_cellRepository);
-        await map.BuildMap(cells, completion);
+        await map.BuildMap(cells, completion,ct);
         List<Cell> newCells = new List<Cell>();
         List<Feature> newWays = new List<Feature>();
         List<FeaturePoint> newNodes = new List<FeaturePoint>();
@@ -49,7 +49,7 @@ public class DrawInstructer : IDrawInstructer
         instructions = AddInstructions(instructions,"center",$"{centerLat},{centerLng}");
         instructions = AddInstructions(instructions,"highs",$"{latHi},{lngHi}");
         instructions = AddInstructions(instructions,"lows",$"{latLo},{lngLo}");
-        string jsonFilepath = "Settings/settings.json";
+        string jsonFilepath = "Settings/featuresettings.json";
         string jsonContent = System.IO.File.ReadAllText(jsonFilepath);
         Settings settingsJson = JsonConvert.DeserializeObject<Settings>(jsonContent);
         int orders = 0;
@@ -105,7 +105,7 @@ public class DrawInstructer : IDrawInstructer
 
     public int GetOrderFromType(string type)
     {
-        string jsonFilepath = "Settings/settings.json";
+        string jsonFilepath = "Settings/featuresettings.json";
         string jsonContent = System.IO.File.ReadAllText(jsonFilepath);
         Settings settingsJson = JsonConvert.DeserializeObject<Settings>(jsonContent);
         foreach (var settingsType in settingsJson.Types)

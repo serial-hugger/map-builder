@@ -16,7 +16,7 @@ public class DrawInstructerTests
     [TestMethod]
     public void InstructionTest()
     {
-        var result = DrawInstructer.Instructions(15,37.57240563371417,-83.71679868454393, null).Result;
+        var result = DrawInstructer.Instructions(15,37.57240563371417,-83.71679868454393, null, new CancellationToken()).Result;
         Assert.IsTrue(result.Contains("center:37.57137671040393,-83.71592846453665;highs:37.5727740610556,-83.71460005762208;lows:37.56997935975227,-83.71725687145121"));
     }
 }

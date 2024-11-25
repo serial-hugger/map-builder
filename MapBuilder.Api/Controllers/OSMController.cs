@@ -17,6 +17,8 @@ public class OSMController:ControllerBase, IOSMController
 {
     private readonly CellContext _context;
     private readonly ICellRepository _cellRepository;
+    private IOSMController _iosmControllerImplementation;
+
     public OSMController()
     {
         _context = new CellContext();
@@ -24,7 +26,7 @@ public class OSMController:ControllerBase, IOSMController
     }
     ///osm/getdata/40.95876296470057/-74.28306490222923/40.44841428528941/-72.78636592806494
     [HttpGet("{action}/{latitudeLo}/{longitudeLo}/{latitudeHi}/{longitudeHi}")]
-    public async Task<OSM?> GetDataFromBox(double latitudeLo, double longitudeLo, double latitudeHi, double longitudeHi)
+    public async Task<OSM?> GetDataFromBox(double latitudeLo, double longitudeLo, double latitudeHi, double longitudeHi, CancellationToken ct)
     {
         string apiUrl = "https://overpass-api.de/api/interpreter";
         string query = $"[out:json][maxsize:1073741824][timeout:900];node({latitudeLo},{longitudeLo},{latitudeHi},{longitudeHi});<<;out geom;";
@@ -33,15 +35,16 @@ public class OSMController:ControllerBase, IOSMController
         {
             client.Timeout = TimeSpan.FromMinutes(5);
             client.DefaultRequestHeaders.Add("Accept", "application/json");
-            HttpResponseMessage response= client.PostAsync(apiUrl, new StringContent(query, Encoding.UTF8, "text/plain")).Result;
+            HttpResponseMessage response= client.PostAsync(apiUrl, new StringContent(query, Encoding.UTF8, "text/plain"),ct).Result;
 
-            var jsonString = await response.Content.ReadAsStringAsync();
+            var jsonString = await response.Content.ReadAsStringAsync(ct);
             Console.WriteLine($"{latitudeLo}/{longitudeLo}/{latitudeHi}/{longitudeHi}");
             return JsonConvert.DeserializeObject<OSM>(jsonString);
         }
     }
+
     [HttpGet("{action}/{cellToken}")]
-    public async Task<OSM?> GetData(string cellToken)
+    public async Task<OSM?> GetData(string cellToken, CancellationToken ct)
     {
         S2Cell cell = new S2Cell(S2CellId.FromToken(cellToken));
         
@@ -56,8 +59,8 @@ public class OSMController:ControllerBase, IOSMController
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
-                var response = client.PostAsync(apiUrl, new StringContent(query, Encoding.UTF8, "text/plain")).Result;
-                var jsonString = await response.Content.ReadAsStringAsync();
+                var response = client.PostAsync(apiUrl, new StringContent(query, Encoding.UTF8, "text/plain"),ct).Result;
+                var jsonString = await response.Content.ReadAsStringAsync(ct);
                 return JsonSerializer.Deserialize<OSM>(jsonString);
             }
         }

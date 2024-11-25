@@ -1,47 +1,12 @@
 @page "/getdata"
 @rendermode InteractiveServer
-@using Blazor.Extensions.Canvas
+@inject NavigationManager Navigation
 
-<style>
-    #jsondata
-    {
-        width:800px;
-        height:250px;
-        overflow-x:hidden;
-        overflow-y:scroll;
-        word-wrap: break-word;
-    }
-</style>
-
+<PageTitle>Get JSON</PageTitle>
 <h3>Get JSON</h3>
 
-<div id="generationsettings" hidden="@_hidingGenerationSettings">
-    <div class="slidecontainer">
-        <label for="level">Level :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(@_level)</label>
-        <input type="range" @bind-value:event="oninput" @bind-value="_level" min="10" max="15" class="slider" id="level">
-        <p>Lower cell levels take longer to generate.</p>
-    </div>
-    <div>
-        <button @onclick="() => SetLatLon(37.570199, -83.710665)">Beattyville</button>
-        <button @onclick="() => SetLatLon(38.244730097328315, -85.76343147899094)">Louisville</button>
-        <button @onclick="() => SetLatLon(39.10176167904405, -94.58163683394731)">Kansas City</button>
-        <button @onclick="() => SetLatLon(36.16382469155207, -86.78154699261148)">Nashville</button>
-    </div><br>
-    <label for="lat">Latitude :&nbsp;&nbsp;&nbsp;</label>
-    <input type="text" @bind="@_lat" id="lat" name="lat"><br><br>
-    <label for="lng">Longitude :</label>
-    <input type="text" @bind="@_lng" id="lng" name="lng"><br><br>
-    <input type="submit" @onclick="@RetrieveData" value="Generate"><br><br>
-</div>
-<div id="regeneratebutton" hidden="@_hidingRegenerateButton">
-    <input type="submit" @onclick="@Regenerate" value="Regenerate" hidden="@_hidingRegenerateButton"><br><br>
-</div>
-<p>@_info @_progressInfo @_timeInfo</p>
-<div id = "json" hidden="@_hidingMap">
-    <p>JSON data:</p>
-    <div id="jsondata">@_data</div>
-    <BECanvas @ref="_mapCanvas" Width="0" Height="0"/>
-</div>
+<Generation Type="json"></Generation>
+
 @code {
     
 }
