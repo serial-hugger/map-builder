@@ -75,7 +75,6 @@
 /home/jeremy/Documents/Projects/map-builder/MapBuilder.Web/obj/Debug/net8.0/staticwebassets/msbuild.buildTransitive.MapBuilder.Web.props
 /home/jeremy/Documents/Projects/map-builder/MapBuilder.Web/obj/Debug/net8.0/staticwebassets.pack.json
 /home/jeremy/Documents/Projects/map-builder/MapBuilder.Web/obj/Debug/net8.0/scopedcss/Components/Layout/MainLayout.razor.rz.scp.css
-/home/jeremy/Documents/Projects/map-builder/MapBuilder.Web/obj/Debug/net8.0/scopedcss/Components/Layout/NavMenu.razor.rz.scp.css
 /home/jeremy/Documents/Projects/map-builder/MapBuilder.Web/obj/Debug/net8.0/scopedcss/bundle/MapBuilder.Web.styles.css
 /home/jeremy/Documents/Projects/map-builder/MapBuilder.Web/obj/Debug/net8.0/scopedcss/projectbundle/MapBuilder.Web.bundle.scp.css
 /home/jeremy/Documents/Projects/map-builder/MapBuilder.Web/obj/Debug/net8.0/MapBuild.AEC80BA4.Up2Date

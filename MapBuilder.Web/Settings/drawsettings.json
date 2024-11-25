@@ -1,6 +1,6 @@
 [
-    {"type": "water","name": "water","fill_if_closed": true},
-    {"order": 1,"name": "road","fill_if_closed": false, "tags": [{"key": "highway","value": "primary"},{"key": "highway","value": "secondary"},{"key": "highway","value": "tertiary"},{"key": "highway","value": "residential"}]},
-    {"order": 1,"name": "path","fill_if_closed": false, "tags": [{"key": "highway","value": "path"}]},
-    {"order": 2,"name": "building","fill_if_closed": true, "tags": [{"key": "building","value": null}]}
+    {"order":0,"type_name": "water","stroke_color": "#00bcff","fill_color": "#00bcff","fill_if_closed": true,"stroke_thickness": 1},
+    {"order": 1,"type_name": "road","fill_if_closed": false,"stroke_color": "#000000","fill_color": "#000000","fill_if_closed": true,"stroke_thickness": 1},
+    {"order": 1,"type_name": "path","fill_if_closed": false,"stroke_color": "#d0a655","fill_color": "#d0a655","fill_if_closed": true,"stroke_thickness": 1},
+    {"order": 2,"type_name": "building","fill_if_closed": true,"stroke_color": "#8e8e8e","fill_color": "#8e8e8e","fill_if_closed": true,"stroke_thickness": 1}
 ]

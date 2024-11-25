@@ -2,7 +2,6 @@ using Blazor.Extensions;
 using Blazor.Extensions.Canvas;
 using Blazor.Extensions.Canvas.Canvas2D;
 using MapBuilder.Api.Controllers;
-using MapBuilder.Web.Components.Layout;
 using Microsoft.AspNetCore.Components;
 
 namespace MapBuilder.Web.Components;

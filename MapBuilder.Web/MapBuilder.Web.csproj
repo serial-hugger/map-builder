@@ -16,6 +16,7 @@
 
     <ItemGroup>
       <_ContentIncludedByDefault Remove="wwwroot\Javascript\MapDraw.js" />
+      <_ContentIncludedByDefault Remove="Components\SharedComponents\WebManager.razor" />
     </ItemGroup>
 
 </Project>
