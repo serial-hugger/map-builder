@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MapBuilder.Data.Migrations
 {
     [DbContext(typeof(CellContext))]
-    [Migration("20241122160240_InitialCreate")]
+    [Migration("20241126045620_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -51,9 +51,6 @@ namespace MapBuilder.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("Closed")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("Filled")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("RetrievedData")

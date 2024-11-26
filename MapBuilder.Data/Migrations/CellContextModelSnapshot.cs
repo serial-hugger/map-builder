@@ -50,9 +50,6 @@ namespace MapBuilder.Data.Migrations
                     b.Property<bool>("Closed")
                         .HasColumnType("INTEGER");
 
-                    b.Property<bool>("Filled")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("RetrievedData")
                         .HasColumnType("TEXT");
 

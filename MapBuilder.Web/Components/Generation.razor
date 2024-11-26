@@ -20,10 +20,12 @@
         <p>Lower cell levels take longer to generate.</p>
     </div>
     <div>
-        <button @onclick="() => SetLatLon(37.570199, -83.710665)">Beattyville</button>
-        <button @onclick="() => SetLatLon(38.244730097328315, -85.76343147899094)">Louisville</button>
-        <button @onclick="() => SetLatLon(39.10176167904405, -94.58163683394731)">Kansas City</button>
-        <button @onclick="() => SetLatLon(36.16382469155207, -86.78154699261148)">Nashville</button>
+        <button @onclick="() => SetLatLon(37.570199, -83.710665)">Beattyville, KY</button>
+        <button @onclick="() => SetLatLon(37.55729768290482, -83.3859423943577)">Jackson, KY</button>
+        <button @onclick="() => SetLatLon(37.747531919359, -84.29589199459659)">Richmond, KY</button>
+        <button @onclick="() => SetLatLon(38.244730097328315, -85.76343147899094)">Louisville, KY</button>
+        <button @onclick="() => SetLatLon(36.16382469155207, -86.78154699261148)">Nashville, TN</button>
+        <button @onclick="() => SetLatLon(39.10176167904405, -94.58163683394731)">Kansas City, MO</button>
     </div><br>
     <label for="lat">Latitude :&nbsp;&nbsp;&nbsp;</label>
     <input type="text" @bind="@_lat" id="lat" name="lat"><br><br>

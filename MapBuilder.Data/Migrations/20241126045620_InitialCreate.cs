@@ -36,7 +36,6 @@ namespace MapBuilder.Data.Migrations
                     TotalPoints = table.Column<int>(type: "INTEGER", nullable: false),
                     Type = table.Column<string>(type: "TEXT", nullable: false),
                     Closed = table.Column<bool>(type: "INTEGER", nullable: false),
-                    Filled = table.Column<bool>(type: "INTEGER", nullable: false),
                     CellId = table.Column<int>(type: "INTEGER", nullable: false),
                     RetrievedData = table.Column<string>(type: "TEXT", nullable: true)
                 },

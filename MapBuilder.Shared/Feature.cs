@@ -18,7 +18,6 @@ public class Feature
     public int TotalPoints { get; set; }
     public string Type { get; set; }
     public bool Closed { get; set; }
-    public bool Filled { get; set; }
     [System.Text.Json.Serialization.JsonIgnore]
     public int CellId { get; set; }
 
@@ -34,19 +33,32 @@ public class Feature
         this.WayId = wayId;
     }
 
-    public void SetDataRetrieve(Dictionary<string,string>? tags, Settings settingsJson)
+    public void SetDataRetrieve(Dictionary<string,string>? tags, FeatureSettings featureSettings)
     {
+        FeatureSettings featureSettingsJson;
+        string jsonFilepath;
+        string jsonContent;
+        if (featureSettings == null)
+        {
+            jsonFilepath = "Settings/featuresettings.json";
+            jsonContent = System.IO.File.ReadAllText(jsonFilepath);
+            featureSettingsJson = JsonConvert.DeserializeObject<FeatureSettings>(jsonContent);
+        }
+        else
+        {
+            featureSettingsJson = featureSettings;
+        }
         string data = "";
         if (tags != null && tags.Any())
         {
             for (int tag = 0; tag < tags.Count(); tag++)
             {
-                for (int retrieveSearch = 0; retrieveSearch < settingsJson.Retrieve.Count; retrieveSearch++)
+                for (int retrieveSearch = 0; retrieveSearch < featureSettingsJson.Retrieve.Count; retrieveSearch++)
                 {
                     try
                     {
                         string[] tagSplit = Regex.Unescape(tags.ElementAt(tag).ToString().Replace("\"", string.Empty)).Split(':');
-                        if (tagSplit[0].Trim() == settingsJson.Retrieve?[retrieveSearch]?.Key.Trim())
+                        if (tagSplit[0].Trim() == featureSettingsJson.Retrieve?[retrieveSearch]?.Key.Trim())
                         {
                             StringBuilder dataString = new StringBuilder();
                             if (RetrievedData==null)
@@ -58,7 +70,7 @@ public class Feature
                             {
                                 dataString.Append(';');
                             }
-                            dataString.Append(settingsJson.Retrieve?[retrieveSearch]?.Label.ToString().Trim());
+                            dataString.Append(featureSettingsJson.Retrieve?[retrieveSearch]?.Label.ToString().Trim());
                             dataString.Append(':');
                             dataString.Append(tagSplit[1].Trim());
                             data += dataString.ToString();
@@ -76,13 +88,23 @@ public class Feature
             RetrievedData = data;
         }
     }
-    public void SetProperties(List<Geometry> geometries, Dictionary<string,string>? tags)
+    public void SetProperties(List<Geometry> geometries, Dictionary<string,string>? tags, FeatureSettings? featureSettings)
     {
-        string jsonFilepath = "Settings/featuresettings.json";
-        string jsonContent = File.ReadAllText(jsonFilepath);
-        Settings settingsJson = JsonConvert.DeserializeObject<Settings>(jsonContent);
-        int generationVersion = (int)settingsJson.GenerationVersion;
-        SetDataRetrieve(tags,settingsJson);
+        FeatureSettings featureSettingsJson;
+        string jsonFilepath;
+        string jsonContent;
+        if (featureSettings == null)
+        {
+            jsonFilepath = "Settings/featuresettings.json";
+            jsonContent = System.IO.File.ReadAllText(jsonFilepath);
+            featureSettingsJson = JsonConvert.DeserializeObject<FeatureSettings>(jsonContent);
+        }
+        else
+        {
+            featureSettingsJson = featureSettings;
+        }
+        int generationVersion = (int)featureSettingsJson.GenerationVersion;
+        SetDataRetrieve(tags,featureSettingsJson);
         if (geometries[0].Lat == geometries[^1].Lat && geometries[0].Lon == geometries[^1].Lon)
         {
             Closed = true;
@@ -97,26 +119,24 @@ public class Feature
         {
             for (int tag = 0; tag < tags.Count(); tag++)
             {
-                for (int typeSearch = 0; typeSearch < settingsJson.Types.Count(); typeSearch++)
+                for (int typeSearch = 0; typeSearch < featureSettingsJson.Types.Count(); typeSearch++)
                 {
-                    string name = settingsJson.Types[typeSearch].Name.ToString();
-                    bool fillIfClosed = (bool)settingsJson.Types[typeSearch].FillIfClosed;
-
-                    for (int tagSearch = 0; tagSearch < settingsJson.Types[typeSearch].Tags.Count(); tagSearch++)
+                    string name = featureSettingsJson.Types[typeSearch].Name.ToString();
+                    for (int tagSearch = 0; tagSearch < featureSettingsJson.Types[typeSearch].Tags.Count(); tagSearch++)
                     {
                         bool keySatisfied = false;
                         bool valueSatisfied = false;
-                        if (settingsJson.Types?[typeSearch]?.Tags?[tagSearch]?.Key == null
+                        if (featureSettingsJson.Types?[typeSearch]?.Tags?[tagSearch]?.Key == null
                             || tags.ElementAt(tag).Key.Contains(
-                                settingsJson.Types?[typeSearch]?.Tags?[tagSearch]?.Key?.ToString() ??
+                                featureSettingsJson.Types?[typeSearch]?.Tags?[tagSearch]?.Key?.ToString() ??
                                 string.Empty))
                         {
                             keySatisfied = true;
                         }
 
-                        if (settingsJson.Types?[typeSearch]?.Tags?[tagSearch]?.Value == null
+                        if (featureSettingsJson.Types?[typeSearch]?.Tags?[tagSearch]?.Value == null
                             || tags.ElementAt(tag).Value.Contains(
-                                settingsJson.Types?[typeSearch]?.Tags?[tagSearch]?.Value ??
+                                featureSettingsJson.Types?[typeSearch]?.Tags?[tagSearch]?.Value ??
                                 string.Empty))
                         {
                             valueSatisfied = true;
@@ -124,14 +144,6 @@ public class Feature
                         if (keySatisfied && valueSatisfied)
                         {
                             Type = name;
-                            if (Closed && fillIfClosed)
-                            {
-                                Filled = true;
-                            }
-                            else
-                            {
-                                Filled = false;
-                            }
                         }
                     }
                 }

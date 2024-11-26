@@ -9,7 +9,7 @@ public class DrawInstructerTests
 {
     private static readonly CellsController CellsController = new CellsController();
     private static readonly OSMController OsmController = new OSMController();
-    private static readonly DrawInstructer DrawInstructer = new DrawInstructer();
+    private static readonly DrawInstructer DrawInstructer = new DrawInstructer(null,null);
     private static readonly CellRepository CellRepository = new CellRepository();
     
     private readonly Map _map = new Map(CellsController,OsmController,CellRepository);

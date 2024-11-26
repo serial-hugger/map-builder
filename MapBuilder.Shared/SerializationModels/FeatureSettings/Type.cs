@@ -3,13 +3,8 @@ namespace MapBuilder.Shared.SerializationModels{
 
     public class Type
     {
-        [JsonProperty("order")]
-        public int Order { get; set; }
         [JsonProperty("name")]
         public string Name { get; set; }
-
-        [JsonProperty("fill_if_closed")]
-        public bool FillIfClosed { get; set; }
 
         [JsonProperty("tags")]
         public List<Tag> Tags { get; set; }

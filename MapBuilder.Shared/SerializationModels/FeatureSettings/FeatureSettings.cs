@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic; 
 namespace MapBuilder.Shared.SerializationModels{ 
 
-    public class Settings
+    public class FeatureSettings
     {
         [JsonProperty("generation_version")]
         public int GenerationVersion { get; set; }

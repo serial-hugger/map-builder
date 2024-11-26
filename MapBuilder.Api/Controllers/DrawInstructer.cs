@@ -10,6 +10,9 @@ public class DrawInstructer : IDrawInstructer
     private readonly CellsController _cellsController;
     private readonly OSMController _osmController;
     private readonly CellRepository _cellRepository;
+    
+    public FeatureSettings? FeatureSettings { get; set; }
+    public DrawSettings? DrawSettings { get; set; }
     public async Task<string> Instructions(int level, double latitude, double longitude, Func<int,string>? completion, CancellationToken ct)
     {
         var coord = S2LatLng.FromDegrees(latitude, longitude);
@@ -17,7 +20,7 @@ public class DrawInstructer : IDrawInstructer
         var bigCell = new S2Cell(S2CellId.FromToken(token));
         var cells = await _cellsController.GetCells(15,bigCell.RectBound.LatLo.Degrees,bigCell.RectBound.LngLo.Degrees,bigCell.RectBound.LatHi.Degrees,bigCell.RectBound.LngHi.Degrees);
         var map = new Map(_cellsController,_osmController,_cellRepository);
-        await map.BuildMap(cells, completion,ct);
+        await map.BuildMap(cells, completion,ct,FeatureSettings);
         List<Cell> newCells = new List<Cell>();
         List<Feature> newWays = new List<Feature>();
         List<FeaturePoint> newNodes = new List<FeaturePoint>();
@@ -49,15 +52,12 @@ public class DrawInstructer : IDrawInstructer
         instructions = AddInstructions(instructions,"center",$"{centerLat},{centerLng}");
         instructions = AddInstructions(instructions,"highs",$"{latHi},{lngHi}");
         instructions = AddInstructions(instructions,"lows",$"{latLo},{lngLo}");
-        string jsonFilepath = "Settings/featuresettings.json";
-        string jsonContent = System.IO.File.ReadAllText(jsonFilepath);
-        Settings settingsJson = JsonConvert.DeserializeObject<Settings>(jsonContent);
         int orders = 0;
-        foreach (var type in settingsJson.Types)
+        foreach (var mode in DrawSettings.Modes)
         {
-            if (type.Order>orders)
+            if (mode.Order>orders)
             {
-                orders = type.Order;
+                orders = mode.Order;
             }
         }
 
@@ -67,7 +67,7 @@ public class DrawInstructer : IDrawInstructer
                 if (GetOrderFromType(way.Type)==order)
                 {
                     instructions = AddInstructions(instructions, "type", way.Type);
-                    instructions = AddInstructions(instructions, "filled", way.Filled.ToString());
+                    instructions = AddInstructions(instructions, "filled", GetFilledFromType(way.Type,way.Closed).ToString());
                     instructions = AddInstructions(instructions, "closed", way.Closed.ToString());
                     List<FeaturePoint> nodes = new List<FeaturePoint>();
                     foreach (FeaturePoint node in newNodes)
@@ -103,16 +103,44 @@ public class DrawInstructer : IDrawInstructer
         return instructions;
     }
 
+    public bool GetFilledFromType(string type, bool closed)
+    {
+        if (!closed)
+        {
+            return false;
+        }
+        foreach (var mode in DrawSettings.Modes)
+        {
+            if (mode.TypeName == type)
+            {
+                return mode.FillIfClosed;
+            }
+        }
+
+        return false;
+    }
+
     public int GetOrderFromType(string type)
     {
-        string jsonFilepath = "Settings/featuresettings.json";
-        string jsonContent = System.IO.File.ReadAllText(jsonFilepath);
-        Settings settingsJson = JsonConvert.DeserializeObject<Settings>(jsonContent);
-        foreach (var settingsType in settingsJson.Types)
+        DrawSettings drawSettingsJson;
+        string jsonFilepath;
+        string jsonContent;
+
+        if (DrawSettings == null)
         {
-            if (settingsType.Name == type)
+            jsonFilepath = "Settings/drawsettings.json";
+            jsonContent = System.IO.File.ReadAllText(jsonFilepath);
+            drawSettingsJson = JsonConvert.DeserializeObject<DrawSettings>(jsonContent);
+        }else
+        {
+            drawSettingsJson = DrawSettings;
+        }
+
+        foreach (var mode in drawSettingsJson.Modes)
+        {
+            if (mode.TypeName == type)
             {
-                return settingsType.Order;
+                return mode.Order;
             }
         }
 
@@ -127,10 +155,27 @@ public class DrawInstructer : IDrawInstructer
         currentInstructions += key+":"+value;
         return currentInstructions;
     }
-    public DrawInstructer()
+    public DrawInstructer(FeatureSettings? featureSettings, DrawSettings? drawSettings)
     {
         _cellsController = new CellsController();
         _osmController = new OSMController();
         _cellRepository = new CellRepository();
+        FeatureSettings = featureSettings;
+        DrawSettings = drawSettings;
+        string jsonFilepath;
+        string jsonContent;
+        if (FeatureSettings == null)
+        {
+            jsonFilepath = "Settings/featuresettings.json";
+            jsonContent = System.IO.File.ReadAllText(jsonFilepath);
+            FeatureSettings = JsonConvert.DeserializeObject<FeatureSettings>(jsonContent);
+        }
+
+        if (DrawSettings == null)
+        {
+            jsonFilepath = "Settings/drawsettings.json";
+            jsonContent = System.IO.File.ReadAllText(jsonFilepath);
+            DrawSettings = JsonConvert.DeserializeObject<DrawSettings>(jsonContent);
+        }
     }
 }

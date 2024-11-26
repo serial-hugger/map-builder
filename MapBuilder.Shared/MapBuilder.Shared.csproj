@@ -19,7 +19,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="SerializationModels\Settings\" />
+      <Folder Include="SerializationModels\FeatureSettings\" />
     </ItemGroup>
 
 </Project>

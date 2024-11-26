@@ -1,10 +1,10 @@
 {
-  "generation_version": 2,
+  "generation_version": 3,
   "types":[
-    {"order": 0,"name": "water","fill_if_closed": true,"tags": [{"key": "natural","value": "water"},{"key": "water","value": null},{"key": "waterway","value": null}]},
-    {"order": 1,"name": "road","fill_if_closed": false, "tags": [{"key": "highway","value": "primary"},{"key": "highway","value": "secondary"},{"key": "highway","value": "tertiary"},{"key": "highway","value": "residential"}]},
-    {"order": 1,"name": "path","fill_if_closed": false, "tags": [{"key": "highway","value": "path"}]},
-    {"order": 2,"name": "building","fill_if_closed": true, "tags": [{"key": "building","value": null}]}
+    {"name": "water","tags": [{"key": "natural","value": "water"},{"key": "water","value": null},{"key": "waterway","value": null}]},
+    {"name": "road", "tags": [{"key": "highway","value": "primary"},{"key": "highway","value": "secondary"},{"key": "highway","value": "tertiary"},{"key": "highway","value": "residential"}]},
+    {"name": "path", "tags": [{"key": "highway","value": "path"}]},
+    {"name": "building", "tags": [{"key": "building","value": null}]}
   ],
   "retrieve": [
     {"label": "name", "key": "name"}

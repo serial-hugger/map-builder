@@ -22,12 +22,22 @@ public class Map
         _cellRepository = cellRepository;
     }
 
-    public async Task BuildMap(List<S2CellId> cellIds, Func<int,string>? completion, CancellationToken ct)
+    public async Task BuildMap(List<S2CellId> cellIds, Func<int,string>? completion, CancellationToken ct, FeatureSettings featureSettings)
     {
-        string jsonFilepath = "Settings/featuresettings.json";
-        string jsonContent = File.ReadAllText(jsonFilepath);
-        Settings settingsJson = JsonConvert.DeserializeObject<Settings>(jsonContent);
-        int generationVersion = (int)settingsJson.GenerationVersion;
+        FeatureSettings featureSettingsJson;
+        string jsonFilepath;
+        string jsonContent;
+        if (featureSettings == null)
+        {
+            jsonFilepath = "Settings/featuresettings.json";
+            jsonContent = System.IO.File.ReadAllText(jsonFilepath);
+            featureSettingsJson = JsonConvert.DeserializeObject<FeatureSettings>(jsonContent);
+        }
+        else
+        {
+            featureSettingsJson = featureSettings;
+        }
+        int generationVersion = (int)featureSettingsJson.GenerationVersion;
         
         foreach (S2CellId cellId in cellIds)
         {
@@ -38,7 +48,7 @@ public class Map
                 cell.GenerationVersion = generationVersion;
                 cell.GenerationTime = DateTime.Now.ToUniversalTime();
                 cell.CellToken = cellId.ToToken();
-                await cell.GetPoints(completion,cellIds.Count, ct);
+                await cell.GetPoints(completion,cellIds.Count, ct, featureSettingsJson);
                 Cells.Add(cell);
                 await _cellRepository.AddCell(cell);
             }
@@ -51,7 +61,7 @@ public class Map
                 repoCell.MyCell = new S2Cell(S2CellId.FromToken(cellId.ToToken()));
                 repoCell.GenerationVersion = generationVersion;
                 repoCell.GenerationTime = DateTime.Now.ToUniversalTime();
-                await repoCell.GetPoints(completion,cellIds.Count,ct);
+                await repoCell.GetPoints(completion,cellIds.Count,ct,featureSettingsJson);
                 Cells.Add(repoCell);
                 await _cellRepository.UpdateCell(repoCell);
             }

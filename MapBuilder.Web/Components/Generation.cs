@@ -117,7 +117,7 @@ public partial class Generation
     public async Task DrawMap(CancellationToken ct)
     {
         _hidingCanvas = false;
-        DrawInstructer drawInstructer = new DrawInstructer();
+        DrawInstructer drawInstructer = new DrawInstructer(null,null);
         _data = await drawInstructer.Instructions(_level,_lat,_lng, Completion, cts.Token);
         _dataDescription = "Instructions used to draw the map:";
         _info = "Drawing map...";

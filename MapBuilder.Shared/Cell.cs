@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 using Google.Common.Geometry;
 using MapBuilder.Shared.SerializationModels;
+using Newtonsoft.Json;
 
 namespace MapBuilder.Shared;
 
@@ -9,9 +9,9 @@ public class Cell
 {
     [Key]
     public int Id { get; set; }
-    [JsonIgnore]
+    [System.Text.Json.Serialization.JsonIgnore]
     public int GenerationVersion { get; set; }
-    [JsonIgnore]
+    [System.Text.Json.Serialization.JsonIgnore]
     public DateTime GenerationTime { get; set; }
     public string CellToken { get; set; }
     [NonSerialized]
@@ -41,8 +41,21 @@ public class Cell
         CellToken = cellToken;
     }
 
-    public async Task GetPoints(Func<int,string>? completion,int totalCells, CancellationToken ct)
+    public async Task GetPoints(Func<int,string>? completion,int totalCells, CancellationToken ct, FeatureSettings? featureSettings)
     {
+        FeatureSettings featureSettingsJson;
+        string jsonFilepath;
+        string jsonContent;
+        if (featureSettings == null)
+        {
+            jsonFilepath = "Settings/featuresettings.json";
+            jsonContent = System.IO.File.ReadAllText(jsonFilepath);
+            featureSettingsJson = JsonConvert.DeserializeObject<FeatureSettings>(jsonContent);
+        }
+        else
+        {
+            featureSettingsJson = featureSettings;
+        }
         Ways.Clear();
         Nodes.Clear();
         if (OsmController != null)
@@ -95,14 +108,16 @@ public class Cell
                                             featurePoint.SetProperties(member.Geometry, n==0);
                                             Feature newFeature = new Feature(id);
 
-                                            newFeature.SetProperties(member.Geometry, data.Elements[e].Tags);
+                                            newFeature.SetProperties(member.Geometry, data.Elements[e].Tags,featureSettingsJson);
                                             if (!string.IsNullOrEmpty(newFeature.Type))
                                             {
                                                 Map.AddWayAndNode(newFeature, featurePoint);
                                                 if (Nodes.All(point => point.WayId != featurePoint.WayId) || 
                                                     Nodes.All(point => point.CellId != featurePoint.CellId) || 
                                                     Nodes.All(point => point.PointId != featurePoint.PointId) || 
-                                                    Nodes.All(point => point.PointOrder != featurePoint.PointOrder))
+                                                    Nodes.All(point => point.PointOrder != featurePoint.PointOrder) ||
+                                                    Nodes.All(point => point.Lat != featurePoint.Lat) ||
+                                                    Nodes.All(point => point.Lng != featurePoint.Lng))
                                                 {
                                                     Nodes.Add(featurePoint);
                                                 }
@@ -137,7 +152,7 @@ public class Cell
                                     featurePoint.SetProperties(data.Elements[e].Nodes,n==0);
                                     Feature newFeature = new Feature(id);
 
-                                    newFeature.SetProperties(data.Elements[e].Geometry, data.Elements[e].Tags);
+                                    newFeature.SetProperties(data.Elements[e].Geometry, data.Elements[e].Tags,featureSettingsJson);
                                     if (!string.IsNullOrEmpty(newFeature.Type))
                                     {
                                         Map.AddWayAndNode(newFeature, featurePoint);
