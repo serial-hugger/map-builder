@@ -69,6 +69,9 @@ public class DrawInstructer : IDrawInstructer
                     instructions = AddInstructions(instructions, "type", way.Type);
                     instructions = AddInstructions(instructions, "filled", GetFilledFromType(way.Type,way.Closed).ToString());
                     instructions = AddInstructions(instructions, "closed", way.Closed.ToString());
+                    instructions = AddInstructions(instructions, "stroke_color", GetStrokeColorFromType(way.Type));
+                    instructions = AddInstructions(instructions, "fill_color", GetFillColorFromType(way.Type));
+                    instructions = AddInstructions(instructions, "thickness", GetStrokeThicknessFromType(way.Type).ToString());
                     List<FeaturePoint> nodes = new List<FeaturePoint>();
                     foreach (FeaturePoint node in newNodes)
                     {
@@ -118,6 +121,42 @@ public class DrawInstructer : IDrawInstructer
         }
 
         return false;
+    }
+    public string GetFillColorFromType(string type)
+    {
+        foreach (var mode in DrawSettings.Modes)
+        {
+            if (mode.TypeName == type)
+            {
+                return mode.FillColor;
+            }
+        }
+
+        return "#ff5733";
+    }
+    public string GetStrokeColorFromType(string type)
+    {
+        foreach (var mode in DrawSettings.Modes)
+        {
+            if (mode.TypeName == type)
+            {
+                return mode.StrokeColor;
+            }
+        }
+
+        return "#ff5733";
+    }
+    public int GetStrokeThicknessFromType(string type)
+    {
+        foreach (var mode in DrawSettings.Modes)
+        {
+            if (mode.TypeName == type)
+            {
+                return mode.StrokeThickness;
+            }
+        }
+
+        return 1;
     }
 
     public int GetOrderFromType(string type)

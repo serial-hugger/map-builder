@@ -18,7 +18,8 @@ public partial class Generation
     private double _lat = 37.570199;
     private double _lng = -83.710665;
     private int _level = 13;
-    private string _color = "green";
+    private string _strokeColor = "green";
+    private string _fillColor = "green";
     private float _thickness;
     private bool _closed;
     private bool _filled;
@@ -141,10 +142,6 @@ public partial class Generation
     }
     async Task DoCommand(string key, string value)
     {
-        if (key=="type")
-        {
-            SetColorAndThicknessFromType(value);
-        }
         if (key=="closed")
         {
             _closed = Convert.ToBoolean(value);
@@ -153,12 +150,24 @@ public partial class Generation
         {
             _filled = Convert.ToBoolean(value);
         }
+        if (key=="fill_color")
+        {
+            _fillColor = value;
+        }
+        if (key=="stroke_color")
+        {
+            _strokeColor = value;
+        }
+        if (key=="thickness")
+        {
+            _thickness = float.Parse(value);
+        }
         if (key=="points")
         {
             await _context.MoveToAsync(0, 0);
             await _context.SetLineWidthAsync(_thickness);
-            await _context.SetStrokeStyleAsync(_color);
-            await _context.SetFillStyleAsync(_color);
+            await _context.SetStrokeStyleAsync(_strokeColor);
+            await _context.SetFillStyleAsync(_fillColor);
             string[] points = value.Split(',');
             float x;
             float y;
@@ -211,33 +220,6 @@ public partial class Generation
         _cancelText = "Cancel";
         _disablingCancelButton = false;
         StateHasChanged();
-    }
-    public void SetColorAndThicknessFromType(string type)
-    {
-        Console.WriteLine(type);
-        if (type.Contains("water"))
-        {
-            _thickness = 1f+((_level-8f)/2f);
-            _color = "blue";
-        }else if (type.Contains("building"))
-        {
-            _thickness = 1f+((_level-8f)/2f);
-            _color = "orange";
-        }else if (type.Contains("road"))
-        {
-            _thickness = 1f+((_level-8f)/2f);
-            _color = "black";
-        }
-        else if (type.Contains("path"))
-        {
-            _thickness = 1f+((_level-8f)/2f);
-            _color = "gray";
-        }
-        else
-        {
-            _thickness = 1f+((_level-8f)/3f);
-            _color = "red";
-        }
     }
 
     public void SetLatLon(double lat, double lng)
