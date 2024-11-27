@@ -159,7 +159,9 @@ public class Cell
                                         if (Nodes.All(point => point.WayId != featurePoint.PointId)||
                                             Nodes.All(point => point.CellId != featurePoint.CellId)||
                                             Nodes.All(point => point.PointId != featurePoint.PointId) || 
-                                            Nodes.All(point => point.PointOrder != featurePoint.PointOrder))
+                                            Nodes.All(point => point.PointOrder != featurePoint.PointOrder) ||
+                                            Nodes.All(point => point.Lat != featurePoint.Lat) ||
+                                            Nodes.All(point => point.Lng != featurePoint.Lng))
                                         {
                                             Nodes.Add(featurePoint);
                                         }

@@ -52,6 +52,14 @@ public class DrawInstructer : IDrawInstructer
         instructions = AddInstructions(instructions,"center",$"{centerLat},{centerLng}");
         instructions = AddInstructions(instructions,"highs",$"{latHi},{lngHi}");
         instructions = AddInstructions(instructions,"lows",$"{latLo},{lngLo}");
+        foreach (var mode in DrawSettings.Modes)
+        {
+            if (mode.Order == -1)
+            {
+                instructions = AddInstructions(instructions,"fill_base", mode.FillColor);
+            }
+        }
+
         int orders = 0;
         foreach (var mode in DrawSettings.Modes)
         {

@@ -13,12 +13,17 @@ public partial class FeatureSettings
         bool success = WebService.SaveFeatureSettings();
         if (!success)
         {
-            await JSRuntime.InvokeVoidAsync("alert","ERROR: Failed to save feature settings, make sure you entered a valid JSON.");
+            await JSRuntime.InvokeVoidAsync("popup","ERROR: Failed to save feature settings, make sure you entered a valid JSON.");
         }
         else
         {
-            await JSRuntime.InvokeVoidAsync("alert","Saved successfully.");
+            await JSRuntime.InvokeVoidAsync("popup","Saved successfully.");
             StateHasChanged();
         }
+    }
+    public void LoadModes(Action loadModeFunction)
+    {
+        loadModeFunction();
+        StateHasChanged();
     }
 }

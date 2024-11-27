@@ -3,6 +3,3 @@ function setNavMenuHidden(hidden) {
     var navmenu = document.getElementById("navmenu");
     navmenu.hidden = hidden;
 }
-function alert(text) {
-    window.alert(text)
-}

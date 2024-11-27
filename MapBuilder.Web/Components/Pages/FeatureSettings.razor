@@ -15,13 +15,20 @@
 
 <h3>Feature Settings</h3>
 
-<div id = "map">
+<div id="map">
+    <div>
+        <h5>Presets:</h5>
+        <input type="submit" @onclick="() => LoadModes(WebService.LoadDefaultFeature)" value="Default">
+        <input type="submit" @onclick="() => LoadModes(WebService.LoadMinimalFeature)" value="Minimal">
+        <input type="submit" @onclick="() => LoadModes(WebService.LoadTransitFeature)" value="Transit">
+    </div>
+    <br>
     <h5>Edit JSON:</h5>
     <textarea id="mapdata" @bind="WebService.FeatureSettingsEditing"></textarea>
     <br>
     <input type="submit" @onclick="@SaveFeatureSettings" value="Save">
     <br>
-    <i>Make sure that "generated_version" is greater<br>if a map has been generated previously.If you don't it<br>will not generate a new map.The save button<br>increments it by one automatically.</i>
+    <i>When saved the "generation_version" will<br>automatically be set to a new version.</i>
 </div>
 
 @code {

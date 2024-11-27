@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MapBuilder.Data;
 
-public class CellRepository : ICellRepository
+public class CellRepository : ICellRepository, IDisposable, IAsyncDisposable
 {
     private readonly CellContext _context = new();
 
@@ -22,6 +22,18 @@ public class CellRepository : ICellRepository
     {
         return await _context.Cells.ToListAsync();
     }
+
+    public async Task<int> GetHighestGenerationVersion()
+    {
+        try
+        {
+            return await _context.Cells.MaxAsync(o => o.GenerationVersion);
+        }
+        catch
+        {
+            return 0;
+        }
+    }
     public async Task<Cell?> GetCellByTokenAsync(string token)
     {
         try
@@ -35,5 +47,15 @@ public class CellRepository : ICellRepository
         {
             return null;
         }
+    }
+
+    public void Dispose()
+    {
+        _context.Dispose();
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        await _context.DisposeAsync();
     }
 }

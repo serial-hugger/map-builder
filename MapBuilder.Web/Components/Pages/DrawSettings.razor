@@ -15,7 +15,15 @@
 
 <h3>Draw Settings</h3>
 
-<div id = "map">
+<div id="map">
+    <div>
+        <h5>Presets:</h5>
+        <input type="submit" @onclick="() => LoadModes(WebService.LoadDefaultDraw)" value="Default">
+        <input type="submit" @onclick="() => LoadModes(WebService.LoadTreasureMapDraw)" value="Oasis">
+        <input type="submit" @onclick="() => LoadModes(WebService.LoadOpenStreetMapDraw)" value="OpenStreetMap">
+        <input type="submit" @onclick="() => LoadModes(WebService.LoadGoogleMapDraw)" value="Google Maps">
+    </div>
+    <br>
     <h5>Edit JSON:</h5>
     <textarea id="mapdata" @bind="WebService.DrawSettingsEditing"></textarea>
     <br>

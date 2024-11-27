@@ -124,8 +124,6 @@ public partial class Generation
         _hidingData = false;
         StateHasChanged();
         string[] commands = _data.Split(';');
-        await _context.SetFillStyleAsync("green");
-        await _context.FillRectAsync(0, 0, 500, 500);
         foreach (string command in commands)
         {
             string[] splitted = command.Split(':');
@@ -153,6 +151,11 @@ public partial class Generation
         {
             _fillColor = value;
         }
+        if (key=="fill_base")
+        {
+            await _context.SetFillStyleAsync(value);
+            await _context.FillRectAsync(0, 0, 500, 500);
+        }
         if (key=="stroke_color")
         {
             _strokeColor = value;
@@ -164,7 +167,7 @@ public partial class Generation
         if (key=="points")
         {
             await _context.MoveToAsync(0, 0);
-            await _context.SetLineWidthAsync(_thickness);
+            await _context.SetLineWidthAsync(_thickness +((_level-10f)/2f));
             await _context.SetStrokeStyleAsync(_strokeColor);
             await _context.SetFillStyleAsync(_fillColor);
             string[] points = value.Split(',');
