@@ -22,8 +22,8 @@ data easier to use for the purpose of making games.
   <li>Make MapBuilder.Web the startup item.</li>
   <li>Make http the launch option.</li>
   <li>Run the app.</li>
-  ![image](https://github.com/user-attachments/assets/60db73ae-bf9c-4f91-9b20-e60de2987648)
-  <li>If a page that looks like this doesn't open please make sure the NuGet packages below are installed and are the correct versions.</li>
+  <img src=https://github.com/user-attachments/assets/60db73ae-bf9c-4f91-9b20-e60de2987648/>
+      <li>You should have a page looking like this open up in a browser, if it does not please make sure the NuGet packages below are installed and are the correct versions.</li>
 </ol>
 <h3>Nuget Package List</h3>
 <ul>
