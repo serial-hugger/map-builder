@@ -25,8 +25,4 @@
       <ProjectReference Include="..\MapBuilder.Data\MapBuilder.Data.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <None Include="Settings\featuresettings.json" />
-    </ItemGroup>
-
 </Project>
