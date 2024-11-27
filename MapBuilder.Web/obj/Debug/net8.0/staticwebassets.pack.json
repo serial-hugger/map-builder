@@ -21,8 +21,8 @@
       "PackagePath": "staticwebassets/favicon.png"
     },
     {
-      "Id": "/home/jeremy/Documents/Projects/map-builder/MapBuilder.Web/wwwroot/js/NavMenu.js",
-      "PackagePath": "staticwebassets/js/NavMenu.js"
+      "Id": "/home/jeremy/Documents/Projects/map-builder/MapBuilder.Web/wwwroot/js/Functions.js",
+      "PackagePath": "staticwebassets/js/Functions.js"
     },
     {
       "Id": "obj/Debug/net8.0/staticwebassets/msbuild.MapBuilder.Web.Microsoft.AspNetCore.StaticWebAssets.props",

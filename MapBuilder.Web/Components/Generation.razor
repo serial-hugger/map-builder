@@ -14,12 +14,8 @@
     }
 </style>
 <div id="generationsettings" hidden="@_hidingGenerationSettings">
-    <div class="slidecontainer">
-        <label for="level">Level :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(@_level)</label>
-        <input type="range" @bind-value:event="oninput" @bind-value="_level" min="10" max="15" class="slider" id="level">
-        <p>Lower cell levels take longer to generate.</p>
-    </div>
     <div>
+        <h5>Presets:</h5>
         <button @onclick="() => SetLatLon(37.570199, -83.710665)">Beattyville, KY</button>
         <button @onclick="() => SetLatLon(37.55729768290482, -83.3859423943577)">Jackson, KY</button>
         <button @onclick="() => SetLatLon(37.747531919359, -84.29589199459659)">Richmond, KY</button>
@@ -27,6 +23,14 @@
         <button @onclick="() => SetLatLon(36.16382469155207, -86.78154699261148)">Nashville, TN</button>
         <button @onclick="() => SetLatLon(39.10176167904405, -94.58163683394731)">Kansas City, MO</button>
     </div><br>
+    <h5>Parameters:</h5>
+    <div class="slidecontainer">
+        <label for="level">Level :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(@_level)</label>
+        <input type="range" @bind-value:event="oninput" @bind-value="_level" min="10" max="15" class="slider" id="level">
+        <br>
+        <i>Lower cell levels take longer to generate.</i>
+    </div>
+    <br>
     <label for="lat">Latitude :&nbsp;&nbsp;&nbsp;</label>
     <input type="text" @bind="@_lat" id="lat" name="lat"><br><br>
     <label for="lng">Longitude :</label>

@@ -9,7 +9,8 @@
       "MapBuilder.Web/1.0.0": {
         "dependencies": {
           "Blazor.Extensions.Canvas": "1.1.1",
-          "MapBuilder.Api": "1.0.0"
+          "MapBuilder.Api": "1.0.0",
+          "Newtonsoft.Json": "13.0.0.0"
         },
         "runtime": {
           "MapBuilder.Web.dll": {}

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "G7KjIZetGTkGUCpjHnYZ4rdQKB0Z5eIvTD90+R+YRIo=",
+  "Hash": "p2dCie4jNYyobbZGDmq4Tszjp8wcXqmMJBUcN8bIX90=",
   "Source": "MapBuilder.Web",
   "BasePath": "_content/MapBuilder.Web",
   "Mode": "Default",
@@ -162,12 +162,12 @@
       "OriginalItemSpec": "wwwroot/favicon.png"
     },
     {
-      "Identity": "/home/jeremy/Documents/Projects/map-builder/MapBuilder.Web/wwwroot/js/NavMenu.js",
+      "Identity": "/home/jeremy/Documents/Projects/map-builder/MapBuilder.Web/wwwroot/js/Functions.js",
       "SourceId": "MapBuilder.Web",
       "SourceType": "Discovered",
       "ContentRoot": "/home/jeremy/Documents/Projects/map-builder/MapBuilder.Web/wwwroot/",
       "BasePath": "_content/MapBuilder.Web",
-      "RelativePath": "js/NavMenu.js",
+      "RelativePath": "js/Functions.js",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -178,7 +178,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/js/NavMenu.js"
+      "OriginalItemSpec": "wwwroot/js/Functions.js"
     }
   ]
 }

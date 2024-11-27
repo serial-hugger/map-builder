@@ -26,8 +26,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9HZW5lcmF0aW9uLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
+[/home/jeremy/Documents/Projects/map-builder/MapBuilder.Web/Components/Pages/DrawSettings.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9EcmF3U2V0dGluZ3MucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
 [/home/jeremy/Documents/Projects/map-builder/MapBuilder.Web/Components/Pages/Error.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9FcnJvci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/jeremy/Documents/Projects/map-builder/MapBuilder.Web/Components/Pages/FeatureSettings.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9GZWF0dXJlU2V0dGluZ3MucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
 [/home/jeremy/Documents/Projects/map-builder/MapBuilder.Web/Components/Pages/GetData.razor]

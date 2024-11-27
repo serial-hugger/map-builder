@@ -1,0 +1,26 @@
+@page "/DrawSettings"
+@rendermode InteractiveServer
+@inject IJSRuntime JSRuntime
+
+<style>
+    #mapdata
+    {
+        width:300px;
+        height:400px;
+        overflow-x:hidden;
+        overflow-y:scroll;
+        word-wrap: break-word;
+    }
+</style>
+
+<h3>Draw Settings</h3>
+
+<div id = "map">
+    <h5>Edit JSON:</h5>
+    <textarea id="mapdata" @bind="WebService.DrawSettingsEditing"></textarea>
+    <br>
+    <input type="submit" @onclick="@SaveDrawSettings" value="Save">
+</div>
+
+@code {
+}

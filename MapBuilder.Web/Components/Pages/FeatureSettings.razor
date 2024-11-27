@@ -1,0 +1,28 @@
+@page "/FeatureSettings"
+@rendermode InteractiveServer
+@inject IJSRuntime JSRuntime
+
+<style>
+    #mapdata
+    {
+        width:300px;
+        height:400px;
+        overflow-x:hidden;
+        overflow-y:scroll;
+        word-wrap: break-word;
+    }
+</style>
+
+<h3>Feature Settings</h3>
+
+<div id = "map">
+    <h5>Edit JSON:</h5>
+    <textarea id="mapdata" @bind="WebService.FeatureSettingsEditing"></textarea>
+    <br>
+    <input type="submit" @onclick="@SaveFeatureSettings" value="Save">
+    <br>
+    <i>Make sure that "generated_version" is greater<br>if a map has been generated previously.If you don't it<br>will not generate a new map.The save button<br>increments it by one automatically.</i>
+</div>
+
+@code {
+}

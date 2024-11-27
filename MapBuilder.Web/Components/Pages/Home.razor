@@ -9,8 +9,8 @@ data easier to use for the purpose of making games.
 </pre>
 <h3>Parameters</h3>
 <ul>
+    <li>Preset Buttons: Automatically enters applicable information.</li>
     <li>Level: The size of the map to draw, lower is bigger and will take a lot longer, so try higher levels first.</li>
-    <li>Preset Buttons: Auto enters coordinates of the location.</li>
     <li>Latitude: The latitude coordinate.</li>
     <li>Longitude: The latitude coordinate.</li>
 </ul>
@@ -19,3 +19,37 @@ data easier to use for the purpose of making games.
 
 <h3><a href="/getdata">[Get Data]</a></h3>
 <h5>Gets the JSON data of all the cells in an area.</h5>
+
+<h3><a href="/featuresettings">[Feature Settings]</a></h3>
+<h5>Edit the file that is used to generate map data.</h5>
+<ul>
+    <li>"generation_version": When you generate map data this is used in the database to decide if the information needs to be regenerated.</li>
+    <li>"types": List of categories to organize the OpenStreetMap data into based on the tags.</li>
+    <ul>
+        <li>"name": The name of the type.</li>
+        <li>"tags": Dictionary of <a href="https://taginfo.openstreetmap.org/">tag keys and values</a> that this type will be applied to.</li>
+        <ul>
+            <li>"key": The key of the tag, null is a wild card.</li>
+            <li>"value": The value of the tag, null is a wild card.</li>
+        </ul>
+    </ul>
+    <li>"retrieve": List of data to keep when processing the OpenStreetMap data.</li>
+    <ul>
+        <li>"label": Given name of the returned value to identify it.</li>
+        <li>"key": The actual returned data.</li>
+    </ul>
+</ul>
+
+<h3><a href="/drawsettings">[Draw Settings]</a></h3>
+<h5>Edit the file that is used to draw map data.</h5>
+<ul>
+    <li>"modes": List of techniques to use when drawing the map.</li>
+    <ul>
+        <li>"order": The order to be drawn, higher orders will be drawn over lower ones.</li>
+        <li>"type_name": The name of the type as defined in the feature settings that this mode will be applied to.</li>
+        <li>"stroke_color": The color to be used for strokes.</li>
+        <li>"fill_color": The color to be used for filling.</li>
+        <li>"fill_if_closed": Whether the feature should be filled in when it is a closed shape.</li>
+        <li>"stroke_thickness": The thickness of stroke lines.</li>
+    </ul>
+</ul>

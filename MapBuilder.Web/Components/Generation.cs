@@ -2,7 +2,7 @@ using Blazor.Extensions;
 using Blazor.Extensions.Canvas;
 using Blazor.Extensions.Canvas.Canvas2D;
 using MapBuilder.Api.Controllers;
-using MapBuilder.Web.Components.Layout;
+using MapBuilder.Shared.SerializationModels;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
@@ -46,13 +46,12 @@ public partial class Generation
 
     public CancellationTokenSource cts;
     
-    [CascadingParameter]
-    protected EventCallback<bool> ChangeHidingNavMenuEvent { get; set; }
+    [Inject]
+    public WebService WebService {get; set;}
     
     public async Task DoAction()
     {
         await JSRuntime.InvokeVoidAsync("setNavMenuHidden",true);
-        await ChangeHidingNavMenuEvent.InvokeAsync(true);
         cts = new CancellationTokenSource();
         _hidingCancelButton = false;
         _completed = 0;
@@ -80,7 +79,7 @@ public partial class Generation
         {
             try
             {
-                await RetrieveData(cts.Token);
+                await RetrieveData(cts.Token,WebService.FeatureSettings);
             }
             catch
             {
@@ -92,11 +91,11 @@ public partial class Generation
         StateHasChanged();
     }
     
-    public async Task RetrieveData(CancellationToken ct)
+    public async Task RetrieveData(CancellationToken ct, FeatureSettings? featureSettings)
     {
         _hidingCanvas = true;
         MapController _mapController = new MapController();
-        _data = await _mapController.GetMap(_level,_lat,_lng, Completion,cts.Token);
+        _data = await _mapController.GetMap(_level,_lat,_lng, Completion,cts.Token, featureSettings);
         _dataDescription = "JSON data:";
         _hidingData = false;
         _timeFinished = DateTime.Now;
@@ -118,7 +117,7 @@ public partial class Generation
     public async Task DrawMap(CancellationToken ct)
     {
         _hidingCanvas = false;
-        DrawInstructer drawInstructer = new DrawInstructer(null,null);
+        DrawInstructer drawInstructer = new DrawInstructer(WebService.FeatureSettings,WebService.DrawSettings);
         _data = await drawInstructer.Instructions(_level,_lat,_lng, Completion, cts.Token);
         _dataDescription = "Instructions used to draw the map:";
         _info = "Drawing map...";
