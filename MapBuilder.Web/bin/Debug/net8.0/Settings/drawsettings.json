@@ -1,9 +1,68 @@
 {
-    "modes":[
-        {"order": -1, "type_name": null, "fill_if_closed": true, "stroke_color": "#217517", "fill_color": "#217517", "stroke_thickness": 4},
-        {"order": 0, "type_name": "water", "fill_if_closed": true, "stroke_color": "#00bcff", "fill_color": "#00bcff", "stroke_thickness": 4},
-        {"order": 1, "type_name": "road", "fill_if_closed": false, "stroke_color": "#000000", "fill_color": "#000000", "stroke_thickness": 3},
-        {"order": 1, "type_name": "path", "fill_if_closed": false, "stroke_color": "#d0a655", "fill_color": "#d0a655", "stroke_thickness": 2},
-        {"order": 2, "type_name": "building", "fill_if_closed": true, "stroke_color": "#8e8e8e", "fill_color": "#8e8e8e", "stroke_thickness": 1}
+    "modes": [
+        {
+            "order": -1,
+            "type_name": "base",
+            "stroke_color": "#217517",
+            "fill_color": "#217517",
+            "fill_if_closed": true,
+            "stroke_thickness": 4
+        },
+        {
+            "order": 0,
+            "type_name": "park",
+            "stroke_color": "#c8f769",
+            "fill_color": "#c8f769",
+            "fill_if_closed": true,
+            "stroke_thickness": 4
+        },
+        {
+            "order": 1,
+            "type_name": "water",
+            "stroke_color": "#00bcff",
+            "fill_color": "#00bcff",
+            "fill_if_closed": true,
+            "stroke_thickness": 4
+        },
+        {
+            "order": 2,
+            "type_name": "wood",
+            "stroke_color": "#0f6401",
+            "fill_color": "#0f6401",
+            "fill_if_closed": true,
+            "stroke_thickness": 4
+        },
+        {
+            "order": 4,
+            "type_name": "road",
+            "stroke_color": "#000000",
+            "fill_color": "#000000",
+            "fill_if_closed": false,
+            "stroke_thickness": 3
+        },
+        {
+            "order": 3,
+            "type_name": "path",
+            "stroke_color": "#d0a655",
+            "fill_color": "#d0a655",
+            "fill_if_closed": false,
+            "stroke_thickness": 2
+        },
+        {
+            "order": 5,
+            "type_name": "railway",
+            "stroke_color": "#ff6b00",
+            "fill_color": "#ff6b00",
+            "fill_if_closed": false,
+            "stroke_thickness": 4
+        },
+        {
+            "order": 6,
+            "type_name": "building",
+            "stroke_color": "#8e8e8e",
+            "fill_color": "#8e8e8e",
+            "fill_if_closed": true,
+            "stroke_thickness": 1
+        }
     ]
 }

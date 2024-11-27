@@ -1,6 +1,5 @@
 /home/jeremy/Documents/Projects/map-builder/MapBuilder.Web/bin/Debug/net8.0/MapBuilder.Api.deps.json
 /home/jeremy/Documents/Projects/map-builder/MapBuilder.Web/bin/Debug/net8.0/MapBuilder.Api.runtimeconfig.json
-/home/jeremy/Documents/Projects/map-builder/MapBuilder.Web/bin/Debug/net8.0/Settings/settings.json
 /home/jeremy/Documents/Projects/map-builder/MapBuilder.Web/bin/Debug/net8.0/MapBuilder.Api
 /home/jeremy/Documents/Projects/map-builder/MapBuilder.Web/bin/Debug/net8.0/appsettings.Development.json
 /home/jeremy/Documents/Projects/map-builder/MapBuilder.Web/bin/Debug/net8.0/appsettings.json
