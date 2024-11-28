@@ -22,4 +22,9 @@
       <Folder Include="SerializationModels\FeatureSettings\" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+      <PackageReference Include="S2Geometry" Version="1.0.3" />
+    </ItemGroup>
+
 </Project>
