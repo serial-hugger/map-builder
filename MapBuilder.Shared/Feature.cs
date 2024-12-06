@@ -16,7 +16,7 @@ public class Feature
     public int Id { get; set; }
     public long WayId { get; set; }
     public int TotalPoints { get; set; }
-    public string Type { get; set; }
+    public string Type { get; set; } = "";
     public bool Closed { get; set; }
     [System.Text.Json.Serialization.JsonIgnore]
     public int CellId { get; set; }
@@ -33,7 +33,7 @@ public class Feature
         this.WayId = wayId;
     }
 
-    public void SetDataRetrieve(Dictionary<string,string>? tags, FeatureSettings featureSettings)
+    public void SetDataRetrieve(Dictionary<string,string>? tags, FeatureSettings? featureSettings)
     {
         FeatureSettings featureSettingsJson;
         string jsonFilepath;
@@ -48,6 +48,7 @@ public class Feature
         {
             featureSettingsJson = featureSettings;
         }
+        
         string data = "";
         if (tags != null && tags.Any())
         {
@@ -55,9 +56,11 @@ public class Feature
             {
                 for (int retrieveSearch = 0; retrieveSearch < featureSettingsJson.Retrieve.Count; retrieveSearch++)
                 {
+                    Console.WriteLine($"Tag={tags.ElementAt(tag).ToString()} Retrieves={featureSettingsJson.Retrieve[retrieveSearch].Key}:{featureSettingsJson.Retrieve[retrieveSearch].Label}");
+
                     try
                     {
-                        string[] tagSplit = Regex.Unescape(tags.ElementAt(tag).ToString().Replace("\"", string.Empty)).Split(':');
+                        string[] tagSplit = Regex.Unescape(tags.ElementAt(tag).ToString().Replace("\"", string.Empty).Replace("[", string.Empty).Replace("]", string.Empty)).Split(',');
                         if (tagSplit[0].Trim() == featureSettingsJson.Retrieve?[retrieveSearch]?.Key.Trim())
                         {
                             StringBuilder dataString = new StringBuilder();

@@ -22,9 +22,9 @@ public class Map
         _cellRepository = cellRepository;
     }
 
-    public async Task BuildMap(List<S2CellId> cellIds, Func<int,string>? completion, CancellationToken ct, FeatureSettings featureSettings)
+    public async Task BuildMap(List<S2CellId> cellIds, Func<int,string>? completion, CancellationToken ct, FeatureSettings? featureSettings)
     {
-        FeatureSettings featureSettingsJson;
+        FeatureSettings? featureSettingsJson;
         string jsonFilepath;
         string jsonContent;
         if (featureSettings == null)

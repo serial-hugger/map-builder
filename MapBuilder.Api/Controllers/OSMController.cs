@@ -38,7 +38,6 @@ public class OSMController:ControllerBase, IOSMController
             HttpResponseMessage response= client.PostAsync(apiUrl, new StringContent(query, Encoding.UTF8, "text/plain"),ct).Result;
 
             var jsonString = await response.Content.ReadAsStringAsync(ct);
-            Console.WriteLine($"{latitudeLo}/{longitudeLo}/{latitudeHi}/{longitudeHi}");
             return JsonConvert.DeserializeObject<OSM>(jsonString);
         }
     }

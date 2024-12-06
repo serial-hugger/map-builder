@@ -101,7 +101,7 @@ public class Cell
                                     {
                                         if (true)
                                         {
-                                            FeaturePoint featurePoint = new FeaturePoint((double)member.Geometry[n].Lat,
+                                            FeaturePoint featurePoint = new FeaturePoint(id,(double)member.Geometry[n].Lat,
                                                 (double)member.Geometry[n].Lon);
                                             featurePoint.WayId = id;
                                             featurePoint.CellId = Id;
@@ -145,7 +145,7 @@ public class Cell
                             {
                                 if (true)
                                 {
-                                    FeaturePoint featurePoint = new FeaturePoint((long)data.Elements[e].Nodes[n],
+                                    FeaturePoint featurePoint = new FeaturePoint(data.Elements[e].Nodes[n],
                                         (double)data.Elements[e].Geometry[n].Lat,
                                         (double)data.Elements[e].Geometry[n].Lon);
                                     featurePoint.WayId = id;
