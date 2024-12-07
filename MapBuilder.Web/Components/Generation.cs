@@ -86,6 +86,17 @@ public partial class Generation
                 Console.WriteLine("Cancelled");
             }
         }
+        if (Type == "osm")
+        {
+            try
+            {
+                await RetrieveOsm(cts.Token);
+            }
+            catch
+            {
+                Console.WriteLine("Cancelled");
+            }
+        }
         _hidingCancelButton = true;
         await JSRuntime.InvokeVoidAsync("setNavMenuHidden", false);
         StateHasChanged();
@@ -94,9 +105,23 @@ public partial class Generation
     public async Task RetrieveData(CancellationToken ct, FeatureSettings? featureSettings)
     {
         _hidingCanvas = true;
-        MapController _mapController = new MapController();
-        _data = await _mapController.GetMap(_level,_lat,_lng, Completion,cts.Token, featureSettings);
+        MapController mapController = new MapController();
+        _data = await mapController.GetMap(_level,_lat,_lng, Completion,cts.Token, featureSettings);
         _dataDescription = "JSON data:";
+        _hidingData = false;
+        _timeFinished = DateTime.Now;
+        _timeInfo = " (Time: "+(_timeFinished - _timeStarted)+")";
+        _info = "Finished!";
+        _hidingGenerationSettings = true;
+        _hidingRegenerateButton = false;
+        StateHasChanged();
+    }
+    public async Task RetrieveOsm(CancellationToken ct)
+    {
+        _hidingCanvas = true;
+        OSMController osmController = new OSMController();
+        _data = await osmController.GetData(_level,_lat,_lng,cts.Token);
+        _dataDescription = "Raw OpenStreetMap data:";
         _hidingData = false;
         _timeFinished = DateTime.Now;
         _timeInfo = " (Time: "+(_timeFinished - _timeStarted)+")";

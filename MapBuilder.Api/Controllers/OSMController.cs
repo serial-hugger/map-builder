@@ -43,7 +43,7 @@ public class OSMController:ControllerBase, IOSMController
     }
 
     [HttpGet("{action}/{cellToken}")]
-    public async Task<OSM?> GetData(string cellToken, CancellationToken ct)
+    public async Task<OSM?> GetDataFromToken(string cellToken, CancellationToken ct)
     {
         S2Cell cell = new S2Cell(S2CellId.FromToken(cellToken));
         
@@ -68,5 +68,25 @@ public class OSMController:ControllerBase, IOSMController
             var jsonString = JsonSerializer.Serialize(cellModel);
             return JsonSerializer.Deserialize<OSM>(jsonString);
         }
+    }
+    [HttpGet("{action}/{level}/{latitude}/{longitude}")]
+    public async Task<string?> GetData(int level, double latitude, double longitude, CancellationToken ct)
+    {
+        var coord = S2LatLng.FromDegrees(latitude, longitude);
+        var token = S2CellId.FromLatLng(coord).ParentForLevel(level).ToToken();
+        S2Cell cell = new S2Cell(S2CellId.FromToken(token));
+        
+            string apiUrl = "https://overpass-api.de/api/interpreter";
+            string query =
+                $"[out:json][maxsize:1073741824][timeout:900];way({cell.RectBound.LatLo.ToString().Replace("d","")},{cell.RectBound.LngLo.ToString().Replace("d","")},{cell.RectBound.LatHi.ToString().Replace("d","")},{cell.RectBound.LngHi.ToString().Replace("d","")});out geom;";
+
+            using (var client = new HttpClient())
+            {
+                Console.WriteLine($"Query: {query}");
+                //client.DefaultRequestHeaders.Add("Accept", "application/json");
+                var response = client.PostAsync(apiUrl, new StringContent(query, Encoding.UTF8, "text/plain"), ct)
+                    .Result;
+                return await response.Content.ReadAsStringAsync(ct);
+            }
     }
 }
