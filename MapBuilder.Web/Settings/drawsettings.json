@@ -14,7 +14,7 @@
             "stroke_color": "#c8f769",
             "fill_color": "#c8f769",
             "fill_if_closed": true,
-            "stroke_thickness": 4
+            "stroke_thickness": 1
         },
         {
             "order": 1,
@@ -30,7 +30,7 @@
             "stroke_color": "#0f6401",
             "fill_color": "#0f6401",
             "fill_if_closed": true,
-            "stroke_thickness": 4
+            "stroke_thickness": 1
         },
         {
             "order": 4,
@@ -46,7 +46,7 @@
             "stroke_color": "#d0a655",
             "fill_color": "#d0a655",
             "fill_if_closed": false,
-            "stroke_thickness": 2
+            "stroke_thickness": 1
         },
         {
             "order": 5,
@@ -54,7 +54,7 @@
             "stroke_color": "#ff6b00",
             "fill_color": "#ff6b00",
             "fill_if_closed": false,
-            "stroke_thickness": 4
+            "stroke_thickness": 1
         },
         {
             "order": 6,

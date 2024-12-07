@@ -138,12 +138,12 @@ public class WebService
     {
         DrawSettingsEditing = "{\n  \"modes\": [" +
                               "\n    {\n      \"order\": -1,\n      \"type_name\": \"base\",\n      \"stroke_color\": \"#eab676\",\n      \"fill_color\": \"#eab676\",\n      \"fill_if_closed\": true,\n      \"stroke_thickness\": 4\n    }," +
-                              "\n    {\n      \"order\": 0,\n      \"type_name\": \"park\",\n      \"stroke_color\": \"#f5d480\",\n      \"fill_color\": \"#f5d480\",\n      \"fill_if_closed\": true,\n      \"stroke_thickness\": 4\n    }," +
+                              "\n    {\n      \"order\": 0,\n      \"type_name\": \"park\",\n      \"stroke_color\": \"#f5d480\",\n      \"fill_color\": \"#f5d480\",\n      \"fill_if_closed\": true,\n      \"stroke_thickness\": 1\n    }," +
                               "\n    {\n      \"order\": 1,\n      \"type_name\": \"water\",\n      \"stroke_color\": \"#00bcff\",\n      \"fill_color\": \"#00bcff\",\n      \"fill_if_closed\": true,\n      \"stroke_thickness\": 4\n    }," +
-                              "\n    {\n      \"order\": 2,\n      \"type_name\": \"wood\",\n      \"stroke_color\": \"#a1aca4\",\n      \"fill_color\": \"#a1aca4\",\n      \"fill_if_closed\": true,\n      \"stroke_thickness\": 4\n    }," +
+                              "\n    {\n      \"order\": 2,\n      \"type_name\": \"wood\",\n      \"stroke_color\": \"#a1aca4\",\n      \"fill_color\": \"#a1aca4\",\n      \"fill_if_closed\": true,\n      \"stroke_thickness\": 1\n    }," +
                               "\n    {\n      \"order\": 4,\n      \"type_name\": \"road\",\n      \"stroke_color\": \"#7b4610\",\n      \"fill_color\": \"#7b4610\",\n      \"fill_if_closed\": false,\n      \"stroke_thickness\": 3\n    }," +
-                              "\n    {\n      \"order\": 3,\n      \"type_name\": \"path\",\n      \"stroke_color\": \"#a76a59\",\n      \"fill_color\": \"#a76a59\",\n      \"fill_if_closed\": false,\n      \"stroke_thickness\": 2\n    }," +
-                              "\n    {\n      \"order\": 5,\n      \"type_name\": \"railway\",\n      \"stroke_color\": \"#d8a195\",\n      \"fill_color\": \"#d8a195\",\n      \"fill_if_closed\": false,\n      \"stroke_thickness\": 4\n    }," +
+                              "\n    {\n      \"order\": 3,\n      \"type_name\": \"path\",\n      \"stroke_color\": \"#a76a59\",\n      \"fill_color\": \"#a76a59\",\n      \"fill_if_closed\": false,\n      \"stroke_thickness\": 1\n    }," +
+                              "\n    {\n      \"order\": 5,\n      \"type_name\": \"railway\",\n      \"stroke_color\": \"#d8a195\",\n      \"fill_color\": \"#d8a195\",\n      \"fill_if_closed\": false,\n      \"stroke_thickness\": 1\n    }," +
                               "\n    {\n      \"order\": 6,\n      \"type_name\": \"building\",\n      \"stroke_color\": \"#e27038\",\n      \"fill_color\": \"#e27038\",\n      \"fill_if_closed\": true,\n      \"stroke_thickness\": 1\n    }" +
                               "\n  ]\n}";
     } 
@@ -151,12 +151,12 @@ public class WebService
     {
         DrawSettingsEditing = "{\n  \"modes\": [" +
                               "\n    {\n      \"order\": -1,\n      \"type_name\": \"base\",\n      \"stroke_color\": \"#f3efe8\",\n      \"fill_color\": \"#f3efe8\",\n      \"fill_if_closed\": true,\n      \"stroke_thickness\": 4\n    }," +
-                              "\n    {\n      \"order\": 0,\n      \"type_name\": \"park\",\n      \"stroke_color\": \"#c8fbcd\",\n      \"fill_color\": \"#c8fbcd\",\n      \"fill_if_closed\": true,\n      \"stroke_thickness\": 4\n    }," +
+                              "\n    {\n      \"order\": 0,\n      \"type_name\": \"park\",\n      \"stroke_color\": \"#c8fbcd\",\n      \"fill_color\": \"#c8fbcd\",\n      \"fill_if_closed\": true,\n      \"stroke_thickness\": 1\n    }," +
                               "\n    {\n      \"order\": 1,\n      \"type_name\": \"water\",\n      \"stroke_color\": \"#aad3df\",\n      \"fill_color\": \"#aad3df\",\n      \"fill_if_closed\": true,\n      \"stroke_thickness\": 4\n    }," +
-                              "\n    {\n      \"order\": 2,\n      \"type_name\": \"wood\",\n      \"stroke_color\": \"#acd09e\",\n      \"fill_color\": \"#acd09e\",\n      \"fill_if_closed\": true,\n      \"stroke_thickness\": 4\n    }," +
+                              "\n    {\n      \"order\": 2,\n      \"type_name\": \"wood\",\n      \"stroke_color\": \"#acd09e\",\n      \"fill_color\": \"#acd09e\",\n      \"fill_if_closed\": true,\n      \"stroke_thickness\": 1\n    }," +
                               "\n    {\n      \"order\": 4,\n      \"type_name\": \"road\",\n      \"stroke_color\": \"#f9f8f8\",\n      \"fill_color\": \"#f9f8f8\",\n      \"fill_if_closed\": false,\n      \"stroke_thickness\": 3\n    }," +
-                              "\n    {\n      \"order\": 3,\n      \"type_name\": \"path\",\n      \"stroke_color\": \"#e7ccb6\",\n      \"fill_color\": \"#e7ccb6\",\n      \"fill_if_closed\": false,\n      \"stroke_thickness\": 2\n    }," +
-                              "\n    {\n      \"order\": 5,\n      \"type_name\": \"railway\",\n      \"stroke_color\": \"#a19f9f\",\n      \"fill_color\": \"#a19f9f\",\n      \"fill_if_closed\": false,\n      \"stroke_thickness\": 4\n    }," +
+                              "\n    {\n      \"order\": 3,\n      \"type_name\": \"path\",\n      \"stroke_color\": \"#e7ccb6\",\n      \"fill_color\": \"#e7ccb6\",\n      \"fill_if_closed\": false,\n      \"stroke_thickness\": 1\n    }," +
+                              "\n    {\n      \"order\": 5,\n      \"type_name\": \"railway\",\n      \"stroke_color\": \"#a19f9f\",\n      \"fill_color\": \"#a19f9f\",\n      \"fill_if_closed\": false,\n      \"stroke_thickness\": 1\n    }," +
                               "\n    {\n      \"order\": 6,\n      \"type_name\": \"building\",\n      \"stroke_color\": \"#cdc1b7\",\n      \"fill_color\": \"#cdc1b7\",\n      \"fill_if_closed\": true,\n      \"stroke_thickness\": 1\n    }" +
                               "\n  ]\n}";
     }
@@ -164,12 +164,12 @@ public class WebService
     {
         DrawSettingsEditing = "{\n  \"modes\": [" +
                               "\n    {\n      \"order\": -1,\n      \"type_name\": \"base\",\n      \"stroke_color\": \"#f8f7f7\",\n      \"fill_color\": \"#f8f7f7\",\n      \"fill_if_closed\": true,\n      \"stroke_thickness\": 4\n    }," +
-                              "\n    {\n      \"order\": 0,\n      \"type_name\": \"park\",\n      \"stroke_color\": \"#d3f9e3\",\n      \"fill_color\": \"#d3f9e3\",\n      \"fill_if_closed\": true,\n      \"stroke_thickness\": 4\n    }," +
+                              "\n    {\n      \"order\": 0,\n      \"type_name\": \"park\",\n      \"stroke_color\": \"#d3f9e3\",\n      \"fill_color\": \"#d3f9e3\",\n      \"fill_if_closed\": true,\n      \"stroke_thickness\": 1\n    }," +
                               "\n    {\n      \"order\": 1,\n      \"type_name\": \"water\",\n      \"stroke_color\": \"#90dbef\",\n      \"fill_color\": \"#90dbef\",\n      \"fill_if_closed\": true,\n      \"stroke_thickness\": 4\n    }," +
-                              "\n    {\n      \"order\": 2,\n      \"type_name\": \"wood\",\n      \"stroke_color\": \"#c3f0d4\",\n      \"fill_color\": \"#c3f0d4\",\n      \"fill_if_closed\": true,\n      \"stroke_thickness\": 4\n    }," +
+                              "\n    {\n      \"order\": 2,\n      \"type_name\": \"wood\",\n      \"stroke_color\": \"#c3f0d4\",\n      \"fill_color\": \"#c3f0d4\",\n      \"fill_if_closed\": true,\n      \"stroke_thickness\": 1\n    }," +
                               "\n    {\n      \"order\": 4,\n      \"type_name\": \"road\",\n      \"stroke_color\": \"#8ba5c1\",\n      \"fill_color\": \"#8ba5c1\",\n      \"fill_if_closed\": false,\n      \"stroke_thickness\": 3\n    }," +
-                              "\n    {\n      \"order\": 3,\n      \"type_name\": \"path\",\n      \"stroke_color\": \"#d3dde5\",\n      \"fill_color\": \"#d3dde5\",\n      \"fill_if_closed\": false,\n      \"stroke_thickness\": 2\n    }," +
-                              "\n    {\n      \"order\": 5,\n      \"type_name\": \"railway\",\n      \"stroke_color\": \"#e2e4e7\",\n      \"fill_color\": \"#e2e4e7\",\n      \"fill_if_closed\": false,\n      \"stroke_thickness\": 4\n    }," +
+                              "\n    {\n      \"order\": 3,\n      \"type_name\": \"path\",\n      \"stroke_color\": \"#d3dde5\",\n      \"fill_color\": \"#d3dde5\",\n      \"fill_if_closed\": false,\n      \"stroke_thickness\": 1\n    }," +
+                              "\n    {\n      \"order\": 5,\n      \"type_name\": \"railway\",\n      \"stroke_color\": \"#e2e4e7\",\n      \"fill_color\": \"#e2e4e7\",\n      \"fill_if_closed\": false,\n      \"stroke_thickness\": 1\n    }," +
                               "\n    {\n      \"order\": 6,\n      \"type_name\": \"building\",\n      \"stroke_color\": \"#e8e9ed\",\n      \"fill_color\": \"#e8e9ed\",\n      \"fill_if_closed\": true,\n      \"stroke_thickness\": 1\n    }" +
                               "\n  ]\n}";
     }

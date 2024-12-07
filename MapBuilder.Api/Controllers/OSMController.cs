@@ -30,7 +30,7 @@ public class OSMController:ControllerBase, IOSMController
     {
         string apiUrl = "https://overpass-api.de/api/interpreter";
         string query = $"[out:json][maxsize:1073741824][timeout:900];node({latitudeLo},{longitudeLo},{latitudeHi},{longitudeHi});<<;out geom;";
-
+        Console.WriteLine($"Query: {query}");
         using (var client = new HttpClient())
         {
             client.Timeout = TimeSpan.FromMinutes(5);

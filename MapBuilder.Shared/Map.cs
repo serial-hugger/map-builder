@@ -38,9 +38,11 @@ public class Map
             featureSettingsJson = featureSettings;
         }
         int generationVersion = (int)featureSettingsJson.GenerationVersion;
-        
+        int processingCells = 0;
         foreach (S2CellId cellId in cellIds)
         {
+            processingCells++;
+            while(processingCells>10){}
             Cell? repoCell = await _cellRepository.GetCellByTokenAsync(cellId.ToToken());
             if (repoCell == null)
             {
@@ -75,6 +77,7 @@ public class Map
                 
                 completion?.Invoke(cellIds.Count);
             }
+            processingCells--;
         }
     }
     public void AddWayAndNode(Feature newFeature, FeaturePoint newFeaturePoint)

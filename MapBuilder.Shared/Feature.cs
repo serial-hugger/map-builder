@@ -56,8 +56,6 @@ public class Feature
             {
                 for (int retrieveSearch = 0; retrieveSearch < featureSettingsJson.Retrieve.Count; retrieveSearch++)
                 {
-                    Console.WriteLine($"Tag={tags.ElementAt(tag).ToString()} Retrieves={featureSettingsJson.Retrieve[retrieveSearch].Key}:{featureSettingsJson.Retrieve[retrieveSearch].Label}");
-
                     try
                     {
                         string[] tagSplit = Regex.Unescape(tags.ElementAt(tag).ToString().Replace("\"", string.Empty).Replace("[", string.Empty).Replace("]", string.Empty)).Split(',');

@@ -20,16 +20,16 @@ public class Cell
     public ICollection<Feature> Ways { get; } = new List<Feature>();
 
     [NonSerialized] 
-    public IOSMController? OsmController = null;
+    public IOSMController? OsmController;
     [NonSerialized]
     public Map Map;
     [NonSerialized]
-    public ICellRepository? CellRepository = null;
+    public ICellRepository? CellRepository;
 
     public Cell(string cellToken, Map map, IOSMController osmController, ICellRepository cellRepository)
     {
-        this.CellToken = cellToken;
-        this.MyCell = new S2Cell(S2CellId.FromToken(cellToken));
+        CellToken = cellToken;
+        MyCell = new S2Cell(S2CellId.FromToken(cellToken));
         OsmController = osmController;
         Map = map;
         CellRepository = cellRepository;
@@ -40,7 +40,7 @@ public class Cell
         Id = id;
         CellToken = cellToken;
     }
-
+    
     public async Task GetPoints(Func<int,string>? completion,int totalCells, CancellationToken ct, FeatureSettings? featureSettings)
     {
         FeatureSettings featureSettingsJson;
@@ -49,7 +49,7 @@ public class Cell
         if (featureSettings == null)
         {
             jsonFilepath = "Settings/featuresettings.json";
-            jsonContent = System.IO.File.ReadAllText(jsonFilepath);
+            jsonContent = File.ReadAllText(jsonFilepath);
             featureSettingsJson = JsonConvert.DeserializeObject<FeatureSettings>(jsonContent);
         }
         else
@@ -62,14 +62,17 @@ public class Cell
         {
             OSM? data = await OsmController.GetDataFromBox(MyCell.RectBound.LatLo.Degrees,
                     MyCell.RectBound.LngLo.Degrees, MyCell.RectBound.LatHi.Degrees, MyCell.RectBound.LngHi.Degrees, ct);
-            double latLo = MyCell.RectBound.LatLo.Degrees;
-            double lngLo = MyCell.RectBound.LngLo.Degrees;
-            double latHi = MyCell.RectBound.LatHi.Degrees;
-            double lngHi = MyCell.RectBound.LngHi.Degrees;
+            
             if (data != null)
             {
+                if (CellToken=="886973")
+                {
+                    Console.WriteLine($"Elements {data.Elements.Count}.");
+                    Console.WriteLine($"LatHi {MyCell.RectBound.LatHi.Degrees} LngHi {MyCell.RectBound.LngHi.Degrees} LatLo {MyCell.RectBound.LatLo.Degrees} LngLo {MyCell.RectBound.LngLo.Degrees}");
+                }
                 for (int e = 0; e < data.Elements.Count; e++)
                 {
+                    
                     ct.ThrowIfCancellationRequested();
                     long id = 0;
                     if (data.Elements[e].Type == "way")
@@ -94,39 +97,17 @@ public class Cell
                                 for (int n = 0; n < member.Geometry.Count; n++)
                                 {
                                     ct.ThrowIfCancellationRequested();
-                                    if ((double)member.Geometry[n].Lat < latHi &&
-                                        (double)member.Geometry[n].Lat > latLo &&
-                                        (double)member.Geometry[n].Lon < lngHi &&
-                                        (double)member.Geometry[n].Lon > lngLo)
+                                    if (IsWithinBounds(member.Geometry[n]))
                                     {
-                                        if (true)
-                                        {
-                                            FeaturePoint featurePoint = new FeaturePoint(id,(double)member.Geometry[n].Lat,
-                                                (double)member.Geometry[n].Lon);
-                                            featurePoint.WayId = id;
-                                            featurePoint.CellId = Id;
-                                            featurePoint.SetProperties(member.Geometry, n==0);
-                                            Feature newFeature = new Feature(id);
+                                        FeaturePoint featurePoint = new FeaturePoint(member.Geometry[n].Lat,
+                                            member.Geometry[n].Lon);
+                                        featurePoint.WayId = id;
+                                        featurePoint.CellId = Id;
+                                        featurePoint.SetProperties(member.Geometry, n==0);
+                                        Feature newFeature = new Feature(id);
 
-                                            newFeature.SetProperties(member.Geometry, data.Elements[e].Tags,featureSettingsJson);
-                                            if (!string.IsNullOrEmpty(newFeature.Type))
-                                            {
-                                                Map.AddWayAndNode(newFeature, featurePoint);
-                                                if (Nodes.All(point => point.WayId != featurePoint.WayId) || 
-                                                    Nodes.All(point => point.CellId != featurePoint.CellId) || 
-                                                    Nodes.All(point => point.PointId != featurePoint.PointId) || 
-                                                    Nodes.All(point => point.PointOrder != featurePoint.PointOrder) ||
-                                                    Nodes.All(point => point.Lat != featurePoint.Lat) ||
-                                                    Nodes.All(point => point.Lng != featurePoint.Lng))
-                                                {
-                                                    Nodes.Add(featurePoint);
-                                                }
-                                                if (Ways.All(w => w.WayId != id))
-                                                {
-                                                    Ways.Add(newFeature);
-                                                }
-                                            }
-                                        }
+                                        newFeature.SetProperties(member.Geometry, data.Elements[e].Tags,featureSettingsJson);
+                                        AddFeatureAndPoint(newFeature,featurePoint);
                                     }
                                 }
                             }
@@ -138,40 +119,17 @@ public class Cell
                         for (int n = 0; n < data.Elements[e].Nodes.Count; n++)
                         {
                             ct.ThrowIfCancellationRequested();
-                            if ((double)data.Elements[e].Geometry[n].Lat < latHi &&
-                                (double)data.Elements[e].Geometry[n].Lat > latLo &&
-                                (double)data.Elements[e].Geometry[n].Lon < lngHi &&
-                                (double)data.Elements[e].Geometry[n].Lon > lngLo)
+                            if (IsWithinBounds(data.Elements[e].Geometry[n]))
                             {
-                                if (true)
-                                {
-                                    FeaturePoint featurePoint = new FeaturePoint(data.Elements[e].Nodes[n],
-                                        (double)data.Elements[e].Geometry[n].Lat,
-                                        (double)data.Elements[e].Geometry[n].Lon);
-                                    featurePoint.WayId = id;
-                                    featurePoint.SetProperties(data.Elements[e].Nodes,n==0);
-                                    Feature newFeature = new Feature(id);
+                                FeaturePoint featurePoint = new FeaturePoint(data.Elements[e].Nodes[n],
+                                    data.Elements[e].Geometry[n].Lat,
+                                    data.Elements[e].Geometry[n].Lon);
+                                featurePoint.WayId = id;
+                                featurePoint.SetProperties(data.Elements[e].Nodes,n==0);
+                                Feature newFeature = new Feature(id);
 
-                                    newFeature.SetProperties(data.Elements[e].Geometry, data.Elements[e].Tags,featureSettingsJson);
-                                    if (!string.IsNullOrEmpty(newFeature.Type))
-                                    {
-                                        Map.AddWayAndNode(newFeature, featurePoint);
-                                        if (Nodes.All(point => point.WayId != featurePoint.PointId)||
-                                            Nodes.All(point => point.CellId != featurePoint.CellId)||
-                                            Nodes.All(point => point.PointId != featurePoint.PointId) || 
-                                            Nodes.All(point => point.PointOrder != featurePoint.PointOrder) ||
-                                            Nodes.All(point => point.Lat != featurePoint.Lat) ||
-                                            Nodes.All(point => point.Lng != featurePoint.Lng))
-                                        {
-                                            Nodes.Add(featurePoint);
-                                        }
-
-                                        if (Ways.All(w => w.WayId != id))
-                                        {
-                                            Ways.Add(newFeature);
-                                        }
-                                    }
-                                }
+                                newFeature.SetProperties(data.Elements[e].Geometry, data.Elements[e].Tags,featureSettingsJson);
+                                AddFeatureAndPoint(newFeature,featurePoint);
                             }
                         }
                     }
@@ -180,6 +138,35 @@ public class Cell
         }
 
         completion?.Invoke(totalCells);
+    }
+    private bool IsWithinBounds(Geometry geometry)
+    {
+        return geometry.Lat < MyCell.RectBound.LatHi.Degrees &&
+               geometry.Lat > MyCell.RectBound.LatLo.Degrees &&
+               geometry.Lon < MyCell.RectBound.LngHi.Degrees &&
+               geometry.Lon > MyCell.RectBound.LngLo.Degrees;
+    }
+
+    private void AddFeatureAndPoint(Feature feature, FeaturePoint featurePoint)
+    {
+        if (!string.IsNullOrEmpty(feature.Type))
+        {
+            Map.AddWayAndNode(feature, featurePoint);
+            if (Nodes.All(point => point.WayId != featurePoint.PointId)||
+                Nodes.All(point => point.CellId != featurePoint.CellId)||
+                Nodes.All(point => point.PointId != featurePoint.PointId) || 
+                Nodes.All(point => point.PointOrder != featurePoint.PointOrder) ||
+                Nodes.All(point => point.Lat != featurePoint.Lat) ||
+                Nodes.All(point => point.Lng != featurePoint.Lng))
+            {
+                Nodes.Add(featurePoint);
+            }
+
+            if (Ways.All(w => w.WayId != feature.WayId))
+            {
+                Ways.Add(feature);
+            }
+        }
     }
     public string GetInfo()
     {

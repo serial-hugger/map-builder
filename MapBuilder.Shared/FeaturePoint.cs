@@ -63,6 +63,7 @@ public class FeaturePoint
                 if (i > 0 || isFirst)
                 {
                     PointOrder = i;
+                    PointId = long.Parse(WayId.ToString() + PointOrder.ToString());
                     return;
                 }
             }
