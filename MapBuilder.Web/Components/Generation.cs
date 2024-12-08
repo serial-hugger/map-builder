@@ -18,6 +18,7 @@ public partial class Generation
     private double _lat = 37.570199;
     private double _lng = -83.710665;
     private int _level = 13;
+    private string _outType = "json";
     private string _strokeColor = "green";
     private string _fillColor = "green";
     private float _thickness;
@@ -118,9 +119,20 @@ public partial class Generation
     }
     public async Task RetrieveOsm(CancellationToken ct)
     {
+        string output = "";
+        if (_outType == "json")
+        {
+            output = "[out:json]";
+        }else if (_outType == "xml")
+        {
+            output = "[out:xml]";
+        }else if (_outType == "csv")
+        {
+            output = "[out:csv(::id,::type,\"name\")]";
+        }
         _hidingCanvas = true;
         OSMController osmController = new OSMController();
-        _data = await osmController.GetData(_level,_lat,_lng,cts.Token);
+        _data = await osmController.GetData(output,_level,_lat,_lng,cts.Token);
         _dataDescription = "Raw OpenStreetMap data:";
         _hidingData = false;
         _timeFinished = DateTime.Now;

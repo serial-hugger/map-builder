@@ -25,6 +25,15 @@
     </div>
     <br>
     <h5>Parameters:</h5>
+    <div hidden="@(Type!="osm")">
+    <label for="output">Output :</label>
+    <select name="output_types" id="output_types" @bind="_outType">
+        <option value="json">JSON</option>
+        <option value="xml">XML</option>
+        <option value="csv">CSV</option>
+    </select>
+        <br><br>
+    </div>
     <div class="slidecontainer">
         <label for="level">Level :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(@_level)</label>
         <input type="range" @bind-value:event="oninput" @bind-value="_level" min="10" max="15" class="slider" id="level">

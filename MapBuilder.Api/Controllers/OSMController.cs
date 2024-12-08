@@ -70,7 +70,7 @@ public class OSMController:ControllerBase, IOSMController
         }
     }
     [HttpGet("{action}/{level}/{latitude}/{longitude}")]
-    public async Task<string?> GetData(int level, double latitude, double longitude, CancellationToken ct)
+    public async Task<string?> GetData(string output, int level, double latitude, double longitude, CancellationToken ct)
     {
         var coord = S2LatLng.FromDegrees(latitude, longitude);
         var token = S2CellId.FromLatLng(coord).ParentForLevel(level).ToToken();
@@ -78,7 +78,7 @@ public class OSMController:ControllerBase, IOSMController
         
             string apiUrl = "https://overpass-api.de/api/interpreter";
             string query =
-                $"[out:json][maxsize:1073741824][timeout:900];way({cell.RectBound.LatLo.ToString().Replace("d","")},{cell.RectBound.LngLo.ToString().Replace("d","")},{cell.RectBound.LatHi.ToString().Replace("d","")},{cell.RectBound.LngHi.ToString().Replace("d","")});out geom;";
+                $"{output}[maxsize:1073741824][timeout:900];way({cell.RectBound.LatLo.ToString().Replace("d","")},{cell.RectBound.LngLo.ToString().Replace("d","")},{cell.RectBound.LatHi.ToString().Replace("d","")},{cell.RectBound.LngHi.ToString().Replace("d","")});out geom;";
 
             using (var client = new HttpClient())
             {
