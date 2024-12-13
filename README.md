@@ -14,7 +14,7 @@ data easier to use for the purpose of making games.
 <h3>Steps</h3>
 <ol>
   <li>Clone the repo and open it.</li>
-  <li>Delete the "Migrations" folder from the MapBuilder.Data project.</li>
+  <li>Delete the "Migrations" folder from the MapBuilder.Data project if it is there.</li>
   <li>(Optional) If you ran the app previously and want a clean database, delete the file "cells.db" located in "C:\Users\%USER%\AppData\Local" on Windows or "/home/%USER%/.local/share/" on Linux.</li>
   <li>Right click MapBuilder.Data and open it in the terminal.</li>
   <li>Run the command "dotnet ef migrations add InitialCreate".</li>
@@ -31,6 +31,10 @@ data easier to use for the purpose of making games.
   <li>The generator is already set up to generate a map, you can just click generate to go ahead and generate one.</li>
   <li>Use presets to quickly generate maps of different areas, or enter your own coordinates to generate one of your favorite place.</li>
   <li>Draw settings and feature settings are a very customizable but has presets to make it quicker, I recommend playing with the draw settings to generate maps with different looks.</li>
+</ol>
+<h3>Troubleshooting</h3>
+<ol>
+  <li>If there are errors with the dotnet ef commands, the app targets dotnet 8.0 so make sure the tools are installed.</li>
 </ol>
 <h3 id = "NuGet">Nuget Package List</h3>
 <h4>These are the explicit packages installed on each project.</h4>
