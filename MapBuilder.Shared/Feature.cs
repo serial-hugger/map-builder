@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using MapBuilder.Shared.SerializationModels;
 using Newtonsoft.Json;
@@ -13,12 +14,19 @@ namespace MapBuilder.Shared;
 public class Feature
 {
     [Key]
+    [Newtonsoft.Json.JsonIgnore]
+    [JsonPropertyName("id")]
     public int Id { get; set; }
+    [JsonPropertyName("way")]
     public long WayId { get; set; }
+    [JsonPropertyName("nodes")]
     public int TotalPoints { get; set; }
+    [JsonPropertyName("type")]
     public string Type { get; set; } = "";
+    [JsonPropertyName("closed")]
     public bool Closed { get; set; }
     [System.Text.Json.Serialization.JsonIgnore]
+    [JsonPropertyName("cell")]
     public int CellId { get; set; }
 
     public string? RetrievedData { get; set; }

@@ -26,7 +26,7 @@ public class OSMController:ControllerBase, IOSMController
     }
     ///osm/getdata/40.95876296470057/-74.28306490222923/40.44841428528941/-72.78636592806494
     [HttpGet("{action}/{latitudeLo}/{longitudeLo}/{latitudeHi}/{longitudeHi}")]
-    public async Task<OSM?> GetDataFromBox(double latitudeLo, double longitudeLo, double latitudeHi, double longitudeHi, CancellationToken ct)
+    public async Task<OSM?> GetDataFromBox(double latitudeLo, double longitudeLo, double latitudeHi, double longitudeHi)
     {
         string apiUrl = "https://overpass-api.de/api/interpreter";
         string query = $"[out:json][maxsize:1073741824][timeout:900];node({latitudeLo},{longitudeLo},{latitudeHi},{longitudeHi});<<;out geom;";
@@ -35,15 +35,15 @@ public class OSMController:ControllerBase, IOSMController
         {
             client.Timeout = TimeSpan.FromMinutes(5);
             client.DefaultRequestHeaders.Add("Accept", "application/json");
-            HttpResponseMessage response= client.PostAsync(apiUrl, new StringContent(query, Encoding.UTF8, "text/plain"),ct).Result;
+            HttpResponseMessage response= client.PostAsync(apiUrl, new StringContent(query, Encoding.UTF8, "text/plain")).Result;
 
-            var jsonString = await response.Content.ReadAsStringAsync(ct);
+            var jsonString = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<OSM>(jsonString);
         }
     }
 
     [HttpGet("{action}/{cellToken}")]
-    public async Task<OSM?> GetDataFromToken(string cellToken, CancellationToken ct)
+    public async Task<OSM?> GetDataFromToken(string cellToken)
     {
         S2Cell cell = new S2Cell(S2CellId.FromToken(cellToken));
         
@@ -58,8 +58,8 @@ public class OSMController:ControllerBase, IOSMController
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
-                var response = client.PostAsync(apiUrl, new StringContent(query, Encoding.UTF8, "text/plain"),ct).Result;
-                var jsonString = await response.Content.ReadAsStringAsync(ct);
+                var response = client.PostAsync(apiUrl, new StringContent(query, Encoding.UTF8, "text/plain")).Result;
+                var jsonString = await response.Content.ReadAsStringAsync();
                 return JsonSerializer.Deserialize<OSM>(jsonString);
             }
         }
@@ -70,7 +70,7 @@ public class OSMController:ControllerBase, IOSMController
         }
     }
     [HttpGet("{action}/{level}/{latitude}/{longitude}")]
-    public async Task<string?> GetData(string output, int level, double latitude, double longitude, CancellationToken ct)
+    public async Task<string?> GetData(string output, int level, double latitude, double longitude)
     {
         var coord = S2LatLng.FromDegrees(latitude, longitude);
         var token = S2CellId.FromLatLng(coord).ParentForLevel(level).ToToken();
@@ -84,9 +84,9 @@ public class OSMController:ControllerBase, IOSMController
             {
                 Console.WriteLine($"Query: {query}");
                 //client.DefaultRequestHeaders.Add("Accept", "application/json");
-                var response = client.PostAsync(apiUrl, new StringContent(query, Encoding.UTF8, "text/plain"), ct)
+                var response = client.PostAsync(apiUrl, new StringContent(query, Encoding.UTF8, "text/plain"))
                     .Result;
-                return await response.Content.ReadAsStringAsync(ct);
+                return await response.Content.ReadAsStringAsync();
             }
     }
 }

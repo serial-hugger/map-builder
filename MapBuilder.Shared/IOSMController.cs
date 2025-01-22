@@ -7,7 +7,7 @@ namespace MapBuilder.Shared;
 public interface IOSMController
 {
     public Task<OSM?> GetDataFromBox(double latitudeLo, double longitudeLo, double latitudeHi,
-        double longitudeHi, CancellationToken ct);
-    public Task<OSM?> GetDataFromToken(string cellToken, CancellationToken ct);
-    public Task<string?> GetData(string output, int level, double latitude, double longitude, CancellationToken ct);
+        double longitudeHi);
+    public Task<OSM?> GetDataFromToken(string cellToken);
+    public Task<string?> GetData(string output, int level, double latitude, double longitude);
 }

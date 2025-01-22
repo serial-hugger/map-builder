@@ -69,7 +69,7 @@ public partial class Generation
         {
             try
             {
-                await DrawMap(cts.Token);
+                await DrawMap();
             }
             catch
             {
@@ -91,7 +91,7 @@ public partial class Generation
         {
             try
             {
-                await RetrieveOsm(cts.Token);
+                await RetrieveOsm();
             }
             catch
             {
@@ -106,8 +106,8 @@ public partial class Generation
     public async Task RetrieveData(CancellationToken ct, FeatureSettings? featureSettings)
     {
         _hidingCanvas = true;
-        MapController mapController = new MapController();
-        _data = await mapController.GetMap(_level,_lat,_lng, Completion,cts.Token, featureSettings);
+        MapObject mapController = new MapObject();
+        _data = await mapController.GetMap(_level,_lat,_lng, Completion, featureSettings);
         _dataDescription = "JSON data:";
         _hidingData = false;
         _timeFinished = DateTime.Now;
@@ -117,7 +117,7 @@ public partial class Generation
         _hidingRegenerateButton = false;
         StateHasChanged();
     }
-    public async Task RetrieveOsm(CancellationToken ct)
+    public async Task RetrieveOsm()
     {
         string output = "";
         if (_outType == "json")
@@ -132,7 +132,7 @@ public partial class Generation
         }
         _hidingCanvas = true;
         OSMController osmController = new OSMController();
-        _data = await osmController.GetData(output,_level,_lat,_lng,cts.Token);
+        _data = await osmController.GetData(output,_level,_lat,_lng);
         _dataDescription = "Raw OpenStreetMap data:";
         _hidingData = false;
         _timeFinished = DateTime.Now;
@@ -142,20 +142,11 @@ public partial class Generation
         _hidingRegenerateButton = false;
         StateHasChanged();
     }
-
-    public async Task CancelAction()
-    {
-        _cancelText = "Canceling...";
-        _disablingCancelButton = true;
-        StateHasChanged();
-        await cts.CancelAsync();
-        Regenerate();
-    }
-    public async Task DrawMap(CancellationToken ct)
+    public async Task DrawMap()
     {
         _hidingCanvas = false;
         DrawInstructer drawInstructer = new DrawInstructer(WebService.FeatureSettings,WebService.DrawSettings);
-        _data = await drawInstructer.Instructions(_level,_lat,_lng, Completion, cts.Token);
+        _data = await drawInstructer.Instructions(_level,_lat,_lng, Completion);
         _dataDescription = "Instructions used to draw the map:";
         _info = "Drawing map...";
         _hidingData = false;

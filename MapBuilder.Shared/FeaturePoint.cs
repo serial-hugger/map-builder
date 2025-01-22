@@ -10,13 +10,19 @@ namespace MapBuilder.Shared;
 public class FeaturePoint
 {
     [Key]
+    [JsonIgnore]
+    [JsonPropertyName("id")]
     public int Id { get; set; }
     [JsonIgnore]
     public long? PointId { get; set; }
 
+    [JsonPropertyName("way")]
     public long? WayId { get; set; }
+    [JsonPropertyName("order")]
     public int PointOrder { get; set; }
+    [JsonPropertyName("lat")]
     public double Lat { get; set; }
+    [JsonPropertyName("lng")]
     public double Lng { get; set; }
     [JsonIgnore]
     public int CellId { get; set; }

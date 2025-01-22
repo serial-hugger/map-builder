@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using Google.Common.Geometry;
 using MapBuilder.Shared.SerializationModels;
 using Newtonsoft.Json;
@@ -8,15 +9,21 @@ namespace MapBuilder.Shared;
 public class Cell
 {
     [Key]
+    [JsonPropertyName("id")]
     public int Id { get; set; }
     [System.Text.Json.Serialization.JsonIgnore]
+    [JsonPropertyName("version")]
     public int GenerationVersion { get; set; }
     [System.Text.Json.Serialization.JsonIgnore]
+    [JsonPropertyName("time")]
     public DateTime GenerationTime { get; set; }
+    [JsonPropertyName("token")]
     public string CellToken { get; set; }
     [NonSerialized]
     public S2Cell MyCell;
+    [JsonPropertyName("nodes")]
     public ICollection<FeaturePoint> Nodes { get; } = new List<FeaturePoint>();
+    [JsonPropertyName("ways")]
     public ICollection<Feature> Ways { get; } = new List<Feature>();
 
     [NonSerialized] 
@@ -41,7 +48,7 @@ public class Cell
         CellToken = cellToken;
     }
     
-    public async Task GetPoints(Func<int,string>? completion,int totalCells, CancellationToken ct, FeatureSettings? featureSettings)
+    public async Task GetPoints(Func<int,string>? completion,int totalCells,  FeatureSettings? featureSettings)
     {
         FeatureSettings featureSettingsJson;
         string jsonFilepath;
@@ -61,7 +68,7 @@ public class Cell
         if (OsmController != null)
         {
             OSM? data = await OsmController.GetDataFromBox(MyCell.RectBound.LatLo.Degrees,
-                    MyCell.RectBound.LngLo.Degrees, MyCell.RectBound.LatHi.Degrees, MyCell.RectBound.LngHi.Degrees, ct);
+                    MyCell.RectBound.LngLo.Degrees, MyCell.RectBound.LatHi.Degrees, MyCell.RectBound.LngHi.Degrees);
             
             if (data != null)
             {
@@ -72,8 +79,6 @@ public class Cell
                 }
                 for (int e = 0; e < data.Elements.Count; e++)
                 {
-                    
-                    ct.ThrowIfCancellationRequested();
                     long id = 0;
                     if (data.Elements[e].Type == "way")
                     {
@@ -96,7 +101,6 @@ public class Cell
                                 pointAmount = member.Geometry.Count;
                                 for (int n = 0; n < member.Geometry.Count; n++)
                                 {
-                                    ct.ThrowIfCancellationRequested();
                                     if (IsWithinBounds(member.Geometry[n]))
                                     {
                                         FeaturePoint featurePoint = new FeaturePoint(member.Geometry[n].Lat,
@@ -118,7 +122,6 @@ public class Cell
                         pointAmount = data.Elements[e].Nodes.Count - 1;
                         for (int n = 0; n < data.Elements[e].Nodes.Count; n++)
                         {
-                            ct.ThrowIfCancellationRequested();
                             if (IsWithinBounds(data.Elements[e].Geometry[n]))
                             {
                                 FeaturePoint featurePoint = new FeaturePoint(data.Elements[e].Nodes[n],

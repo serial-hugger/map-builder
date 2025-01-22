@@ -22,7 +22,7 @@ public class Map
         _cellRepository = cellRepository;
     }
 
-    public async Task BuildMap(List<S2CellId> cellIds, Func<int,string>? completion, CancellationToken ct, FeatureSettings? featureSettings)
+    public async Task BuildMap(List<S2CellId> cellIds, Func<int,string>? completion, FeatureSettings? featureSettings)
     {
         FeatureSettings? featureSettingsJson;
         string jsonFilepath;
@@ -50,7 +50,7 @@ public class Map
                 cell.GenerationVersion = generationVersion;
                 cell.GenerationTime = DateTime.Now.ToUniversalTime();
                 cell.CellToken = cellId.ToToken();
-                await cell.GetPoints(completion,cellIds.Count, ct, featureSettingsJson);
+                await cell.GetPoints(completion,cellIds.Count, featureSettingsJson);
                 Cells.Add(cell);
                 await _cellRepository.AddCell(cell);
             }
@@ -63,7 +63,7 @@ public class Map
                 repoCell.MyCell = new S2Cell(S2CellId.FromToken(cellId.ToToken()));
                 repoCell.GenerationVersion = generationVersion;
                 repoCell.GenerationTime = DateTime.Now.ToUniversalTime();
-                await repoCell.GetPoints(completion,cellIds.Count,ct,featureSettingsJson);
+                await repoCell.GetPoints(completion,cellIds.Count,featureSettingsJson);
                 Cells.Add(repoCell);
                 await _cellRepository.UpdateCell(repoCell);
             }
